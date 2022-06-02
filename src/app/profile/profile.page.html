@@ -1,9 +1,45 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>profile</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-icon color="primary" name="pencil" class="allIcons" (click)="openEditOptions()"></ion-icon>
+      <ion-icon class="allIcons" name="log-out" (click)="this.authService.logout()"></ion-icon>
+    </ion-buttons>
+    <ion-title>Mein Profil</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <div *ngIf="this.authService.user !== null">
+    <ion-list class="userDataList">
+      <ion-item>
+        <ion-label class="userDataLabel">Nutzername: </ion-label>
+        <ion-input class="userData" [(ngModel)]="this.authService.user.userName" readonly="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label class="userDataLabel">E-Mail: </ion-label>
+        <ion-input class="userData" [(ngModel)]="this.authService.user.email" readonly="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label class="userDataLabel">Vorname: </ion-label>
+        <ion-input class="userData" [(ngModel)]="this.authService.user.firstName" readonly="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label class="userDataLabel">Nachname: </ion-label>
+        <ion-input class="userData" [(ngModel)]="this.authService.user.lastName" readonly="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label class="userDataLabel">CargoCoins-Guthaben: </ion-label>
+        <ion-input class="userData" [(ngModel)]="this.authService.user.cargoCoins" readonly="true"></ion-input>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div>
+    <h4 class="profileTitle">Meine Fahrzeuge</h4>
+  </div>
+  <div>
+    <h4 class="profileTitle">Meine Angebote</h4>
+  </div>
 </ion-content>

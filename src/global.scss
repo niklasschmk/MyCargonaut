@@ -24,3 +24,28 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+//profile
+.allIcons{
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.profileTitle{
+  margin-left: 11px;
+  color: #005B52;
+}
+.userDataList{
+  margin: 10px;
+  border-radius: 5px;
+}
+.userData{
+  font-size: large;
+}
+.userDataLabel{
+  font-size: smaller;
+}
+.dataListItem{
+  border: none;
+}
