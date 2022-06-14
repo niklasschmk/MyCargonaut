@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="primary"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Fahrzeug hinzufügen</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h3 class="header">Gib hier deine Fahrzeugdaten ein!</h3>
+  <ion-item>
+    <ion-label position="floating">Name des Fahrzeugs</ion-label>
+    <ion-input [(ngModel)]="name" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Anzahl der Sitzplätze</ion-label>
+    <ion-input [(ngModel)]="seats" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Kofferaumvolumen in Litern</ion-label>
+    <ion-input [(ngModel)]="cargoSpace" type="text"></ion-input>
+  </ion-item>
+  <ion-button color="success" expand="block" class="btn-space" (click)="addVehicle()">Fahrzeug speichern</ion-button></ion-content>
