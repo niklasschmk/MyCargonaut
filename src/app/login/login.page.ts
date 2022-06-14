@@ -12,7 +12,6 @@ import {Router} from '@angular/router';
 })
 export class LoginPage implements OnInit {
   newUser = false;
-  resetPass = false;
   email: string;
   password: string;
   username: string;
@@ -88,7 +87,6 @@ export class LoginPage implements OnInit {
    */
   switchToRegister() {
     this.newUser = true;
-    this.resetPass = false;
     this.loginForm = this.formBuilder.group({
       username: new FormControl('', Validators.compose([
         Validators.required,
@@ -112,7 +110,6 @@ export class LoginPage implements OnInit {
    */
   switchToLogin() {
     this.newUser = false;
-    this.resetPass = false;
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -131,7 +128,6 @@ export class LoginPage implements OnInit {
    */
   switchToResetPassword() {
     this.newUser = false;
-    this.resetPass = true;
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
