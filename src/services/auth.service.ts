@@ -78,22 +78,6 @@ export class AuthService {
   }
 
   /**
-   * Refreshing the profile.
-   */
-  refreshUser(){
-    return new Promise<void>((resolve, reject) => {
-      if (this.userId !== '0') {
-        this.userService.getUserById(this.userId).then(user => {
-          this.user = user;
-          resolve();
-        });
-      }else {
-        reject();
-      }
-    });
-  }
-
-  /**
    * Log out the current user, set all user data to null, show toast alert
    */
   logout(): Promise<void> {
@@ -104,66 +88,6 @@ export class AuthService {
         this.toastService.presentToast('Nutzer erfolgreich ausgeloggt!', 'primary');
         resolve();
       }).catch(err => {
-        reject();
-      });
-    });
-  }
-
-  /**
-   * Updating the users email address.
-   *
-   *
-   * @param mail Email of the current user.
-   * @param password Password of the current user.
-   */
-  editingEmail(mail, password): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.auth.signInWithEmailAndPassword(this.user.email, password)
-        .then((userCredential) => {
-          userCredential.user.updateEmail(mail);
-        }).then(() => {
-        resolve();
-      }).catch(err => {
-        reject();
-        console.log('reject');
-      });
-    });
-  }
-
-  /**
-   * Updating the users password.
-   *
-   * @param oldPassword Old password of the user.
-   * @param newPassword New password of the user.
-   */
-  editPassword(oldPassword, newPassword): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.auth.signInWithEmailAndPassword(this.user.email, oldPassword)
-        .then((userCredential) => {
-          userCredential.user.updatePassword(newPassword);
-        }).then(() => {
-        resolve();
-      }).catch(err => {
-        reject();
-        console.log('reject');
-      });
-    });
-  }
-  /**
-   * Resetting the users password.
-   *
-   * @param email Email of the current user, so a reset-mail can be sent.
-   */
-  resetPassword(email): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      const auth = getAuth();
-      sendPasswordResetEmail(auth, email).then(() => {
-        this.toastService
-          .presentToast('E-Mail zum Zurücksetzen des Passworts wurde verschickt!', 'primary');
-        resolve();
-      }).catch((error) => {
-        this.toastService
-          .presentToast('Mit dieser E-Mail-Adresse ist kein Nutzer registriert!', 'danger');
         reject();
       });
     });
