@@ -11,6 +11,7 @@ import {ToastService} from './toast.service';
 })
 export class VehicleService {
   vehicles: Observable<Vehicle[]>;
+  ownVehiclesOfUser: Observable<Vehicle[]>;
   private vehicleCollection: AngularFirestoreCollection<Vehicle>;
 
   constructor(private afs: AngularFirestore, public authService: AuthService,
@@ -27,6 +28,26 @@ export class VehicleService {
       ref
         .where('userId', '==', this.authService.userId)
     ).valueChanges({idField: 'vehicleId'});
+  }
+
+  getVehicleById(vehicleId: string): Promise<Vehicle>{
+    return new Promise((resolve, reject) => {
+      this.vehicleCollection.doc(vehicleId).ref.get().then((doc) => {
+        if (doc.exists){
+          resolve(doc.data());
+        } else {
+          reject('not found');
+        }
+      });
+    });
+  }
+
+  getOwnVehiclesOfUser(): Observable<Vehicle[]> {
+    this.ownVehiclesOfUser = this.afs.collection<Vehicle>('vehicle', ref =>
+      ref
+        .where('userId', '==', this.authService.userId)
+    ).valueChanges({idField: 'id'});
+    return this.ownVehiclesOfUser
   }
 
   /**

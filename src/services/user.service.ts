@@ -7,6 +7,7 @@ import {User} from '../model/user';
 })
 export class UserService {
   private userCollection: AngularFirestoreCollection<User>;
+  private otherUserId: string;
 
   constructor(private afs: AngularFirestore) {
     this.userCollection = afs.collection<User>('user');
@@ -68,5 +69,9 @@ export class UserService {
         }
       });
     });
+  }
+
+  setOtherUser(userId: string) {
+    this.otherUserId = userId;
   }
 }
