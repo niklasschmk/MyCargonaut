@@ -1,0 +1,12 @@
+<ng-container *ngIf="offer && user">
+  <ion-card color="light">
+    <ion-card-header>
+      <ion-card-title>Fahrt nach: {{this.offer.destination}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Startpunkt der Fahrt ist: {{this.offer.start}}</p>
+      <p>Preis: {{this.offer.price}}</p>
+      <p>Angebot von Nutzer: <a (click)="openOtherUser(this.offer.user_id)">{{this.user.userName}}</a></p>
+    </ion-card-content>
+  </ion-card>
+</ng-container>
