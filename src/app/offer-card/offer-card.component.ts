@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {Offer} from "../../model/offer";
-import {User} from "../../model/user";
-import {OfferService} from "../../services/offer.service";
-import {AuthService} from "../../services/auth.service";
-import {Router} from "@angular/router";
-import {NavController} from "@ionic/angular";
-import {ToastService} from "../../services/toast.service";
-import {UserService} from "../../services/user.service";
+import {Offer} from '../../model/offer';
+import {User} from '../../model/user';
+import {OfferService} from '../../services/offer.service';
+import {AuthService} from '../../services/auth.service';
+import {Router} from '@angular/router';
+import {NavController} from '@ionic/angular';
+import {ToastService} from '../../services/toast.service';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-offer-card',
@@ -20,7 +20,7 @@ export class OfferCardComponent implements OnInit {
               private nacCtrl: NavController, private toastService: ToastService, public userService: UserService) { }
 
   ngOnInit() {
-    this.userService.getUserById(this.offer.user_id).then((user) => {
+    this.userService.getUserById(this.offer.userId).then((user) => {
       this.user = user;
     });
   }

@@ -11,7 +11,6 @@ import {ToastService} from './toast.service';
 })
 export class VehicleService {
   vehicles: Observable<Vehicle[]>;
-  ownVehiclesOfUser: Observable<Vehicle[]>;
   private vehicleCollection: AngularFirestoreCollection<Vehicle>;
 
   constructor(private afs: AngularFirestore, public authService: AuthService,
@@ -40,14 +39,6 @@ export class VehicleService {
         }
       });
     });
-  }
-
-  getOwnVehiclesOfUser(): Observable<Vehicle[]> {
-    this.ownVehiclesOfUser = this.afs.collection<Vehicle>('vehicle', ref =>
-      ref
-        .where('userId', '==', this.authService.userId)
-    ).valueChanges({idField: 'id'});
-    return this.ownVehiclesOfUser
   }
 
   /**

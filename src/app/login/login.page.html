@@ -4,13 +4,25 @@
       <ion-back-button color="primary"></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="newUser">Registrieren</ion-title>
-    <ion-title *ngIf="!newUser && !resetPass">Anmelden</ion-title>
-    <ion-title *ngIf="!newUser && resetPass">Passwort zurücksetzen</ion-title>
+    <ion-title *ngIf="!newUser">Anmelden</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <h3 class="header">Willkommen bei MyCargonaut!</h3>
   <form [formGroup]="loginForm">
+    <ion-item *ngIf="newUser">
+      <ion-label position="floating">Nutzername</ion-label>
+      <ion-input [(ngModel)]="username" formControlName="username" type="text" name="username"></ion-input>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validationMessages.username">
+          <div class="error-message"
+               *ngIf="loginForm.get('username').hasError(validation.type) && (loginForm.get('username').touched)">
+            <ion-icon name="alert-outline"></ion-icon>
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+    </ion-item>
     <ion-item *ngIf="newUser">
       <ion-label position="floating">Nutzername</ion-label>
       <ion-input [(ngModel)]="username" formControlName="username" type="text" name="username"></ion-input>
@@ -37,7 +49,7 @@
         </ng-container>
       </div>
     </ion-item>
-    <ion-item *ngIf="!resetPass">
+    <ion-item>
       <ion-label position="floating">Passwort</ion-label>
       <ion-input [(ngModel)]="password" formControlName="password" type="password"></ion-input>
       <div class="validation-errors" *ngIf="newUser">
@@ -59,7 +71,7 @@
       </p>
     </ion-item>
   </div>
-  <div *ngIf="!newUser && !resetPass" style="margin-top: 20px">
+  <div *ngIf="!newUser" style="margin-top: 20px">
     <ion-button color="success" expand="block" class="btn-space" (click)="login()">Einloggen</ion-button>
     <ion-item (click)="switchToRegister()" color="bg">
       <p>Sie haben noch kein Konto? Dann können Sie sich hier registrieren
@@ -68,14 +80,6 @@
     </ion-item>
     <ion-item (click)="switchToResetPassword()" color="bg" style="margin-top: 20px">
       <p>Passwort vergessen? Dann können Sie hier Ihr Passwort zurücksetzen!
-        <ion-icon name="chevron-forward-outline" color="primary"></ion-icon>
-      </p>
-    </ion-item>
-  </div>
-  <div *ngIf="!newUser && resetPass" style="margin-top: 20px">
-    <ion-button color="success" expand="block" class="btn-space" (click)="resetPassword()">Email zum Zurücksetzen anfordern</ion-button>
-    <ion-item (click)="switchToLogin()" color="bg">
-      <p>Ihnen ist Ihr Passwort wieder eingefallen? Dann können Sie sich hier anmelden
         <ion-icon name="chevron-forward-outline" color="primary"></ion-icon>
       </p>
     </ion-item>

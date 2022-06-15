@@ -12,11 +12,11 @@ import {Router} from '@angular/router';
 })
 export class LoginPage implements OnInit {
   newUser = false;
-  resetPass = false;
   email: string;
   password: string;
   username: string;
   loginForm: FormGroup;
+  birthDay: Date;
 
   validationMessages = {
     username: [
@@ -60,7 +60,7 @@ export class LoginPage implements OnInit {
   register() {
     if (this.loginForm.valid) {
       this.authService.register(this.email, this.password).then((userCredential) => {
-        this.userService.createUser(this.email, this.username, userCredential.user.uid).then(() => {
+        this.userService.createUser(this.email, this.username, userCredential.user.uid, this.birthDay).then(() => {
           this.router.navigate(['tabs/tab1']);
         });
       });
@@ -87,7 +87,6 @@ export class LoginPage implements OnInit {
    */
   switchToRegister() {
     this.newUser = true;
-    this.resetPass = false;
     this.loginForm = this.formBuilder.group({
       username: new FormControl('', Validators.compose([
         Validators.required,
@@ -111,7 +110,6 @@ export class LoginPage implements OnInit {
    */
   switchToLogin() {
     this.newUser = false;
-    this.resetPass = false;
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -130,7 +128,6 @@ export class LoginPage implements OnInit {
    */
   switchToResetPassword() {
     this.newUser = false;
-    this.resetPass = true;
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -139,28 +136,6 @@ export class LoginPage implements OnInit {
     });
   }
 
-  /**
-   * Sends an email to the users mail-address, so he can reset his password.
-   */
-
-  resetPassword() {
-    this.authService.resetPassword(this.email).then(() =>{
-      this.toastService.
-      presentToast('E-Mail zum Zurücksetzen des Passworts wurde verschickt!', 'primary');
-    });
-  }
-
-
-  /**
-   * Sends an email to the users mail-address, so he can verify his email.
-   */
-  /*
-  mailVerification() {
-    this.userService.mailVerification(this.authService.user).then(() => {
-      this.toastService.
-      presentToast('E-Mail zum Verifizieren deiner E-Mailadresse wurde verschickt!', 'primary');
-    });
-  }*/
 
   signInWithGoogle() {
     /**

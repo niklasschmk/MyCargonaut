@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import {Observable} from "rxjs";
-import {Offer} from "../model/offer";
-import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
-import {ToastService} from "./toast.service";
-import {AlertService} from "./alert.service";
-import {AuthService} from "./auth.service";
+import {Observable} from 'rxjs';
+import {Offer} from '../model/offer';
+import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
+import {ToastService} from './toast.service';
+import {AlertService} from './alert.service';
+import {AuthService} from './auth.service';
 import User = firebase.User;
-import firebase from "firebase/compat";
-import {doc} from "@angular/fire/firestore";
+import firebase from 'firebase/compat';
+import {doc} from '@angular/fire/firestore';
 
 
 @Injectable({
@@ -27,14 +27,14 @@ export class OfferService {
     this.offers = this.offerCollection.valueChanges({idField: 'id'});
   }
 
-  createOffer(destination: string, price: number, start: string, vehicle_id: string, offerId: string) {
+  createOffer(destination: string, price: number, start: string, vehicleId: string, offerId: string) {
     return new Promise<any>((resolve, reject) => {
       this.afs.collection('offer').doc(offerId).set({
         userId: this.authService.user.userId,
         destination,
         price,
         start,
-        vehicle_id
+        vehicleId
       }).then(
         res => resolve(res),
         err => reject(err)
@@ -42,13 +42,13 @@ export class OfferService {
     });
   }
 
-  editOffer(offerId, destination, price, start, vehicle_id) {
+  editOffer(offerId, destination, price, start, vehicleId) {
     return new Promise<any>((resolve, reject) => {
       this.afs.collection('offer').doc(offerId).update({
         destination,
         price,
         start,
-        vehicle_id
+        vehicleId
       }).then(
         res => resolve(res),
         err => reject(err)
@@ -58,13 +58,14 @@ export class OfferService {
 
   getOfferById(offerId: string, checkAuth: boolean): Promise<Offer> {
     return new Promise((resolve, reject) => {
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       this.offerCollection.doc(offerId).ref.get().then((doc) => {
         if(doc.exists){
           if(!checkAuth){
             resolve(doc.data());
           } else {
             const offer = doc.data();
-            if(offer.user_id === this.authService.user.userId){
+            if(offer.userId === this.authService.user.userId){
               resolve(offer);
             } else {
               reject('no auth');
@@ -83,7 +84,7 @@ export class OfferService {
   getOwnEventsOfUser() {
     this.ownOffersOfUser = this.afs.collection<Offer>('offer', ref =>
       ref
-        .where('user_id', '==', this.authService.userId)
+        .where('userId', '==', this.authService.userId)
     ).valueChanges({idField: 'id'});
   }
 }

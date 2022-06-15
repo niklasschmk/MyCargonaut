@@ -1,13 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {OfferService} from "../../services/offer.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {IonInput, NavController} from "@ionic/angular";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {ToastService} from "../../services/toast.service";
-import {Observable} from "rxjs";
-import {Vehicle} from "../../model/vehicle";
-import {VehicleService} from "../../services/vehicle.service";
-import {Offer} from "../../model/offer";
+import {OfferService} from '../../services/offer.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {IonInput, NavController} from '@ionic/angular';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ToastService} from '../../services/toast.service';
+import {Observable} from 'rxjs';
+import {Vehicle} from '../../model/vehicle';
+import {VehicleService} from '../../services/vehicle.service';
+import {Offer} from '../../model/offer';
 
 @Component({
   selector: 'app-create-offer',
@@ -23,8 +23,8 @@ export class CreateOfferPage implements OnInit {
   destination: string;
   price: number;
   start: string;
-  user_id: string;
-  vehicle_id: string;
+  userId: string;
+  vehicleId: string;
   vehicleName: string;
   offers: Offer[];
   currentVehicle: Vehicle;
@@ -37,20 +37,20 @@ export class CreateOfferPage implements OnInit {
       {type: 'maxlength', message: 'Der Titel darf höchstens 30 Zeichen lang sein!'}
     ],
     price: [
-      {type: 'required', message: 'Bitte gib deinem Angebot ein Ziel'},
+      {type: 'required', message: 'Bitte wähle einen Preis!'},
     ],
     start: [
       {type: 'required', message: 'Bitte gib deinem Angebot ein Startpunkt'},
       {type: 'minlength', message: 'Der Titel muss mindestens 2 Zeichen lang sein!'},
       {type: 'maxlength', message: 'Der Titel darf höchstens 30 Zeichen lang sein!'}
     ],
-    vehicle_id: [
-      {type: 'required', message: 'Bitte gib deinem Angebot ein Startpunkt'},
+    vehicleId: [
+      {type: 'required', message: 'Bitte wähle ein Fahrzeug aus!'},
     ]
-  }
+  };
   constructor(private offerService: OfferService, private router: Router, private navCtrl: NavController,
               public formBuilder: FormBuilder, private toastService: ToastService, private route: ActivatedRoute,
-              private vehicleService: VehicleService) {
+              public vehicleService: VehicleService) {
     this.createOfferForm = this.formBuilder.group({
       destination: new FormControl('', Validators.compose([
         Validators.required,
@@ -65,7 +65,7 @@ export class CreateOfferPage implements OnInit {
         Validators.minLength(2),
         Validators.maxLength(30),
       ])),
-      vehicle_id: new FormControl('', Validators.compose([
+      vehicleId: new FormControl('', Validators.compose([
         Validators.required,
       ])),
     });
@@ -78,8 +78,8 @@ export class CreateOfferPage implements OnInit {
         this.destination = offer.destination;
         this.price = offer.price;
         this.start = offer.start;
-        this.vehicle_id = offer.vehicle_id;
-        this.vehicleService.getVehicleById(this.vehicle_id).then(vehicle => {
+        this.vehicleId = offer.vehicleId;
+        this.vehicleService.getVehicleById(this.vehicleId).then(vehicle => {
           this.currentVehicle = vehicle;
           this.vehicleName = this.currentVehicle.name;
         });
@@ -87,6 +87,8 @@ export class CreateOfferPage implements OnInit {
       }).catch(err => {
         this.offerStatus = err;
       });
+      //get vehicles of logged in user
+      this.vehicleService.getVehicles();
     }
   }
 
@@ -102,7 +104,7 @@ export class CreateOfferPage implements OnInit {
     } else {
       if(this.createOfferForm.valid) {
         const offerId = this.generateOfferId();
-        this.offerService.createOffer(this.destination, this.price, this.start, this.vehicle_id, offerId).then(() => {
+        this.offerService.createOffer(this.destination, this.price, this.start, this.vehicleId, offerId).then(() => {
           this.toastService.presentToast('Angebot erfolgreich angelegt!', 'success');
           this.navCtrl.pop();
         });
@@ -119,7 +121,7 @@ export class CreateOfferPage implements OnInit {
   editOffer() {
     if (this.createOfferForm.valid) {
       this.offerService.editOffer(this.editOfferId, this.destination, this.price, this.start,
-        this.vehicle_id).then(() => {
+        this.vehicleId).then(() => {
         this.toastService.presentToast('Angebot erfolgreich geändert!', 'success');
         this.navCtrl.pop();
       });

@@ -66,16 +66,15 @@
 
       <ion-item>
         <ion-label position="floating">Fahrzeug</ion-label>
-        <ion-select interface="popover" [(ngModel)]="vehicle_id" formControlName="vehicle_id" type="text">
-          <ion-select-option class="selectOption-small" *ngFor="let val of vehicleService.ownVehiclesOfUser | async"
-                             [value]="val.vehicleId">
-            {{val.name}}
+        <ion-select interface="popover" [(ngModel)]="vehicleId" formControlName="vehicleId">
+          <ion-select-option class="selectOption-small" *ngFor="let val of vehicleService.vehicles | async"
+                             [value]="val">{{val.name}}
           </ion-select-option>
         </ion-select>
         <div class="validation-errors">
-          <ng-container *ngFor="let validation of validationMessages.vehicle_id">
-            <div class="error-message" *ngIf="createOfferForm.get('vehicle_id').hasError(validation.type)
-             && (createOfferForm.get('vehicle_id').touched)">
+          <ng-container *ngFor="let validation of validationMessages.vehicleId">
+            <div class="error-message" *ngIf="createOfferForm.get('vehicleId').hasError(validation.type)
+             && (createOfferForm.get('vehicleId').touched)">
               <ion-icon name="alert-outline"></ion-icon>
               {{validation.message}}
             </div>
