@@ -12,11 +12,11 @@
   <form [formGroup]="loginForm">
     <ion-item *ngIf="newUser">
       <ion-label position="floating">Nutzername</ion-label>
-      <ion-input [(ngModel)]="username" formControlName="username" type="text" name="username"></ion-input>
+      <ion-input [(ngModel)]="userName" formControlName="userName" type="text" name="userName"></ion-input>
       <div class="validation-errors">
-        <ng-container *ngFor="let validation of validationMessages.username">
+        <ng-container *ngFor="let validation of validationMessages.userName">
           <div class="error-message"
-               *ngIf="loginForm.get('username').hasError(validation.type) && (loginForm.get('username').touched)">
+               *ngIf="loginForm.get('userName').hasError(validation.type) && (loginForm.get('userName').touched)">
             <ion-icon name="alert-outline"></ion-icon>
             {{validation.message}}
           </div>
@@ -24,12 +24,25 @@
       </div>
     </ion-item>
     <ion-item *ngIf="newUser">
-      <ion-label position="floating">Nutzername</ion-label>
-      <ion-input [(ngModel)]="username" formControlName="username" type="text" name="username"></ion-input>
+      <ion-label position="floating">Vorname</ion-label>
+      <ion-input [(ngModel)]="firstName" formControlName="firstName" type="text" name="firstName"></ion-input>
       <div class="validation-errors">
-        <ng-container *ngFor="let validation of validationMessages.username">
+        <ng-container *ngFor="let validation of validationMessages.firstName">
           <div class="error-message"
-               *ngIf="loginForm.get('username').hasError(validation.type) && (loginForm.get('username').touched)">
+               *ngIf="loginForm.get('firstName').hasError(validation.type) && (loginForm.get('firstName').touched)">
+            <ion-icon name="alert-outline"></ion-icon>
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+    </ion-item>
+    <ion-item *ngIf="newUser">
+      <ion-label position="floating">Nachname</ion-label>
+      <ion-input [(ngModel)]="lastName" formControlName="lastName" type="text" name="lastName"></ion-input>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validationMessages.lastName">
+          <div class="error-message"
+               *ngIf="loginForm.get('lastName').hasError(validation.type) && (loginForm.get('lastName').touched)">
             <ion-icon name="alert-outline"></ion-icon>
             {{validation.message}}
           </div>
