@@ -24,12 +24,15 @@
         <ion-label style="font-size: 15px">Plätze: {{vehicle.seats}}</ion-label>
       </ion-item>
       <ion-item>
-        <ion-label style="font-size: 15px">Plätze: {{vehicle.cargoSpace}}</ion-label>
+        <ion-label style="font-size: 15px">Stauraum: {{vehicle.cargoSpace}}</ion-label>
       </ion-item>
       <ion-item>
         <ion-label style="font-size: 15px" color="primary" (click)="openOtherUser(this.offer.userId)">Angeboten
           von:  {{user.userName}}</ion-label>
       </ion-item>
     </ion-list>
+    <ion-button *ngIf="available" color="primary" expand="block" class="btn-space" (click)="book()">Buchen</ion-button>
+    <ion-button *ngIf="booked" color="primary" expand="block" class="btn-space" (click)="resetBook()">Buchung absagen</ion-button>
   </ng-container>
+  <ion-item *ngIf="error">Ein Fehler ist aufgetreten!</ion-item>
 </ion-content>

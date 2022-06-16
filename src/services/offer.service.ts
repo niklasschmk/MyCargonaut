@@ -7,7 +7,6 @@ import {AlertService} from './alert.service';
 import {AuthService} from './auth.service';
 import User = firebase.User;
 import firebase from 'firebase/compat';
-import {doc} from '@angular/fire/firestore';
 
 
 @Injectable({
@@ -34,7 +33,8 @@ export class OfferService {
         destination,
         price,
         start,
-        vehicleId
+        vehicleId,
+        bookedBy: null,
       }).then(
         res => resolve(res),
         err => reject(err)
@@ -86,5 +86,28 @@ export class OfferService {
       ref
         .where('userId', '==', this.authService.userId)
     ).valueChanges({idField: 'id'});
+  }
+
+  /**
+   * Books certain offer for a user
+   *
+   * @param userId
+   * @param offerId
+   */
+  book(userId: string, offerId: string): Promise<void>{
+    return new Promise((resolve) => {
+      this.offerCollection.doc(offerId).update({
+          bookedBy: userId,
+        }
+      ).then(resolve);
+    });
+  }
+
+  resetBook(offerId: string): Promise<void>{
+    return new Promise((resolve) => {
+      this.offerCollection.doc(offerId).update({
+        bookedBy: null
+      }).then(resolve);
+    });
   }
 }

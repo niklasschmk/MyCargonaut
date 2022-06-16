@@ -5,6 +5,7 @@ export class Offer{
   start: string;
   userId: string;
   vehicleId: string;
+  bookedBy: string | null;
 
   constructor(destination: string, price: number, start: string, userId: string, vehicleId: string) {
     this.destination = destination;
