@@ -24,7 +24,7 @@ export class OfferService {
               private authService: AuthService) {
     this.offerCollection = afs.collection<Offer>('offer', ref =>
       ref.orderBy('destination', 'asc'));
-    this.offers = this.offerCollection.valueChanges({idField: 'id'});
+    this.offers = this.offerCollection.valueChanges({idField: 'offerId'});
   }
 
   createOffer(destination: string, price: number, start: string, vehicleId: string, offerId: string) {

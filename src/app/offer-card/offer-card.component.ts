@@ -17,15 +17,17 @@ export class OfferCardComponent implements OnInit {
   @Input() offer: Offer;
   user: User;
   constructor(private offerService: OfferService, private authService: AuthService, private router: Router,
-              private nacCtrl: NavController, private toastService: ToastService, public userService: UserService) { }
+              private nacCtrl: NavController, private toastService: ToastService, public userService: UserService) {
+  }
 
   ngOnInit() {
     this.userService.getUserById(this.offer.userId).then((user) => {
       this.user = user;
     });
+    console.log(this.offer.offerId);
   }
-  openOfferDetail(offer: Offer) {
-    this.router.navigate(['offer-detail', {offerId: JSON.stringify(this.offer.offerId)}]);
+  openOfferDetail(offerId: string) {
+    this.router.navigate(['offer-detail', {offerId: JSON.stringify(offerId)}]);
   }
   openOtherUser(userId: string){
     this.userService.setOtherUser(userId);

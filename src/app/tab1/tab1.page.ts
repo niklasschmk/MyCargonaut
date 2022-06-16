@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
-import {Router} from "@angular/router";
-import {NavController} from "@ionic/angular";
-import {ToastService} from "../../services/toast.service";
-import {UserService} from "../../services/user.service";
-import {OfferService} from "../../services/offer.service";
-import {AngularFirestore} from "@angular/fire/compat/firestore";
+import {Router} from '@angular/router';
+import {NavController} from '@ionic/angular';
+import {ToastService} from '../../services/toast.service';
+import {UserService} from '../../services/user.service';
+import {OfferService} from '../../services/offer.service';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {first} from 'rxjs/operators';
 
 @Component({
@@ -14,18 +14,12 @@ import {first} from 'rxjs/operators';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit{
-  public offers: any;
 
   constructor(public authService: AuthService, private router: Router, private nacCtrl: NavController,
-              private offerService: OfferService, private toastService: ToastService, public userService:UserService,
+              public offerService: OfferService, private toastService: ToastService, public userService: UserService,
               private firestore: AngularFirestore) {}
 
-  async ngOnInit(){
-    this.offers = await this.initializeItems();
-  }
-  async initializeItems(): Promise<any> {
-    return await this.firestore.collection('offer').valueChanges({idField: 'id'}).pipe(first()).toPromise();
-  }
+  async ngOnInit(){}
 
   createOffer() {
     if(this.authService.user === null){
