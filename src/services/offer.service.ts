@@ -26,10 +26,11 @@ export class OfferService {
     this.offers = this.offerCollection.valueChanges({idField: 'offerId'});
   }
 
-  createOffer(destination: string, price: number, start: string, vehicleId: string, offerId: string) {
+  createOffer(date: string, destination: string, price: number, start: string, vehicleId: string, offerId: string) {
     return new Promise<any>((resolve, reject) => {
       this.afs.collection('offer').doc(offerId).set({
         userId: this.authService.user.userId,
+        date,
         destination,
         price,
         start,
