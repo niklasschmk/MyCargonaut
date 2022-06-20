@@ -34,5 +34,10 @@
     <ion-button *ngIf="available" color="primary" expand="block" class="btn-space" (click)="book()">Buchen</ion-button>
     <ion-button *ngIf="booked" color="primary" expand="block" class="btn-space" (click)="resetBook()">Buchung absagen</ion-button>
   </ng-container>
-  <ion-item *ngIf="error">Ein Fehler ist aufgetreten!</ion-item>
+  <ion-item *ngIf="error" class="redFont">
+    <ion-icon name="warning-outline" color="red"></ion-icon>
+      Ein Fehler ist aufgetreten!</ion-item>
+  <ion-item  *ngIf="!available && !booked" class="redFont">
+    <ion-icon name="warning-outline" color="red"></ion-icon>
+      Dieses Angebot wurde bereits gebucht!</ion-item>
 </ion-content>
