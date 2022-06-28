@@ -1,9 +1,36 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>request-detail</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button color="primary"></ion-back-button>
+      <img alt="MyCargonautLogo" src="assets/icon/myCargonautLogo.png" class="logo">
+    </ion-buttons>
+    <ion-title>Gesuche ansehen</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-spinner *ngIf="(!request || !user) && !error" name="crescent" class="loadingSpinner"></ion-spinner>
+  <ng-container *ngIf="request && user">
+    <ion-list>
+      <ion-item>
+        <ion-label style="font-size: 15px">Start: {{request.start}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label style="font-size: 15px">Ziel: {{request.destination}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label style="font-size: 15px">Stauraum: {{request.cargoSpace}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label style="font-size: 15px">Plätze: {{request.seats}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label style="font-size: 15px" color="primary" (click)="openOtherUser(this.request.userId)">Gesuche
+          von:  {{user.userName}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label style="font-size: 15px">Datum: {{request.date  | date:'mediumDate':'+02:00'}} {{request.date | date: 'shortTime' : '+02:00'}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-container>
 </ion-content>

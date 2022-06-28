@@ -3,7 +3,7 @@ import {UserService} from '../../services/user.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {VehicleService} from '../../services/vehicle.service';
-import {User} from "../../model/user";
+import {User} from '../../model/user';
 
 
 @Component({
