@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
-import {Offer} from '../model/offer';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
 import {ToastService} from './toast.service';
 import {AlertService} from './alert.service';
 import {AuthService} from './auth.service';
 import User = firebase.User;
 import firebase from 'firebase/compat';
+import {Offer} from "../model/offer";
 
 
 @Injectable({
