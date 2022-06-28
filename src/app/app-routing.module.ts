@@ -33,7 +33,11 @@ const routes: Routes = [
   {
     path: 'create-request',
     loadChildren: () => import('./Request/create-request/create-request.module').then(m => m.CreateRequestPageModule)
+  },  {
+    path: 'request-detail',
+    loadChildren: () => import('./Request/request-detail/request-detail.module').then( m => m.RequestDetailPageModule)
   }
+
 
 
 
