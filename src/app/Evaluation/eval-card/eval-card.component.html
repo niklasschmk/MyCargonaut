@@ -1,0 +1,31 @@
+<ion-card color="light" *ngIf="user">
+  <ion-card-header class="evalHeader">
+    <ion-toolbar color="light">
+      <ion-buttons slot="end">
+        <ion-icon *ngIf="eval.userId === this.authService.userId" name="pencil" color="primary"
+                  class="crud-icons eventCardIcons" (click)="editEval()"></ion-icon>
+        <ion-icon *ngIf="eval.userId === this.authService.userId" name="trash" color="danger"
+                  class="crud-icons eventCardIcons" (click)="deleteEval()"></ion-icon>
+      </ion-buttons>
+      <ion-card-title>{{eval.title}}</ion-card-title>
+      <ionic-rating-component #ratingStars
+                              activeIcon="star"
+                              defaultIcon="star-outline"
+                              activeColor="primary"
+                              defaultColor="primary"
+                              readonly="true"
+                              rating="{{eval.stars}}"
+                              fontSize="20px">
+      </ionic-rating-component>
+      <p>Bewertet von: <a class="description" (click)="openOtherUser(eval.rater)">{{user.userName}}</a></p>
+    </ion-toolbar>
+  </ion-card-header>
+  <ion-card-content>
+    <p>{{eval.text.substring(0, 100)}}
+      <span *ngIf="!fullLength && eval.text.length > 100">...</span>
+      <span *ngIf="fullLength">{{eval.text.substring(101, 1000)}}</span>
+    </p>
+    <a class="showText" *ngIf="!fullLength && eval.text.length > 100" (click)="showAll()">Mehr anzeigen</a>
+    <a class="showText" *ngIf="fullLength && eval.text.length > 100" (click)="hideAll()">Weniger anzeigen</a>
+  </ion-card-content>
+</ion-card>

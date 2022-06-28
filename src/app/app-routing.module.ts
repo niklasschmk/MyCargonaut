@@ -36,6 +36,10 @@ const routes: Routes = [
   },  {
     path: 'request-detail',
     loadChildren: () => import('./Request/request-detail/request-detail.module').then( m => m.RequestDetailPageModule)
+  },
+  {
+    path: 'create-eval',
+    loadChildren: () => import('./Evaluation/create-eval/create-eval.module').then( m => m.CreateEvalPageModule)
   }
 
 
