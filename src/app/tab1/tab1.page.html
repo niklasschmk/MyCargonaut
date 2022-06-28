@@ -13,7 +13,13 @@
 </ion-header>
 
 <ion-content color="light-tint" class="offersTabBackground">
-  <ng-container *ngFor="let offer of this.offerService.offers | async" class="card text-right" style="border: none">
-    <app-offer-card [offer]=offer style="width: 100%"></app-offer-card>
-  </ng-container>
+  <ion-grid>
+    <ion-row>
+      <ng-container *ngFor="let offer of this.offerService.offers | async" class="card text-right" style="border: none">
+        <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="4" size-xl="3">
+          <app-offer-card [offer]=offer style="width: 100%"></app-offer-card>
+        </ion-col>
+      </ng-container>
+    </ion-row>
+  </ion-grid>
 </ion-content>
