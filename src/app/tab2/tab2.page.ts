@@ -17,5 +17,12 @@ export class Tab2Page {
   constructor(public authService: AuthService, private router: Router, private nacCtrl: NavController,
               public requestService: RequestService, private toastService: ToastService, public userService: UserService,
               private firestore: AngularFirestore) {}
-
+  createRequest() {
+    if(this.authService.user === null){
+      this.router.navigate(['login']);
+      this.toastService.presentToast('Um ein Gesuche zu erstellen, musst du dich anmelden!', 'danger');
+    }else{
+      this.router.navigate(['create-request']);
+    }
+  }
 }
