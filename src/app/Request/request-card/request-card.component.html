@@ -1,3 +1,13 @@
-<p>
-  request-card works!
-</p>
+<ng-container *ngIf="request && user">
+  <ion-card color="light">
+    <ion-card-header (click)="openRequestDetail(this.request.requestId)">
+      <ion-card-title>Fahrt nach: {{this.request.destination}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p (click)="openOfferDetail(this.offer.offerId)">Startpunkt der Fahrt ist: {{this.request.start}}</p>
+      <p (click)="openOfferDetail(this.offer.offerId)">Datum: {{request.date  | date:'mediumDate':'+02:00'}} {{request.date | date: 'shortTime' : '+02:00'}}</p>
+      <p (click)="openOfferDetail(this.offer.offerId)">Preis: {{this.request.price}}</p>
+      <p (click)="openOtherUser(this.offer.userId)">Angeboten von: <a>{{this.user.userName}}</a></p>
+    </ion-card-content>
+  </ion-card>
+</ng-container>
