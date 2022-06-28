@@ -12,18 +12,39 @@
 </ion-header>
 
 <ion-content *ngIf="authService.user && !differentUser">
-  <ion-item>
-    <h3 class="header">Willkommen {{this.authService.userEmail}}</h3>
-  </ion-item>
-  <ion-item>
-    <ion-label style="font-size: 20px">Meine Fahrzeuge</ion-label>
-    <ion-icon name="add-outline" (click)="openAddVehicle()" color="primary"></ion-icon>
-  </ion-item>
-  <ion-list>
-    <ng-container *ngFor="let vehicle of vehicleService.vehicles | async">
-      <app-vehicle-item [vehicle] = vehicle></app-vehicle-item>
-    </ng-container>
-  </ion-list>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <h3 class="header">Willkommen {{authService.user.userName}}</h3>
+        </ion-item>
+        <ion-item>
+          <p>Vorname: {{authService.user.firstName}}</p>
+        </ion-item>
+        <ion-item>
+          <p>Nachname: {{authService.user.lastName}}</p>
+        </ion-item>
+        <ion-item>
+          <p>Meine E-Mail: <a>{{authService.user.email}}</a></p>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label style="font-size: 20px">Meine Fahrzeuge</ion-label>
+          <ion-icon name="add-outline" (click)="openAddVehicle()" color="primary"></ion-icon>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12">
+        <ion-list>
+          <ng-container *ngFor="let vehicle of vehicleService.vehicles | async">
+            <app-vehicle-item [vehicle] = vehicle></app-vehicle-item>
+          </ng-container>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 
 <ion-content *ngIf="authService.user && differentUser && userOther">
@@ -37,7 +58,7 @@
     <p>Nachname: {{userOther.lastName}}</p>
   </ion-item>
   <ion-item>
-    <p>Kontaktiere mich über meine EMail: <a>{{userOther.email}}</a></p>
+    <p>Kontaktiere mich über meine E-Mail: <a>{{userOther.email}}</a></p>
   </ion-item>
 </ion-content>
 
