@@ -7,7 +7,7 @@ export class User{
   cargoCoins: number;
   birthDay: Date;
 
-  constructor(firstName: string, lastName: string, userName: string, cargoCoins: number, birthDay: Date) {
+  constructor(firstName: string, lastName: string, userName: string, cargoCoins: number, birthDay: string) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.userName = userName;

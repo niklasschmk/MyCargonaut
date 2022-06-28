@@ -1,0 +1,87 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="primary"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Angebot erstellen
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="editMode && offerStatus === 'undefined'" name="crescent" class="loadingSpinner"></ion-spinner>
+  <div *ngIf="offerStatus === 'not found'">
+    <ion-icon class="errorIcon" name="alert-outline"></ion-icon>
+    <h5 class="errorMessage">Angebot konnte nicht gefunden werden</h5>
+  </div>
+  <div *ngIf="offerStatus === 'no auth'">
+    <ion-icon class="errorIcon" name="alert-outline"></ion-icon>
+    <h5 class="errorMessage">Angebot kann nicht bearbeitet werden, da es nicht von Ihnen angelegt wurde</h5>
+  </div>
+  <div *ngIf="offerStatus === 'found' || editMode === false">
+    <h3 class="header">Gib hier diene Angebotsdaten ein!</h3>
+    <form [formGroup]="createOfferForm">
+      <ion-item>
+        <ion-label position="floating">Ziel der Fahrt</ion-label>
+        <ion-input [(ngModel)]="destination" formControlName="destination" type="text" #destinationInput></ion-input>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.destination">
+            <div class="error-message" *ngIf="createOfferForm.get('destination').hasError(validation.type)
+             && (createOfferForm.get('destination').touched)">
+              <ion-icon name="alert-outline"></ion-icon>
+              {{validation.message}}
+            </div>
+          </ng-container>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Start der Fahrt</ion-label>
+        <ion-input [(ngModel)]="start" formControlName="start" type="text"></ion-input>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.start">
+            <div class="error-message" *ngIf="createOfferForm.get('start').hasError(validation.type)
+             && (createOfferForm.get('start').touched)">
+              <ion-icon name="alert-outline"></ion-icon>
+              {{validation.message}}
+            </div>
+          </ng-container>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Preis</ion-label>
+        <ion-input [(ngModel)]="price" formControlName="price" type="number"></ion-input>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.destination">
+            <div class="error-message" *ngIf="createOfferForm.get('destination').hasError(validation.type)
+             && (createOfferForm.get('destination').touched)">
+              <ion-icon name="alert-outline"></ion-icon>
+              {{validation.message}}
+            </div>
+          </ng-container>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Fahrzeug</ion-label>
+        <ion-select interface="popover" [(ngModel)]="vehicleId" formControlName="vehicleId">
+          <ion-select-option class="selectOption-small" *ngFor="let val of vehicleService.vehicles | async"
+                             [value]="val.vehicleId">{{val.name}}
+          </ion-select-option>
+        </ion-select>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.vehicleId">
+            <div class="error-message" *ngIf="createOfferForm.get('vehicleId').hasError(validation.type)
+             && (createOfferForm.get('vehicleId').touched)">
+              <ion-icon name="alert-outline"></ion-icon>
+              {{validation.message}}
+            </div>
+          </ng-container>
+        </div>
+      </ion-item>
+    </form>
+  </div>
+  <ion-button color="success" expand="block" class="btn-space offerCreate" (click)="createOffer()">Angebot speichern</ion-button>
+</ion-content>

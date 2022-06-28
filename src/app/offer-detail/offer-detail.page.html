@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="primary"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Angebot ansehen</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="(!offer || !vehicle || !user) && !error" name="crescent" class="loadingSpinner"></ion-spinner>
+  <ng-container *ngIf="offer && vehicle && user">
+    <ion-list>
+      <ion-item>
+        <ion-label style="font-size: 15px">Start: {{offer.start}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label style="font-size: 15px">Ziel: {{offer.destination}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label style="font-size: 15px">Preis: {{offer.price}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label style="font-size: 15px">Plätze: {{vehicle.seats}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label style="font-size: 15px">Stauraum: {{vehicle.cargoSpace}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label style="font-size: 15px" color="primary" (click)="openOtherUser(this.offer.userId)">Angeboten
+          von:  {{user.userName}}</ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-button *ngIf="available" color="primary" expand="block" class="btn-space" (click)="book()">Buchen</ion-button>
+    <ion-button *ngIf="booked" color="primary" expand="block" class="btn-space" (click)="resetBook()">Buchung absagen</ion-button>
+  </ng-container>
+  <ion-item *ngIf="error">Ein Fehler ist aufgetreten!</ion-item>
+</ion-content>

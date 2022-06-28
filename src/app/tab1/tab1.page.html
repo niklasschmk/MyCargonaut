@@ -1,17 +1,19 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <img alt="MyCargonautLogo" src="assets/icon/myCargonautLogo.png" class="logo">
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-icon name="add" style="width: 25px; height: 25px; margin-right: 10px" (click)="createOffer()"></ion-icon>
+    </ion-buttons>
     <ion-title>
-      Tab 1
+      Angebote
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+<ion-content color="light-tint" class="offersTabBackground">
+  <ng-container *ngFor="let offer of this.offerService.offers | async" class="card text-right" style="border: none">
+    <app-offer-card [offer]=offer style="width: 100%"></app-offer-card>
+  </ng-container>
 </ion-content>

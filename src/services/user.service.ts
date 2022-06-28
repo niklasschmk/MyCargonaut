@@ -7,6 +7,7 @@ import {User} from '../model/user';
 })
 export class UserService {
   private userCollection: AngularFirestoreCollection<User>;
+  private otherUserId: string;
 
   constructor(private afs: AngularFirestore) {
     this.userCollection = afs.collection<User>('user');
@@ -36,15 +37,18 @@ export class UserService {
    * @param userName
    * @param userId
    * @param birthDay
+   * @param firstName
+   * @param lastName
+   * @param lastName
+   * @param birthDay
    */
-  createUser(email: string, userName: string, userId: string, birthDay: Date): Promise<void> {
+  createUser(email: string, userName: string, userId: string, firstName: string, lastName: string, birthDay: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.userCollection.doc(userId).set({
         email,
         userName,
-        userId,
-        firstName: '',
-        lastName: '',
+        firstName,
+        lastName,
         cargoCoins: 0,
         birthDay
       }).then(() => {
@@ -70,5 +74,9 @@ export class UserService {
         }
       });
     });
+  }
+
+  setOtherUser(userId: string) {
+    this.otherUserId = userId;
   }
 }

@@ -103,7 +103,7 @@ export class AuthService {
         this.userService.checkIfUserExists(result.user.uid).then(userExists => {
           console.log(userExists);
           if (!userExists) {
-            this.userService.createUser(result.user.email, '', result.user.uid);
+            this.userService.createUser(result.user.email, result.user.email, result.user.uid, '', '', undefined);
           }
         });
       }).catch((err)=>{

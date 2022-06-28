@@ -14,12 +14,15 @@ export class LoginPage implements OnInit {
   newUser = false;
   email: string;
   password: string;
-  username: string;
+  userName: string;
+  firstName: string;
+  lastName: string;
+  birthDay: Date;
   loginForm: FormGroup;
   birthDay: Date;
 
   validationMessages = {
-    username: [
+    userName: [
       {type: 'required', message: 'Bitte gib einen Nutzernamen an!'},
       {type: 'minlength', message: 'Der Nutzername muss mindestens 3 Zeichen lang sein!'},
       {type: 'maxlength', message: 'Der Nutzername darf höchstens 20 Zeichen lang sein!'}
@@ -32,6 +35,12 @@ export class LoginPage implements OnInit {
       {type: 'required', message: 'Bitte gib ein Passwort an!'},
       {type: 'minlength', message: 'Das Passwort muss mindestens 6 Zeichen lang sein!'},
       {type: 'minlength', message: 'Das Passwort darf höchstens 25 Zeichen lang sein!'},
+    ],
+    firstName: [
+      {type: 'required', message: 'Bitte gib einen Vornamen an!'},
+    ],
+    lastName: [
+      {type: 'required', message: 'Bitte gib einen Nachnamen an!'},
     ],
   };
 
@@ -46,7 +55,7 @@ export class LoginPage implements OnInit {
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(25),
-      ]))
+      ])),
     });
   }
 
@@ -60,7 +69,8 @@ export class LoginPage implements OnInit {
   register() {
     if (this.loginForm.valid) {
       this.authService.register(this.email, this.password).then((userCredential) => {
-        this.userService.createUser(this.email, this.username, userCredential.user.uid, this.birthDay).then(() => {
+        this.userService.createUser(this.email, this.userName,
+          userCredential.user.uid, this.firstName, this.lastName, '').then(() => {
           this.router.navigate(['tabs/tab1']);
         });
       });
@@ -88,7 +98,7 @@ export class LoginPage implements OnInit {
   switchToRegister() {
     this.newUser = true;
     this.loginForm = this.formBuilder.group({
-      username: new FormControl('', Validators.compose([
+      userName: new FormControl('', Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(25),
@@ -101,7 +111,13 @@ export class LoginPage implements OnInit {
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(25),
-      ]))
+      ])),
+      firstName: new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
+      lastName: new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
     });
   }
 
