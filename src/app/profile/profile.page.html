@@ -31,15 +31,25 @@
     </ion-row>
     <ion-row>
       <ion-col size="12">
-        <ion-item>
-          <ion-label style="font-size: 20px">Meine Fahrzeuge</ion-label>
-          <ion-icon name="add-outline" (click)="openAddVehicle()" color="primary"></ion-icon>
-        </ion-item>
-      </ion-col>
-      <ion-col size="12">
         <ion-list>
+          <ion-item>
+            <ion-label style="font-size: 20px">Meine Fahrzeuge</ion-label>
+            <ion-icon name="add-outline" (click)="openAddVehicle()" color="primary"></ion-icon>
+          </ion-item>
           <ng-container *ngFor="let vehicle of vehicleService.vehicles | async">
             <app-vehicle-item [vehicle] = vehicle></app-vehicle-item>
+          </ng-container>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-list>
+          <ion-item>
+            <ion-label style="font-size: 20px">Meine Bewertungen</ion-label>
+          </ion-item>
+          <ng-container *ngFor="let eval of evaluationService.evals | async">
+            <app-eval-card [eval] = eval></app-eval-card>
           </ng-container>
         </ion-list>
       </ion-col>
@@ -48,18 +58,36 @@
 </ion-content>
 
 <ion-content *ngIf="authService.user && differentUser && userOther">
-  <ion-item>
-    <h3 class="header">Profil von {{userOther.userName}}</h3>
-  </ion-item>
-  <ion-item>
-    <p>Vorname: {{userOther.firstName}}</p>
-  </ion-item>
-  <ion-item>
-    <p>Nachname: {{userOther.lastName}}</p>
-  </ion-item>
-  <ion-item>
-    <p>Kontaktiere mich über meine E-Mail: <a>{{userOther.email}}</a></p>
-  </ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <h3 class="header">Profil von {{userOther.userName}}</h3>
+        </ion-item>
+        <ion-item>
+          <p>Vorname: {{userOther.firstName}}</p>
+        </ion-item>
+        <ion-item>
+          <p>Nachname: {{userOther.lastName}}</p>
+        </ion-item>
+        <ion-item>
+          <p>Kontaktiere mich über meine E-Mail: <a>{{userOther.email}}</a></p>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-list>
+          <ion-item>
+            <ion-label style="font-size: 20px">Bewertungen des Nutzers</ion-label>
+          </ion-item>
+          <ng-container *ngFor="let eval of evaluationService.evals | async">
+            <app-eval-card [eval] = eval></app-eval-card>
+          </ng-container>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 
 <ion-content *ngIf="!authService.user">

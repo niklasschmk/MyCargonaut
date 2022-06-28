@@ -8,6 +8,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
 import {VehicleItemComponent} from '../Vehicles/vehicle-item/vehicle-item.component';
+import {EvalCardComponent} from "../Evaluation/eval-card/eval-card.component";
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import {VehicleItemComponent} from '../Vehicles/vehicle-item/vehicle-item.compon
     IonicModule,
     ProfilePageRoutingModule
   ],
-  declarations: [ProfilePage, VehicleItemComponent]
+    declarations: [ProfilePage, VehicleItemComponent, EvalCardComponent]
 })
 export class ProfilePageModule {}

@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {VehicleService} from '../../services/vehicle.service';
 import {User} from '../../model/user';
+import {EvaluationService} from "../../services/evaluation.service";
 
 
 @Component({
@@ -16,14 +17,20 @@ export class ProfilePage implements OnInit {
   otherUser: string;
   userOther: User;
   constructor(public userService: UserService, private router: Router, private route: ActivatedRoute,
-              public authService: AuthService, public vehicleService: VehicleService) {
+              public authService: AuthService, public vehicleService: VehicleService,
+              public evaluationService: EvaluationService) {
     const userJSON = this.route.snapshot.paramMap.get('userId');
     this.otherUser = JSON.parse(userJSON);
     if(this.otherUser !== null && this.otherUser !== ''){
       this.differentUser = true;
       this.userService.getUserById(this.otherUser).then(user => {
         this.userOther = user;
+        this.evaluationService.getEvaluationsById(this.otherUser);
       });
+    } else {
+      this.evaluationService.getEvaluationsById(authService.userId);
+      console.log(authService.userId);
+      console.log(evaluationService.evals);
     }
   }
 
