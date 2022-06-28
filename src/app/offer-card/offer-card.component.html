@@ -5,10 +5,11 @@
     </ion-card-header>
     <ion-card-content>
       <p (click)="openOfferDetail(this.offer.offerId)">Startpunkt der Fahrt ist: {{this.offer.start}}</p>
-      <p (click)="openOfferDetail(this.offer.offerId)">Datum: {{offer.date  | date:'mediumDate':'+02:00'}} {{offer.date | date: 'shortTime' : '+02:00'}}</p>
+      <p (click)="openOfferDetail(this.offer.offerId)">Datum: {{offer.date  | date:'mediumDate':'+02:00': 'de-DE'}} {{offer.date | date: 'shortTime' : '+02:00': 'de-DE'}} Uhr</p>
       <p (click)="openOfferDetail(this.offer.offerId)">Preis: {{this.offer.price}}</p>
       <p (click)="openOtherUser(this.offer.userId)">Angeboten von: <a>{{this.user.userName}}</a></p>
       <div *ngIf="booked">
+        <p (click)="openOfferDetail(this.offer.offerId)">Status: <span style="color: #982727">Wartend</span></p>
       </div>
     </ion-card-content>
   </ion-card>

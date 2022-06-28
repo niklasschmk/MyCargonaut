@@ -31,7 +31,7 @@
           von:  {{user.userName}}</ion-label>
       </ion-item>
       <ion-item>
-        <ion-label style="font-size: 15px">Datum: {{offer.date  | date:'mediumDate':'+02:00'}} {{offer.date | date: 'shortTime' : '+02:00'}}</ion-label>
+        <ion-label style="font-size: 15px">Datum: {{offer.date  | date:'mediumDate':'+02:00': 'de-DE'}} {{offer.date | date: 'shortTime' : '+02:00': 'de-DE'}} Uhr</ion-label>
       </ion-item>
     </ion-list>
     <ion-button *ngIf="available" color="primary" expand="block" class="btn-space" (click)="book()">Buchen</ion-button>
