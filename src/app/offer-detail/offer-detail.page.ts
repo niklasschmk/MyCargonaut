@@ -8,6 +8,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../../model/user';
 import {UserService} from '../../services/user.service';
 import {AuthService} from '../../services/auth.service';
+import {RideService} from '../../services/ride.service';
+import {AlertService} from '../../services/alert.service';
+
 
 @Component({
   selector: 'app-offer-detail',
@@ -22,9 +25,11 @@ export class OfferDetailPage implements OnInit {
   available = false;
   booked = false;
   error: boolean;
+  userWhoBooked: User | null;
 
   constructor(public offerService: OfferService, public vehicleService: VehicleService, private userService: UserService,
-              public toastService: ToastService, private route: ActivatedRoute, private router: Router, private authService: AuthService) {
+              public toastService: ToastService, private route: ActivatedRoute, private router: Router, public authService: AuthService,
+              private rideService: RideService, private alertService: AlertService) {
     const offerJSON = this.route.snapshot.paramMap.get('offerId');
     this.offerId = JSON.parse(offerJSON);
     //get offer
@@ -34,6 +39,10 @@ export class OfferDetailPage implements OnInit {
         this.available = true;
       } else if (this.offer.bookedBy === this.authService.userId) {
         this.booked = true;
+      }else if (this.offer.bookedBy !== null){
+        this.userService.getUserById(this.offer.bookedBy).then((user) => {
+          this.userWhoBooked = user;
+        });
       }
       //get vehicle data
       this.vehicleService.getVehicleById(this.offer.vehicleId).then(vehicle => {
@@ -54,8 +63,7 @@ export class OfferDetailPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   openOtherUser(userId: string) {
     this.userService.setOtherUser(userId);
@@ -96,6 +104,17 @@ export class OfferDetailPage implements OnInit {
           this.toastService.presentToast('Die Buchung wurde storniert!', 'primary');
         });
       }
+    });
+  }
+
+  startRide(){
+    this.alertService.presentAlertConfirm('Fahrt starten?',
+      'Bist du sicher dass du die Fahrt starten möchtest? Dies kann nicht rückgängig gemacht werden!').then(() => {
+        this.rideService.startRide(this.offerId, this.offer.bookedBy).then(rideId => {
+          this.router.navigate(['profile']);
+          this.router.navigate(['ride-detail', {rideId: JSON.stringify(rideId)}]);
+          this.toastService.presentToast('Die Fahrt wurde gestartet!', 'primary');
+        });
     });
   }
 }

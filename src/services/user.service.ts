@@ -22,9 +22,11 @@ export class UserService {
     return new Promise((resolve, reject) => {
       this.userCollection.doc(userId).ref.get().then((doc) => {
         if (doc.exists) {
-          resolve(doc.data());
+          const user= doc.data();
+          user.userId = doc.id;
+          resolve(user);
         } else {
-          reject('not found');
+          reject('user not found');
         }
       });
     });
@@ -53,7 +55,7 @@ export class UserService {
         birthDay
       }).then(() => {
         resolve();
-      }).catch(err => {
+      }).catch(() => {
         reject();
       });
     });
@@ -65,7 +67,7 @@ export class UserService {
    * @param userId
    */
   checkIfUserExists(userId: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.userCollection.doc(userId).ref.get().then((doc) => {
         if (doc.exists) {
           resolve(true);

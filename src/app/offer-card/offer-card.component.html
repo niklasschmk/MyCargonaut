@@ -1,16 +1,19 @@
 <ng-container *ngIf="offer && user">
-  <ion-card color="light" (click)="openOfferDetail(this.offer.offerId)">
-    <ion-card-header>
+  <ion-card color="light">
+    <ion-card-header (click)="openOfferDetail(this.offer.offerId)">
       <ion-card-title>Fahrt nach: {{this.offer.destination}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <p (click)="openOfferDetail(this.offer.offerId)">Startpunkt der Fahrt ist: {{this.offer.start}}</p>
-      <p (click)="openOfferDetail(this.offer.offerId)">Datum: {{offer.date  | date:'mediumDate':'+02:00': 'de-DE'}} {{offer.date | date: 'shortTime' : '+02:00': 'de-DE'}} Uhr</p>
+      <p (click)="openOfferDetail(this.offer.offerId)">
+        Datum: {{offer.date  | date:'mediumDate':'+02:00': 'de-DE'}} {{offer.date | date: 'shortTime' : '+02:00': 'de-DE'}}
+        Uhr</p>
       <p (click)="openOfferDetail(this.offer.offerId)">Preis: {{this.offer.price}}</p>
       <p (click)="openOtherUser(this.offer.userId)">Angeboten von: <a>{{this.user.userName}}</a></p>
-      <div *ngIf="booked">
-        <p (click)="openOfferDetail(this.offer.offerId)">Status: <span style="color: #982727">Wartend</span></p>
-      </div>
+      <p *ngIf="booked" (click)="openOfferDetail(this.offer.offerId)">Status: <span
+        style="color: #982727">Wartend</span></p>
+      <p *ngIf="!booked && offer.bookedBy !== null && userWhoBooked" (click)="openOfferDetail(this.offer.offerId)" style="color: #279854">Gebucht von {{userWhoBooked.userName}}</p>
+      <p *ngIf="!booked && offer.bookedBy === null" (click)="openOfferDetail(this.offer.offerId)" style="color: #005B52">Nicht gebucht</p>
     </ion-card-content>
   </ion-card>
 </ng-container>

@@ -6,7 +6,15 @@
 
 <ion-content>
   <ion-item color="primary">
-    <p>Gebuchte Angebote</p>
+    <ion-label>Aktuelle Fahrten</ion-label>
+    <ion-icon name="chevron-down-outline" *ngIf="!viewRides" (click)="viewRides = true"></ion-icon>
+    <ion-icon name="chevron-up-outline" *ngIf="viewRides" (click)="viewRides = false"></ion-icon>
+  </ion-item>
+
+  <ion-item color="primary">
+    <ion-label>Gebuchte Angebote</ion-label>
+    <ion-icon name="chevron-down-outline" *ngIf="!viewBookedOffers" (click)="viewBookedOffers = true"></ion-icon>
+    <ion-icon name="chevron-up-outline" *ngIf="viewBookedOffers" (click)="viewBookedOffers = false"></ion-icon>
   </ion-item>
   <app-offer-card *ngFor="let offer of bookedOffers" [offer]="offer" [booked]="true"></app-offer-card>
 </ion-content>

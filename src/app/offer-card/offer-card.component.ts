@@ -4,8 +4,6 @@ import {User} from '../../model/user';
 import {OfferService} from '../../services/offer.service';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
-import {NavController} from '@ionic/angular';
-import {ToastService} from '../../services/toast.service';
 import {UserService} from '../../services/user.service';
 
 @Component({
@@ -17,15 +15,18 @@ export class OfferCardComponent implements OnInit {
   @Input() offer: Offer;
   @Input() booked: boolean;
   user: User;
+  userWhoBooked: User;
   constructor(private offerService: OfferService, private authService: AuthService, private router: Router,
-              private nacCtrl: NavController, private toastService: ToastService, public userService: UserService) {
+              public userService: UserService) {
   }
 
   ngOnInit() {
     this.userService.getUserById(this.offer.userId).then((user) => {
       this.user = user;
     });
-    console.log(this.offer.offerId);
+    this.userService.getUserById(this.offer.bookedBy).then((user) => {
+      this.userWhoBooked = user;
+    });
   }
   openOfferDetail(offerId: string) {
     this.router.navigate(['offer-detail', {offerId: JSON.stringify(offerId)}]);

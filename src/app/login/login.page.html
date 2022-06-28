@@ -49,19 +49,6 @@
         </ng-container>
       </div>
     </ion-item>
-    <ion-item *ngIf="newUser">
-      <ion-label position="floating">Nutzername</ion-label>
-      <ion-input [(ngModel)]="userName" formControlName="username" type="text" name="username"></ion-input>
-      <div class="validation-errors">
-        <ng-container *ngFor="let validation of validationMessages.userName">
-          <div class="error-message"
-               *ngIf="loginForm.get('username').hasError(validation.type) && (loginForm.get('username').touched)">
-            <ion-icon name="alert-outline"></ion-icon>
-            {{validation.message}}
-          </div>
-        </ng-container>
-      </div>
-    </ion-item>
     <ion-item>
       <ion-label position="floating">E-Mail Adresse</ion-label>
       <ion-input [(ngModel)]="email" formControlName="email" type="text"></ion-input>

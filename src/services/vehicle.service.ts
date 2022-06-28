@@ -37,7 +37,7 @@ export class VehicleService {
           console.log('Doc exists');
           resolve(doc.data());
         } else {
-          reject('not found');
+          reject('vehicle not found');
         }
       });
     });
@@ -49,7 +49,6 @@ export class VehicleService {
    * @param name name of the vehicle
    * @param seats number of seats
    * @param cargoSpace cargoSpace in liters
-   * @param userId userId of the user
    */
   addVehicle(name: string, seats: number, cargoSpace: number): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -61,7 +60,7 @@ export class VehicleService {
       }).then(() => {
         this.toastService.presentToast('Fahrzeug wurde gespeichert', 'primary');
         resolve();
-      }).catch(err => {
+      }).catch(() => {
         reject();
       });
     });
@@ -81,11 +80,10 @@ export class VehicleService {
           if(confirm){
             //delete vehicle if user confirmed
             this.vehicleCollection.doc(vehicleId).delete()
-              .then(
-                res => {
+              .then(() => {
                   this.toastService.presentToast('Fahrzeug wurde gelöscht', 'primary');
                   resolve();
-                }).catch(err => {
+                }).catch(() => {
                   reject();
             });
           }

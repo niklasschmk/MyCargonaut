@@ -33,7 +33,11 @@ const routes: Routes = [
   {
     path: 'bookings',
     loadChildren: () => import('./bookings/bookings.module').then(m => m.BookingsPageModule)
+  },  {
+    path: 'ride-detail',
+    loadChildren: () => import('./ride-detail/ride-detail.module').then( m => m.RideDetailPageModule)
   }
+
 
 
 

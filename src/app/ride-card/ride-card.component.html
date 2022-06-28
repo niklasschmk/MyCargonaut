@@ -1,0 +1,11 @@
+<ion-card *ngIf="offer && ride && user && vehicle" color="light">
+  <ion-card-header (click)="openRideDetail()">
+    <ion-card-title>{{this.offer.start}} <ion-icon name="arrow-forward-outline"></ion-icon>
+    {{this.offer.destination}}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <p (click)="openOtherUser(this.ride.customerUserId)"> Kunde: <a>{{this.user.userName}}</a></p>
+    <p (click)="openRideDetail()">Fahrzeug: {{this.vehicle.name}}</p>
+    <p (click)="openRideDetail()"><b>Aktueller Status: {{this.ride.status[this.ride.status.length -1]}}</b></p>
+  </ion-card-content>
+</ion-card>
