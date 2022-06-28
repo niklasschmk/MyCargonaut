@@ -51,9 +51,9 @@
     </ion-item>
     <ion-item *ngIf="newUser">
       <ion-label position="floating">Nutzername</ion-label>
-      <ion-input [(ngModel)]="username" formControlName="username" type="text" name="username"></ion-input>
+      <ion-input [(ngModel)]="userName" formControlName="username" type="text" name="username"></ion-input>
       <div class="validation-errors">
-        <ng-container *ngFor="let validation of validationMessages.username">
+        <ng-container *ngFor="let validation of validationMessages.userName">
           <div class="error-message"
                *ngIf="loginForm.get('username').hasError(validation.type) && (loginForm.get('username').touched)">
             <ion-icon name="alert-outline"></ion-icon>
@@ -112,7 +112,7 @@
   </div>
   <div class="google-btn" (click)="signInWithGoogle()">
     <div class="google-icon-wrapper">
-      <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
+      <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="google-logo"/>
     </div>
     <p class="btn-text"><b>Sign in with google</b></p>
   </div>

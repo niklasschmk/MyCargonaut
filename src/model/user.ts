@@ -5,7 +5,7 @@ export class User{
   lastName: string;
   userName: string;
   cargoCoins: number;
-  birthDay: Date;
+  birthDay: string;
 
   constructor(firstName: string, lastName: string, userName: string, cargoCoins: number, birthDay: string) {
     this.firstName = firstName;

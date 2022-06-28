@@ -17,9 +17,8 @@ export class LoginPage implements OnInit {
   userName: string;
   firstName: string;
   lastName: string;
-  birthDay: Date;
+  birthDay: string;
   loginForm: FormGroup;
-  birthDay: Date;
 
   validationMessages = {
     userName: [
