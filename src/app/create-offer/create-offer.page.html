@@ -50,6 +50,26 @@
         </div>
       </ion-item>
 
+      <ion-item id="zeit">
+        <div style="padding-top: 15px">
+          <p>Datum und Uhrzeit</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-datetime hour-cycle="h23" locale="de-DE" [(ngModel)]="date" formControlName="date"></ion-datetime>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.date">
+            <div class="error-message"
+                 *ngIf="createOfferForm.get('date').hasError(validation.type) && (createOfferForm.get('date').touched ||
+                  createOfferForm.get('date').dirty)">
+              <ion-icon name="alert-outline"></ion-icon>
+              {{ validation.message }}
+            </div>
+
+          </ng-container>
+        </div>
+      </ion-item>
+
       <ion-item>
         <ion-label position="floating">Preis</ion-label>
         <ion-input [(ngModel)]="price" formControlName="price" type="number"></ion-input>
