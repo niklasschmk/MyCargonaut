@@ -1,12 +1,33 @@
 <ng-container *ngIf="offer && user">
-  <ion-card color="light" (click)="openOfferDetail(this.offer.offerId)">
-    <ion-card-header>
+  <ion-card color="light">
+    <ion-card-header (click)="openOfferDetail(this.offer.offerId)">
       <ion-card-title>Fahrt nach: {{this.offer.destination}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p>Startpunkt der Fahrt ist: {{this.offer.start}}</p>
-      <p>Preis: {{this.offer.price}}</p>
-      <p>Angebot von Nutzer: {{this.user.userName}}</p>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <p (click)="openOfferDetail(this.offer.offerId)">Startpunkt: {{this.offer.start}}</p>
+          </ion-col>
+          <ion-col>
+            <p class="ion-float-end" (click)="openOfferDetail(this.offer.offerId)">
+              Preis: {{this.offer.price}} Cargocoins
+            </p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <p (click)="openOfferDetail(this.offer.offerId)">
+              Datum: {{offer.date  | date:'mediumDate':'+02:00'}} {{offer.date | date: 'shortTime' : '+02:00'}}
+            </p>
+          </ion-col>
+          <ion-col>
+            <p class="ion-float-end" (click)="openOtherUser(this.offer.userId)">
+              Angeboten von: <a>{{this.user.userName}}</a>
+            </p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-card-content>
   </ion-card>
 </ng-container>

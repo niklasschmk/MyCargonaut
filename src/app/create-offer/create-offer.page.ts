@@ -21,6 +21,7 @@ export class CreateOfferPage implements OnInit {
   editOfferId: string;
   offerStatus = 'undefined';
   destination: string;
+  date: any;
   price: number;
   start: string;
   userId: string;
@@ -44,6 +45,10 @@ export class CreateOfferPage implements OnInit {
       {type: 'minlength', message: 'Der Titel muss mindestens 2 Zeichen lang sein!'},
       {type: 'maxlength', message: 'Der Titel darf höchstens 30 Zeichen lang sein!'}
     ],
+    date: [
+      {type: 'required', message: 'Bitte gib ein Datum und eine Uhrzeit an!'},
+      //check if date is in future missing
+    ],
     vehicleId: [
       {type: 'required', message: 'Bitte wähle ein Fahrzeug aus!'},
     ]
@@ -65,6 +70,9 @@ export class CreateOfferPage implements OnInit {
         Validators.minLength(2),
         Validators.maxLength(30),
       ])),
+      date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
       vehicleId: new FormControl('', Validators.compose([
         Validators.required,
       ])),
@@ -78,6 +86,7 @@ export class CreateOfferPage implements OnInit {
         this.destination = offer.destination;
         this.price = offer.price;
         this.start = offer.start;
+        this.date = offer.date;
         this.vehicleId = offer.vehicleId;
         this.vehicleService.getVehicleById(this.vehicleId).then(vehicle => {
           this.currentVehicle = vehicle;
@@ -104,7 +113,7 @@ export class CreateOfferPage implements OnInit {
     } else {
       if(this.createOfferForm.valid) {
         const offerId = this.generateOfferId();
-        this.offerService.createOffer(this.destination, this.price, this.start, this.vehicleId, offerId).then(() => {
+        this.offerService.createOffer(this.date,this.destination, this.price, this.start, this.vehicleId, offerId).then(() => {
           this.toastService.presentToast('Angebot erfolgreich angelegt!', 'success');
           this.navCtrl.pop();
         });
