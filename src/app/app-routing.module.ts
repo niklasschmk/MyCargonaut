@@ -25,9 +25,14 @@ const routes: Routes = [
   {
     path: 'create-offer',
     loadChildren: () => import('./create-offer/create-offer.module').then( m => m.CreateOfferPageModule)
-  },  {
+  },
+  {
     path: 'offer-detail',
     loadChildren: () => import('./offer-detail/offer-detail.module').then( m => m.OfferDetailPageModule)
+  },
+  {
+    path: 'bookings',
+    loadChildren: () => import('./bookings/bookings.module').then(m => m.BookingsPageModule)
   }
 
 

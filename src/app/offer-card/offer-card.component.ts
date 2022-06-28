@@ -15,6 +15,7 @@ import {UserService} from '../../services/user.service';
 })
 export class OfferCardComponent implements OnInit {
   @Input() offer: Offer;
+  @Input() booked: boolean;
   user: User;
   constructor(private offerService: OfferService, private authService: AuthService, private router: Router,
               private nacCtrl: NavController, private toastService: ToastService, public userService: UserService) {

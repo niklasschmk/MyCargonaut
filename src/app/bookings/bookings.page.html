@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Meine Buchungen</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item color="primary">
+    <p>Gebuchte Angebote</p>
+  </ion-item>
+  <app-offer-card *ngFor="let offer of bookedOffers" [offer]="offer" [booked]="true"></app-offer-card>
+</ion-content>

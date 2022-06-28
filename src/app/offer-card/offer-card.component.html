@@ -7,6 +7,8 @@
       <p>Startpunkt der Fahrt ist: {{this.offer.start}}</p>
       <p>Preis: {{this.offer.price}}</p>
       <p>Angebot von Nutzer: {{this.user.userName}}</p>
+      <div *ngIf="booked">
+      </div>
     </ion-card-content>
   </ion-card>
 </ng-container>
