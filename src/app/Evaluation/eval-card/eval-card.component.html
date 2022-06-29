@@ -23,20 +23,20 @@
   <ion-card-content>
     <ion-row>
       <ion-col>
-        <p class="ion-float-start">Bewertet von: <a class="description" (click)="openOtherUser(eval.rater)">{{user.userName}}</a></p>
-      </ion-col>
-      <ion-col>
-        <p class="ion-float-end">{{eval.date  | date:'mediumDate':'+02:00'}} {{eval.date | date: 'shortTime' : '+02:00'}}</p>
+        <p> <b>{{eval.text.substring(0, 100)}}
+          <span *ngIf="!fullLength && eval.text.length > 100">...</span>
+          <span *ngIf="fullLength">{{eval.text.substring(101, 1000)}}</span></b>
+        </p>
+        <a class="showText" *ngIf="!fullLength && eval.text.length > 100" (click)="showAll()">Mehr anzeigen</a>
+        <a class="showText" *ngIf="fullLength && eval.text.length > 100" (click)="hideAll()">Weniger anzeigen</a>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <p>{{eval.text.substring(0, 100)}}
-          <span *ngIf="!fullLength && eval.text.length > 100">...</span>
-          <span *ngIf="fullLength">{{eval.text.substring(101, 1000)}}</span>
-        </p>
-        <a class="showText" *ngIf="!fullLength && eval.text.length > 100" (click)="showAll()">Mehr anzeigen</a>
-        <a class="showText" *ngIf="fullLength && eval.text.length > 100" (click)="hideAll()">Weniger anzeigen</a>
+        <p class="ion-float-start">Bewertet von: <a class="description" (click)="openOtherUser(eval.rater)">{{user.userName}}</a></p>
+      </ion-col>
+      <ion-col>
+        <p class="ion-float-end">{{eval.date  | date:'mediumDate':'+02:00'}} {{eval.date | date: 'shortTime' : '+02:00'}}</p>
       </ion-col>
     </ion-row>
   </ion-card-content>
