@@ -1,0 +1,13 @@
+<ng-container *ngIf="request && user">
+  <ion-card color="light">
+    <ion-card-header (click)="openRequestDetail(this.request.requestId)">
+      <ion-card-title>Fahrt nach: {{this.request.destination}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p (click)="openRequestDetail(this.request.requestId)">Startpunkt der Fahrt ist: {{this.request.start}}</p>
+      <p (click)="openRequestDetail(this.request.requestId)">Datum: {{request.date  | date:'mediumDate':'+02:00'}} {{request.date | date: 'shortTime' : '+02:00'}}</p>
+      <p (click)="openRequestDetail(this.request.requestId)">Stauraum: {{this.request.cargoSpace}}</p>
+      <p (click)="openOtherUser(this.request.userId)">Gesuche von: <a>{{this.user.userName}}</a></p>
+    </ion-card-content>
+  </ion-card>
+</ng-container>

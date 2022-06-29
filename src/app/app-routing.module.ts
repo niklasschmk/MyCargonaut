@@ -33,11 +33,19 @@ const routes: Routes = [
   {
     path: 'bookings',
     loadChildren: () => import('./bookings/bookings.module').then(m => m.BookingsPageModule)
-  },  {
+  },
+  {
     path: 'ride-detail',
     loadChildren: () => import('./ride-detail/ride-detail.module').then( m => m.RideDetailPageModule)
+  },
+  {
+    path: 'create-request',
+    loadChildren: () => import('./Request/create-request/create-request.module').then(m => m.CreateRequestPageModule)
+  },
+  {
+    path: 'request-detail',
+    loadChildren: () => import('./Request/request-detail/request-detail.module').then( m => m.RequestDetailPageModule)
   }
-
 
 
 

@@ -28,12 +28,15 @@ export class VehicleService {
     });
   }
 
+  /**
+   * Get a vehicle by an id
+   *
+   * @param vehicleId
+   */
   getVehicleById(vehicleId: string): Promise<Vehicle>{
-    console.log(vehicleId);
     return new Promise((resolve, reject) => {
       this.vehicleCollection.doc(vehicleId).ref.get().then((doc) => {
         if (doc.exists){
-          console.log('Doc exists');
           resolve(doc.data());
         } else {
           reject('vehicle not found');

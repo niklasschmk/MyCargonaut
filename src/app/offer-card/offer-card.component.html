@@ -4,16 +4,38 @@
       <ion-card-title>Fahrt nach: {{this.offer.destination}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p>Startpunkt der Fahrt ist: {{this.offer.start}}</p>
-      <p>
-        Datum: {{offer.date  | date:'mediumDate':'+02:00': 'de-DE'}} {{offer.date | date: 'shortTime' : '+02:00': 'de-DE'}}
-        Uhr</p>
-      <p>Preis: {{this.offer.price}}</p>
-      <p>Angeboten von: <a>{{this.user.userName}}</a></p>
-      <p *ngIf="booked">Status: <span
-        style="color: #982727">Wartend</span></p>
-      <p *ngIf="!booked && offer.bookedBy !== null && userWhoBooked" style="color: #279854">Gebucht von {{userWhoBooked.userName}}</p>
-      <p *ngIf="!booked && offer.bookedBy === null" style="color: #005B52">Nicht gebucht</p>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <p (click)="openOfferDetail(this.offer.offerId)">Startpunkt: {{this.offer.start}}</p>
+          </ion-col>
+          <ion-col>
+            <p class="ion-float-end" (click)="openOfferDetail(this.offer.offerId)">
+              Preis: {{this.offer.price}} Cargocoins
+            </p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <p (click)="openOfferDetail(this.offer.offerId)">
+              Datum: {{offer.date  | date:'mediumDate':'+02:00'}} {{offer.date | date: 'shortTime' : '+02:00'}}
+            </p>
+          </ion-col>
+          <ion-col>
+            <p class="ion-float-end" (click)="openOtherUser(this.offer.userId)">
+              Angeboten von: <a>{{this.user.userName}}</a>
+            </p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <p *ngIf="booked">Status: <span
+              style="color: #982727">Wartend</span></p>
+            <p *ngIf="!booked && offer.bookedBy !== null && userWhoBooked" style="color: #279854">Gebucht von {{userWhoBooked.userName}}</p>
+            <p *ngIf="!booked && offer.bookedBy === null" style="color: #005B52">Nicht gebucht</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-card-content>
   </ion-card>
 </ng-container>
