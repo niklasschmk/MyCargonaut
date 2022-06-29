@@ -8,11 +8,12 @@ export class User{
   birthDay: string;
   picturePath: string;
 
-  constructor(firstName: string, lastName: string, userName: string, cargoCoins: number, birthDay: string) {
+  constructor(firstName: string, lastName: string, userName: string, cargoCoins: number, birthDay: string, picturePath: string) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.userName = userName;
     this.cargoCoins = cargoCoins;
     this.birthDay = birthDay;
+    this.picturePath = picturePath;
   }
 }

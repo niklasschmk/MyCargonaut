@@ -9,6 +9,6 @@ export class Vehicle {
     this.name = name;
     this.cargoSpace = cargoSpace;
     this.seats = seats;
-    this.userId = userId
+    this.userId = userId;
   }
 }

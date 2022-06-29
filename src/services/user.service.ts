@@ -5,7 +5,6 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import {ToastService} from './toast.service';
 
-
 @Injectable({
   providedIn: 'root'
 })
