@@ -4,6 +4,12 @@
       <ion-back-button color="primary"></ion-back-button>
       <img alt="MyCargonautLogo" src="assets/icon/myCargonautLogo.png" class="logo">
     </ion-buttons>
+    <ion-buttons *ngIf="offer" slot="end">
+      <ion-icon color="primary" name="pencil" class="iconButton" *ngIf="offer.userId === authService.userId"
+                (click)="editOffer(offerId)">></ion-icon>
+      <ion-icon color="danger" class="iconButton" name="trash"
+                *ngIf="offer.userId === authService.userId" (click)="deleteOffer()"></ion-icon>
+    </ion-buttons>
     <ion-title>Angebot ansehen</ion-title>
   </ion-toolbar>
 </ion-header>

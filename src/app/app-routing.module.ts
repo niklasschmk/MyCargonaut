@@ -33,13 +33,14 @@ const routes: Routes = [
   {
     path: 'create-request',
     loadChildren: () => import('./Request/create-request/create-request.module').then(m => m.CreateRequestPageModule)
-  },  {
+  },
+  {
     path: 'request-detail',
     loadChildren: () => import('./Request/request-detail/request-detail.module').then( m => m.RequestDetailPageModule)
   },
   {
-    path: 'create-eval',
-    loadChildren: () => import('./Evaluation/create-eval/create-eval.module').then( m => m.CreateEvalPageModule)
+    path: 'create-evaluation',
+    loadChildren: () => import('./Evaluation/create-evaluation/create-evaluation.module').then( m => m.CreateEvaluationPageModule)
   }
 
 

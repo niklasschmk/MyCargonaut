@@ -8,6 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../../model/user';
 import {UserService} from '../../services/user.service';
 import {AuthService} from '../../services/auth.service';
+import {NavController} from "@ionic/angular";
 
 @Component({
   selector: 'app-offer-detail',
@@ -24,7 +25,8 @@ export class OfferDetailPage implements OnInit {
   error: boolean;
 
   constructor(public offerService: OfferService, public vehicleService: VehicleService, private userService: UserService,
-              public toastService: ToastService, private route: ActivatedRoute, private router: Router, private authService: AuthService) {
+              public toastService: ToastService, private route: ActivatedRoute, private router: Router,
+              private authService: AuthService, private navCtrl: NavController) {
     const offerJSON = this.route.snapshot.paramMap.get('offerId');
     this.offerId = JSON.parse(offerJSON);
     //get offer
@@ -62,6 +64,15 @@ export class OfferDetailPage implements OnInit {
     this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]);
   }
 
+  async editOffer(offerId: string) {
+    await this.router.navigate(['create-offer', {offerId: JSON.stringify(offerId)}]);
+  }
+  deleteOffer() {
+    this.offerService.deleteOffer(this.offerId).then(() => {
+      this.toastService.presentToast('Angebot erfolgreich gelöscht!', 'primary');
+      this.navCtrl.pop();
+    });
+  }
   loginCheck(): Promise<boolean> {
     return new Promise((resolve) => {
       if (this.authService.userId === '0') {

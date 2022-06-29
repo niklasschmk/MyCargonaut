@@ -5,6 +5,12 @@
       <img alt="MyCargonautLogo" src="assets/icon/myCargonautLogo.png" class="logo">
     </ion-buttons>
     <ion-title>Gesuche ansehen</ion-title>
+    <ion-buttons *ngIf="request" slot="end">
+      <ion-icon color="primary" name="pencil" *ngIf="request.userId === authService.userId" class="iconButton"
+                (click)="editRequest(requestId)">></ion-icon>
+      <ion-icon color="danger"  name="trash" class="iconButton"
+                *ngIf="request.userId === authService.userId" (click)="deleteRequest()"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -19,7 +25,7 @@
         <ion-label style="font-size: 15px">Ziel: {{request.destination}}</ion-label>
       </ion-item>
       <ion-item>
-        <ion-label style="font-size: 15px">Stauraum: {{request.cargoSpace}}</ion-label>
+        <ion-label style="font-size: 15px">Stauraum: {{request.cargoSpace}} Liter</ion-label>
       </ion-item>
       <ion-item>
         <ion-label style="font-size: 15px">Plätze: {{request.seats}}</ion-label>

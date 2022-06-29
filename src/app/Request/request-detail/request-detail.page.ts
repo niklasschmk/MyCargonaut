@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
 import {RequestService} from '../../../services/request.service';
 import {Request} from '../../../model/request';
+import {NavController} from "@ionic/angular";
 
 @Component({
   selector: 'app-request-detail',
@@ -21,7 +22,7 @@ export class RequestDetailPage implements OnInit {
   constructor(public requestService: RequestService, public vehicleService: VehicleService, private userService: UserService,
               public toastService: ToastService,
               private route: ActivatedRoute, private router: Router,
-              private authService: AuthService) {
+              private authService: AuthService, private navCtrl: NavController) {
     const requestJSON = this.route.snapshot.paramMap.get('requestId');
     this.requestId = JSON.parse(requestJSON);
     //get request
@@ -38,6 +39,7 @@ export class RequestDetailPage implements OnInit {
       this.error = true;
       console.log(e);
     });
+    console.log(this.request);
   }
 
   ngOnInit() {
@@ -54,6 +56,15 @@ export class RequestDetailPage implements OnInit {
       } else {
         resolve(true);
       }
+    });
+  }
+  async editRequest(requestId: string) {
+    await this.router.navigate(['create-request', {requestId: JSON.stringify(requestId)}]);
+  }
+  deleteRequest() {
+    this.requestService.deleteRequest(this.requestId).then(() => {
+      this.toastService.presentToast('Angebot erfolgreich gelöscht!', 'primary');
+      this.navCtrl.pop();
     });
   }
 }
