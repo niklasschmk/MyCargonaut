@@ -17,7 +17,7 @@
     <ion-row>
       <ng-container *ngFor="let request of this.requestService.request | async" class="card text-right" style="border: none">
         <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="4" size-xl="3">
-          <app-request-card [request]=request style="width: 100%"></app-request-card>
+          <app-request-card *ngIf="!request.offerId" [request]=request style="width: 100%"></app-request-card>
         </ion-col>
       </ng-container>
     </ion-row>

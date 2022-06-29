@@ -22,27 +22,30 @@ export class RideCardComponent implements OnInit {
 
   constructor(public rideService: RideService, public offerService: OfferService,
               private userService: UserService, private router: Router,
-              private vehicleService: VehicleService) {}
+              private vehicleService: VehicleService) {
+  }
 
   ngOnInit() {
     this.offerService.getOfferById(this.ride.offerId, false).then(res => {
       this.offer = res;
-      this.vehicleService.getVehicleById(this.offer.vehicleId).then(v => {
-        this.vehicle = v;
-      });
+      if (this.offer.vehicleId) {
+        this.vehicleService.getVehicleById(this.offer.vehicleId).then(v => {
+          this.vehicle = v;
+        });
+      }
     });
     this.userService.getUserById(this.ride.customerUserId).then(res => {
       this.user = res;
     });
   }
 
-  openOtherUser(userId: string){
+  openOtherUser(userId: string) {
     console.log(userId);
     this.userService.setOtherUser(userId);
     this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]);
   }
 
-  openRideDetail(){
+  openRideDetail() {
     this.router.navigate(['ride-detail', {rideId: JSON.stringify(this.ride.rideId)}]);
   }
 

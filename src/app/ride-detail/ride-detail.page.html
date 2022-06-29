@@ -8,14 +8,14 @@
 </ion-header>
 
 <ion-content>
-  <ion-spinner *ngIf="(!offer || !vehicle || !user || !ride) && !error" name="crescent"
+  <ion-spinner *ngIf="(!offer || !user || !ride) && !error" name="crescent"
                class="loadingSpinner"></ion-spinner>
   <ion-item color="primary">
     <ion-label style="font-size: 20px">Daten des Angebots</ion-label>
     <ion-icon name="chevron-down-outline" *ngIf="!viewOfferData" (click)="viewOfferData = true"></ion-icon>
     <ion-icon name="chevron-up-outline" *ngIf="viewOfferData" (click)="viewOfferData = false"></ion-icon>
   </ion-item>
-  <ng-container *ngIf="offer && vehicle && user && viewOfferData && ride && !error">
+  <ng-container *ngIf="offer && user && viewOfferData && ride && !error">
     <ion-list>
       <ion-item>
         <ion-label style="font-size: 15px">Start: {{offer.start}}</ion-label>
@@ -26,10 +26,10 @@
       <ion-item>
         <ion-label style="font-size: 15px">Preis: {{offer.price}}</ion-label>
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="vehicle">
         <ion-label style="font-size: 15px">Plätze: {{vehicle.seats}}</ion-label>
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="vehicle">
         <ion-label style="font-size: 15px">Stauraum: {{vehicle.cargoSpace}} Liter</ion-label>
       </ion-item>
       <ion-item>
@@ -45,7 +45,7 @@
     </ion-list>
   </ng-container>
 
-  <ng-container *ngIf="offer && vehicle && user  && ride && !error">
+  <ng-container *ngIf="offer && user  && ride && !error">
     <ion-item color="primary">
       <ion-label style="font-size: 20px">Status der Fahrt</ion-label>
     </ion-item>

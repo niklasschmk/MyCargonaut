@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
+import {Offer} from '../model/offer';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
 import {ToastService} from './toast.service';
 import {AlertService} from './alert.service';
 import {AuthService} from './auth.service';
 import User = firebase.User;
 import firebase from 'firebase/compat';
+import {Request} from '../model/request';
 import {Offer} from "../model/offer";
 
 
@@ -127,6 +129,27 @@ export class OfferService {
               err => reject(err)
             );
         }
+      });
+    });
+  }
+
+  createOfferFromRequest(req: Request): Promise<string>{
+    return new Promise((resolve) => {
+      this.offerCollection.add({
+        bookedBy: this.authService.userId,
+        date: req.date,
+        destination: req.destination,
+        price: req.lowestBid,
+        start: req.start,
+        userId: req.lowestBidUserId,
+        vehicleId : null,
+        rideId : null,
+      }).then(doc => {
+        this.afs.collection('request').doc(req.requestId).update({
+          offerId: doc.id
+        }).then(() => {
+          resolve(doc.id);
+        });
       });
     });
   }

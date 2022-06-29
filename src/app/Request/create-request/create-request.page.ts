@@ -107,7 +107,7 @@ export class CreateRequestPage implements OnInit {
           this.navCtrl.pop();
         });
       } else {
-        this.toastService.presentToast('Bitte füllel alle Felder aus!', 'danger');
+        this.toastService.presentToast('Bitte fülle alle Felder aus!', 'danger');
       }
     }
   }
