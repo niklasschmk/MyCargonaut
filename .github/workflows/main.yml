@@ -1,8 +1,5 @@
 name: Build App and Deploy on Firebase
-on:
-  push:
-    branches:
-      - refactor
+on: [push]
 
 jobs:
   build:
