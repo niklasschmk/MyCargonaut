@@ -20,10 +20,10 @@ jobs:
       - name: Run Tests
         run: npm run test
       - name: Deploy to Firebase
-        uses: w9jds/firebase-action@v1.5.0
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          args: deploy --only hosting
-        env:
-          FIREBASE_TOKEN: YOUR_FIREBASE_TOKEN_HERE
-
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+            firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARGONAUT_21A4A }}'
+            channelId: live
+            projectId: cargonaut-21a4a
 
