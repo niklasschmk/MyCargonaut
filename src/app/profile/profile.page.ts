@@ -8,9 +8,9 @@ import {Offer} from '../../model/offer';
 import {RideService} from '../../services/ride.service';
 import {Ride} from '../../model/ride';
 import {Vehicle} from '../../model/vehicle';
-import {EvaluationService} from "../../services/evaluation.service";
-import {Observable} from "rxjs";
-import {Evaluation} from "../../model/evaluation";
+import {EvaluationService} from '../../services/evaluation.service';
+import {Observable} from 'rxjs';
+import {Evaluation} from '../../model/evaluation';
 
 
 @Component({
@@ -38,7 +38,7 @@ export class ProfilePage implements OnInit {
 
   constructor(public userService: UserService, private router: Router, private route: ActivatedRoute,
               public authService: AuthService, public vehicleService: VehicleService, public rideService: RideService,
-              private evaluationService: EvaluationService) {
+              public evaluationService: EvaluationService) {
     const userJSON = this.route.snapshot.paramMap.get('userId');
     this.otherUser = JSON.parse(userJSON);
     if(this.otherUser !== null && this.otherUser !== ''){
