@@ -25,7 +25,7 @@ export class OfferCardComponent implements OnInit {
     this.userService.getUserById(this.offer.userId).then((user) => {
       this.user = user;
     });
-    if (this.booked) {
+    if(this.booked || this.offer.bookedBy !== null) {
       this.userService.getUserById(this.offer.bookedBy).then((user) => {
         this.userWhoBooked = user;
       });
