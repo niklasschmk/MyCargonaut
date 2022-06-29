@@ -32,11 +32,17 @@
         <ion-label style="font-size: 15px">Datum: {{request.date  | date:'mediumDate':'+02:00'}} {{request.date | date: 'shortTime' : '+02:00'}}</ion-label>
       </ion-item>
       <ion-item *ngIf="lowestBidUser">
-        <ion-label style="font-size: 15px">Niedrigstes Gebot: {{request.lowestBid}} CC von {{lowestBidUser.userName}}</ion-label>
+        <ion-label style="font-size: 15px" color="primary">Niedrigstes Gebot: {{request.lowestBid}} CC von {{lowestBidUser.userName}}</ion-label>
+      </ion-item>
+      <ion-item *ngIf="!request.lowestBid">
+        <ion-label style="font-size: 15px" color="primary">Es liegt noch kein Angebot eines Cargonauten vor!</ion-label>
+      </ion-item>
+      <ion-item *ngIf="request.offerId">
+        <ion-label style="font-size: 15px" color="primary"><ion-icon name="checkmark-done-outline"></ion-icon>Angebot angenommen</ion-label>
       </ion-item>
     </ion-list>
 
-    <ion-item *ngIf="!ownRequest">
+    <ion-item *ngIf="!ownRequest && request.offerId">
       <ion-button color="danger"
                   class="btn-space" (click)="bidRequest = true">
         <ion-icon name="document-outline"></ion-icon>
@@ -53,7 +59,7 @@
     </ion-item>
   </ng-container>
 
-  <ion-item *ngIf="ownRequest && !request.offerId">
+  <ion-item *ngIf="ownRequest && !request.offerId && request.lowestBid">
     <ion-button color="danger"
                 class="btn-space" (click)="acceptBid()">
       <ion-icon name="checkmark-outline"></ion-icon>

@@ -14,6 +14,6 @@
 
 <ion-content color="light-tint" class="offersTabBackground">
   <ng-container *ngFor="let request of this.requestService.request | async" class="card text-right" style="border: none">
-    <app-request-card [request]=request style="width: 100%"></app-request-card>
+    <app-request-card *ngIf="!request.offerId" [request]=request style="width: 100%"></app-request-card>
   </ng-container>
 </ion-content>

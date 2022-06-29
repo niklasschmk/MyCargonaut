@@ -9,8 +9,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-spinner *ngIf="(!offer || !vehicle || !user) && !error" name="crescent" class="loadingSpinner"></ion-spinner>
-  <ng-container *ngIf="offer && vehicle && user">
+  <ion-spinner *ngIf="(!offer || !user) && !error" name="crescent" class="loadingSpinner"></ion-spinner>
+  <ng-container *ngIf="offer && user">
     <ion-list>
       <ion-item>
         <ion-label style="font-size: 15px">Start: {{offer.start}}</ion-label>
@@ -21,10 +21,10 @@
       <ion-item>
         <ion-label style="font-size: 15px">Preis: {{offer.price}}</ion-label>
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="vehicle">
         <ion-label style="font-size: 15px">Plätze: {{vehicle.seats}}</ion-label>
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="vehicle">
         <ion-label style="font-size: 15px">Stauraum: {{vehicle.cargoSpace}} Liter</ion-label>
       </ion-item>
       <ion-item>
@@ -59,7 +59,7 @@
     <ion-icon name="warning-outline" color="red"></ion-icon>
     Ein Fehler ist aufgetreten!
   </ion-item>
-  <ion-item *ngIf="!available && !booked && offer && vehicle && user && offer.userId !== authService.userId"
+  <ion-item *ngIf="!available && !booked && offer  && user && offer.userId !== authService.userId"
             class="redFont">
     <ion-icon name="warning-outline" color="red"></ion-icon>
     Dieses Angebot wurde bereits gebucht!

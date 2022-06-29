@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-spinner *ngIf="editMode && offerStatus === 'undefined'" name="crescent" class="loadingSpinner"></ion-spinner>
+  <ion-spinner *ngIf="editMode" name="crescent" class="loadingSpinner"></ion-spinner>
   <div *ngIf="requestStatus === 'not found'">
     <ion-icon class="errorIcon" name="alert-outline"></ion-icon>
     <h5 class="errorMessage">Gesuche konnte nicht gefunden werden</h5>
@@ -71,7 +71,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">cargoSpace</ion-label>
+        <ion-label position="floating">Kofferaumvolumen (Liter)</ion-label>
         <ion-input [(ngModel)]="cargoSpace" formControlName="cargoSpace" type="number"></ion-input>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.cargoSpace">
@@ -100,5 +100,5 @@
 
     </form>
   </div>
-  <ion-button color="success" expand="block" class="btn-space requestCreate" (click)="createRequest()">Gesuche speichern</ion-button>
+  <ion-button color="success" expand="block" class="btn-space requestCreate" (click)="createRequest()">Gesuch speichern</ion-button>
 </ion-content>

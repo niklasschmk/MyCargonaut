@@ -7,6 +7,7 @@ import {AlertService} from './alert.service';
 import {AuthService} from './auth.service';
 import User = firebase.User;
 import firebase from 'firebase/compat';
+import {Request} from '../model/request';
 
 
 @Injectable({
@@ -60,7 +61,6 @@ export class OfferService {
 
   getOfferById(offerId: string, checkAuth: boolean): Promise<Offer> {
     return new Promise((resolve, reject) => {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       this.offerCollection.doc(offerId).ref.get().then((doc) => {
         if(doc.exists){
           if(!checkAuth){
@@ -110,6 +110,27 @@ export class OfferService {
       this.offerCollection.doc(offerId).update({
         bookedBy: null
       }).then(resolve);
+    });
+  }
+
+  createOfferFromRequest(req: Request): Promise<string>{
+    return new Promise((resolve) => {
+      this.offerCollection.add({
+        bookedBy: this.authService.userId,
+        date: req.date,
+        destination: req.destination,
+        price: req.lowestBid,
+        start: req.start,
+        userId: req.lowestBidUserId,
+        vehicleId : null,
+        rideId : null,
+      }).then(doc => {
+        this.afs.collection('request').doc(req.requestId).update({
+          offerId: doc.id
+        }).then(() => {
+          resolve(doc.id);
+        });
+      });
     });
   }
 }

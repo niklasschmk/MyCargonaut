@@ -44,21 +44,20 @@ export class OfferDetailPage implements OnInit {
           this.userWhoBooked = user;
           console.log(this.userWhoBooked);
         });
-      }else if (this.offer.bookedBy !== null){
+      } else if (this.offer.bookedBy !== null) {
         this.userService.getUserById(this.offer.bookedBy).then((user) => {
           this.userWhoBooked = user;
           console.log(this.userWhoBooked);
         });
       }
       //get vehicle data
-      this.vehicleService.getVehicleById(this.offer.vehicleId).then(vehicle => {
-        this.vehicle = vehicle;
-        this.userService.getUserById(this.offer.userId).then((user) => {
-          this.user = user;
-        }).catch(e => {
-          this.error = true;
-          console.log(e);
+      if (this.offer.vehicleId) {
+        this.vehicleService.getVehicleById(this.offer.vehicleId).then(vehicle => {
+          this.vehicle = vehicle;
         });
+      }
+      this.userService.getUserById(this.offer.userId).then((user) => {
+        this.user = user;
       }).catch(e => {
         this.error = true;
         console.log(e);
@@ -69,7 +68,8 @@ export class OfferDetailPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   openOtherUser(userId: string) {
     this.userService.setOtherUser(userId);
@@ -113,15 +113,15 @@ export class OfferDetailPage implements OnInit {
     });
   }
 
-  startRide(){
+  startRide() {
     this.alertService.presentAlertConfirm('Fahrt starten?',
       'Bist du sicher dass du die Fahrt starten möchtest? Dies kann nicht rückgängig gemacht werden!').then((confirm: boolean) => {
-        if(confirm){
-          this.rideService.startRide(this.offerId, this.offer.bookedBy, this.offer.date).then(() => {
-            this.navCtrl.pop();
-            this.toastService.presentToast('Die Fahrt wurde gestartet!', 'primary');
-          });
-        }
+      if (confirm) {
+        this.rideService.startRide(this.offerId, this.offer.bookedBy, this.offer.date).then(() => {
+          this.navCtrl.pop();
+          this.toastService.presentToast('Die Fahrt wurde gestartet!', 'primary');
+        });
+      }
     });
   }
 }

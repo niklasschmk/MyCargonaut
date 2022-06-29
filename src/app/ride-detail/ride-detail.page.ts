@@ -55,11 +55,13 @@ export class RideDetailPage implements OnInit {
         this.ownRide = (this.ride.driverUserId === this.authService.userId);
         this.offerService.getOfferById(this.ride.offerId, false).then(res => {
           this.offer = res;
-          this.vehicleService.getVehicleById(this.offer.vehicleId).then(v => {
-            this.vehicle = v;
-          }).catch(() => {
-            this.error = true;
-          });
+          if(this.offer.vehicleId) {
+            this.vehicleService.getVehicleById(this.offer.vehicleId).then(v => {
+              this.vehicle = v;
+            }).catch(() => {
+              this.error = true;
+            });
+          }
         });
         this.userService.getUserById(this.ride.customerUserId).then(res => {
           this.user = res;
