@@ -7,7 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
 import {RequestService} from '../../../services/request.service';
 import {Request} from '../../../model/request';
-import {NavController} from "@ionic/angular";
+import {NavController} from '@ionic/angular';
 import {Observable} from 'rxjs';
 import {OfferService} from '../../../services/offer.service';
 import {AlertService} from '../../../services/alert.service';
@@ -31,8 +31,8 @@ export class RequestDetailPage implements OnInit {
   constructor(public requestService: RequestService, public vehicleService: VehicleService, private userService: UserService,
               public toastService: ToastService,
               private route: ActivatedRoute, private router: Router,
-              private authService: AuthService, private navCtrl: NavController,
-              private alertService: AlertService) {
+              public authService: AuthService, private navCtrl: NavController,
+              private alertService: AlertService, private offerService: OfferService) {
     const requestJSON = this.route.snapshot.paramMap.get('requestId');
     this.requestId = JSON.parse(requestJSON);
     //get request
@@ -93,7 +93,7 @@ export class RequestDetailPage implements OnInit {
   }
 
   acceptBid() {
-    this.alertService.presentAlertConfirm('Gebot annehmen?', 'Sind Sie sicher dass Sie diese Gebot annehmen möchten?').then(res => {
+    this.alertService.presentAlertConfirm('Gebot annehmen?', 'Sind Sie sicher dass Sie dieses Gebot annehmen möchten?').then(res => {
       if (res) {
         this.offerService.createOfferFromRequest(this.request).then((offerId) => {
           this.router.navigate(['offer-detail', {offerId: JSON.stringify(offerId)}]).then(() => {

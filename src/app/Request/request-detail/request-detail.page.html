@@ -48,7 +48,7 @@
       </ion-item>
     </ion-list>
 
-    <ion-item *ngIf="!ownRequest && request.offerId">
+    <ion-item *ngIf="!ownRequest && !request.offerId">
       <ion-button color="danger"
                   class="btn-space" (click)="bidRequest = true">
         <ion-icon name="document-outline"></ion-icon>

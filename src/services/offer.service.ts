@@ -8,7 +8,6 @@ import {AuthService} from './auth.service';
 import User = firebase.User;
 import firebase from 'firebase/compat';
 import {Request} from '../model/request';
-import {Offer} from "../model/offer";
 
 
 @Injectable({
