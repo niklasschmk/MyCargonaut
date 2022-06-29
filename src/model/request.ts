@@ -6,6 +6,9 @@ export class Request {
   seats: number;
   start: string;
   userId: string;
+  lowestBid: number;
+  lowestBidUserId: string;
+  offerId: string;
 
   constructor(cargoSpace: number, date: Date, destination: string, seats: number, start: string, userId: string) {
     this.cargoSpace = cargoSpace;

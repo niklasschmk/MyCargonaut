@@ -74,6 +74,13 @@ export class RequestService {
       });
     });
   }
+
+  getRequestObserveById(requestId: string): Promise<Observable<Request>> {
+    return new Promise((resolve, reject) => {
+      resolve(this.afs.collection<Request>('request').doc(requestId).valueChanges({idField: 'requestId'}));
+    });
+  }
+
   /**
    * Gets own Request of user and saves them in Service
    */
@@ -82,5 +89,24 @@ export class RequestService {
       ref
         .where('userId', '==', this.authService.userId)
     ).valueChanges({idField: 'id'});
+  }
+
+  bid(request: Request, price: number): Promise<void>{
+    return new Promise<void>((resolve, reject) => {
+      if(price === undefined){
+        this.toastService.presentToast('Bitte gib einen Preis ein!', 'danger');
+        reject();
+        return;
+      }if(price >= request.lowestBid){
+        this.toastService.presentToast('Bitte gib einen niedrigeren Preis ein!', 'danger');
+        reject();
+        return;
+      }this.requestCollection.doc(request.requestId).update({
+        lowestBid: price,
+        lowestBidUserId: this.authService.userId
+      }).then(() =>{
+        resolve();
+      });
+    });
   }
 }
