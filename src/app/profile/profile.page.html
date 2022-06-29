@@ -15,46 +15,50 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-item>
-          <h3 class="header">Willkommen {{authService.user.userName}}</h3>
-        </ion-item>
-        <ion-item>
-          <p>Vorname: {{authService.user.firstName}}</p>
-        </ion-item>
-        <ion-item>
-          <p>Nachname: {{authService.user.lastName}}</p>
-        </ion-item>
-        <ion-item>
-          <p>Meine E-Mail: <a>{{authService.user.email}}</a></p>
-        </ion-item>
-        <ion-item>
-          <p>Auf meinem Cargonaut-Konto befinden sich {{authService.user.cargoCoins}} Cargocoins</p>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="12">
-        <ion-list>
-          <ion-item>
-            <ion-label style="font-size: 20px">Meine Fahrzeuge</ion-label>
-            <ion-icon name="add-outline" (click)="openAddVehicle()" color="primary"></ion-icon>
-          </ion-item>
-          <ng-container *ngFor="let vehicle of vehicleService.vehicles | async">
-            <app-vehicle-item [vehicle] = vehicle></app-vehicle-item>
-          </ng-container>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="12">
-        <ion-list>
-          <ion-item>
-            <ion-label style="font-size: 20px">Meine Bewertungen</ion-label>
-          </ion-item>
-          <ng-container *ngFor="let eval of evaluationService.evals | async">
-            <app-eval-card [eval] = eval></app-eval-card>
-          </ng-container>
-        </ion-list>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <h3 class="header">Willkommen {{authService.user.userName}}</h3>
+            </ion-item>
+            <ion-item>
+              <p>Vorname: {{authService.user.firstName}}</p>
+            </ion-item>
+            <ion-item>
+              <p>Nachname: {{authService.user.lastName}}</p>
+            </ion-item>
+            <ion-item>
+              <p>Meine E-Mail: <a>{{authService.user.email}}</a></p>
+            </ion-item>
+            <ion-item>
+              <p>Auf meinem Cargonaut-Konto befinden sich {{authService.user.cargoCoins}} Cargocoins</p>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            <ion-list>
+              <ion-item>
+                <ion-label style="font-size: 20px">Meine Fahrzeuge</ion-label>
+                <ion-icon name="add-outline" (click)="openAddVehicle()" color="primary"></ion-icon>
+              </ion-item>
+              <ng-container *ngFor="let vehicle of vehicleService.vehicles | async">
+                <app-vehicle-item [vehicle] = vehicle></app-vehicle-item>
+              </ng-container>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            <ion-list>
+              <ion-item>
+                <ion-label style="font-size: 20px">Meine Bewertungen</ion-label>
+              </ion-item>
+              <ng-container *ngFor="let eval of evaluationService.evals | async">
+                <app-eval-card [eval] = eval></app-eval-card>
+              </ng-container>
+            </ion-list>
+          </ion-col>
+        </ion-row>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -84,7 +88,7 @@
           <ion-item>
             <ion-label style="font-size: 20px">Bewertungen des Nutzers</ion-label>
           </ion-item>
-          <ng-container *ngFor="let eval of evaluationService.evals | async">
+          <ng-container *ngFor="let eval of evaluationService.evals | async, let i = index">
             <app-eval-card [eval] = eval></app-eval-card>
           </ng-container>
         </ion-list>

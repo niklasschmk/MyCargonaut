@@ -24,7 +24,6 @@ export class OfferCardComponent implements OnInit {
     this.userService.getUserById(this.offer.userId).then((user) => {
       this.user = user;
     });
-    console.log(this.offer.offerId);
   }
   openOfferDetail(offerId: string) {
     this.router.navigate(['offer-detail', {offerId: JSON.stringify(offerId)}]);

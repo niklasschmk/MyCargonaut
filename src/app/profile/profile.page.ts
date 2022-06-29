@@ -5,6 +5,8 @@ import {AuthService} from '../../services/auth.service';
 import {VehicleService} from '../../services/vehicle.service';
 import {User} from '../../model/user';
 import {EvaluationService} from "../../services/evaluation.service";
+import {Observable} from "rxjs";
+import {Evaluation} from "../../model/evaluation";
 
 
 @Component({
@@ -16,6 +18,9 @@ export class ProfilePage implements OnInit {
   differentUser = false;
   otherUser: string;
   userOther: User;
+  evaluations: Observable<Evaluation[]>;
+  numberOfEvals: number = 0;
+  overallRating: number = 0;
   constructor(public userService: UserService, private router: Router, private route: ActivatedRoute,
               public authService: AuthService, public vehicleService: VehicleService,
               public evaluationService: EvaluationService) {
