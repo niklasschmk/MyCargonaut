@@ -23,6 +23,7 @@
     "@compodoc/compodoc": "^1.1.19",
     "@ionic/angular": "^6.0.0",
     "firebase": "^9.8.2",
+    "firebase-tools": "^10.9.2",
     "nodejs": "^0.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
