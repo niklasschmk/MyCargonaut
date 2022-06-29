@@ -8,6 +8,7 @@ import {Offer} from '../../model/offer';
 import {RideService} from '../../services/ride.service';
 import {Ride} from '../../model/ride';
 import {Vehicle} from '../../model/vehicle';
+import {Observable} from 'rxjs';
 
 
 @Component({
@@ -24,10 +25,13 @@ export class ProfilePage implements OnInit {
   otherUser: string;
   userOther: User;
   myOffers: Offer[] = [];
+  myOffersObserve: Observable<Offer[]>;
   rides: Ride[] = [];
+  ridesObserve: Observable<Ride[]>;
   finishedRides: Ride[] = [];
   actualRides: Ride[] = [];
   vehicles: Vehicle[] = [];
+  vehicleObserve: Observable<Vehicle[]>;
 
   constructor(public userService: UserService, private router: Router, private route: ActivatedRoute,
               public authService: AuthService, public vehicleService: VehicleService, public rideService: RideService) {
@@ -73,23 +77,33 @@ export class ProfilePage implements OnInit {
    * Get Data
    */
   getData(){
-    this.vehicleService.getVehicles();
     this.rideService.getMyOffers().then(res => {
-      this.myOffers = res;
+      this.myOffersObserve = res;
+      this.myOffersObserve.subscribe(offers => {
+        this.myOffers = offers;
+      });
     }).then(() => {
       this.rideService.getMyRides().then(res => {
-        this.rides = res;
+        this.ridesObserve = res;
+        this.ridesObserve.subscribe(rides => {
+          this.rides = rides;
+          this.filterRides();
+        });
       }).then(() => {
-        this.filterRides();
         this.vehicleService.getVehicles().then(res => {
-          this.vehicles = res;
+          this.vehicleObserve = res;
+          this.vehicleObserve.subscribe(vehicles => {
+            this.vehicles = vehicles;
+          });
         });
       });
     });
   }
 
   filterRides(){
-    this.finishedRides = this.rides.filter(finishedRide => finishedRide.closed);
-    this.actualRides = this.rides.filter(actualRide => !actualRide.closed);
+    if(this.rides){
+      this.finishedRides = this.rides.filter(finishedRide => finishedRide.closed);
+      this.actualRides = this.rides.filter(actualRide => !actualRide.closed);
+    }
   }
 }

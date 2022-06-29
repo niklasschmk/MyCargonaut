@@ -30,6 +30,8 @@ export class CreateOfferPage implements OnInit {
   offers: Offer[];
   currentVehicle: Vehicle;
   createOfferForm: FormGroup;
+  vehicles: Vehicle[];
+  vehicleObserve: Observable<Vehicle[]>;
 
   validationMessages = {
     destination: [
@@ -97,7 +99,12 @@ export class CreateOfferPage implements OnInit {
         this.offerStatus = err;
       });
       //get vehicles of logged in user
-      this.vehicleService.getVehicles();
+      this.vehicleService.getVehicles().then(res => {
+        this.vehicleObserve = res;
+        this.vehicleObserve.subscribe(vehicles => {
+          this.vehicles = vehicles;
+        });
+      });
     }
   }
 

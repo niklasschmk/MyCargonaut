@@ -17,7 +17,7 @@
   </ion-item>
 
   <ion-item color="primary" *ngIf="rides">
-    <ion-label style="font-size: 20px">Aktive Fahrten</ion-label>
+    <ion-label>Aktive Fahrten</ion-label>
     <ion-icon name="chevron-down-outline" *ngIf="!viewRides" (click)="viewRides = true"></ion-icon>
     <ion-icon name="chevron-up-outline" *ngIf="viewRides" (click)="viewRides = false"></ion-icon>
   </ion-item>
@@ -27,7 +27,7 @@
   </div>
 
   <ion-item color="primary" *ngIf="rides">
-    <ion-label style="font-size: 20px">Abgeschlossene Fahrten</ion-label>
+    <ion-label>Abgeschlossene Fahrten</ion-label>
     <ion-icon name="chevron-down-outline" *ngIf="!viewFinishedRides" (click)="viewFinishedRides = true"></ion-icon>
     <ion-icon name="chevron-up-outline" *ngIf="viewFinishedRides" (click)="viewFinishedRides = false"></ion-icon>
   </ion-item>
@@ -37,7 +37,7 @@
   </div>
 
   <ion-item color="primary" *ngIf="myOffers">
-    <ion-label style="font-size: 20px">Meine Angebote</ion-label>
+    <ion-label>Meine Angebote</ion-label>
     <ion-icon name="add-outline" (click)="openAddOffer()" style="color: white; margin-right: 10px"></ion-icon>
     <ion-icon name="chevron-down-outline" *ngIf="!viewMyOffers" (click)="viewMyOffers = true"></ion-icon>
     <ion-icon name="chevron-up-outline" *ngIf="viewMyOffers" (click)="viewMyOffers = false"></ion-icon>
@@ -50,8 +50,8 @@
   </div>
 
 
-  <ion-item color="primary">
-    <ion-label style="font-size: 20px">Meine Fahrzeuge</ion-label>
+  <ion-item color="primary" *ngIf="vehicles">
+    <ion-label>Meine Fahrzeuge</ion-label>
     <ion-icon name="add-outline" (click)="openAddVehicle()" style="color: white; margin-right: 10px"></ion-icon>
     <ion-icon name="chevron-down-outline" *ngIf="!viewVehicles" (click)="viewVehicles = true"></ion-icon>
     <ion-icon name="chevron-up-outline" *ngIf="viewVehicles" (click)="viewVehicles = false"></ion-icon>

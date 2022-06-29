@@ -18,26 +18,6 @@ export class RideService {
   constructor(private afs: AngularFirestore, public authService: AuthService, private toastService: ToastService) {
   }
 
-  getRideById(offerId: string, checkAuth: boolean): Promise<Ride> {
-    return new Promise((resolve, reject) => {
-      this.afs.collection<Ride>('ride').doc(offerId).ref.get().then((doc) => {
-        if (doc.exists) {
-          if (!checkAuth) {
-            resolve(doc.data());
-          } else {
-            const ride = doc.data();
-            if (ride.driverUserId === this.authService.user.userId) {
-              resolve(ride);
-            } else {
-              reject('ride: no auth');
-            }
-          }
-        } else {
-          reject('ride not found');
-        }
-      });
-    });
-  }
 
   getRideObserveById(offerId: string): Promise<Observable<Ride>> {
     return new Promise((resolve) => {
@@ -45,39 +25,19 @@ export class RideService {
     });
   }
 
-  getBookedOffers(): Promise<Offer[]> {
-    return new Promise<Offer[]>((resolve, reject) => {
-      const bookedOffers: Offer[] = [];
-      this.afs.collection<Offer>('offer').ref.where('bookedBy', '==', this.authService.userId).where('rideId', '==', null)
-        .get().then(docSnaps => {
-        for (const docSnap of docSnaps.docs) {
-          const offer = docSnap.data();
-          offer.offerId = docSnap.id;
-          bookedOffers.push(offer);
-        }
-        resolve(bookedOffers);
-      }).catch(err => {
-        reject(err);
-      });
+
+  getBookedOffers(): Promise<Observable<Offer[]>> {
+    return new Promise<Observable<Offer[]>>((resolve) => {
+      resolve(this.afs.collection<Offer>('offer', ref =>
+        ref.where('bookedBy', '==', this.authService.userId).where('rideId', '==', null)
+      ).valueChanges({idField: 'offerId'}));
     });
   }
 
-  getMyOffers(): Promise<Offer[]> {
-    return new Promise<Offer[]>((resolve, reject) => {
-      //wait for authService to be initialized
-      const offers: Offer[] = [];
-      this.afs.collection<Offer>('offer')
-        .ref.where('userId', '==', this.authService.userId)
-        .get().then(docSnaps => {
-        for (const docSnap of docSnaps.docs) {
-          const offer = docSnap.data();
-          offer.offerId = docSnap.id;
-          offers.push(offer);
-        }
-        resolve(offers);
-      }).catch(err => {
-        reject(err);
-      });
+  getMyOffers(): Promise<Observable<Offer[]>> {
+    return new Promise<Observable<Offer[]>>((resolve) => {
+      resolve(this.afs.collection<Offer>('offer', ref =>
+        ref.where('userId', '==', this.authService.userId)).valueChanges({idField: 'offerId'}));
     });
   }
 
@@ -103,40 +63,17 @@ export class RideService {
     });
   }
 
-  getMyRides(): Promise<Ride[]> {
-    return new Promise<Ride[]>((resolve, reject) => {
-      const myRides: Ride[] = [];
-      this.afs.collection<Ride>('ride')
-        .ref.where('driverUserId', '==', this.authService.userId)
-        .get().then(docSnaps => {
-        for (const docSnap of docSnaps.docs) {
-          const ride = docSnap.data();
-          ride.rideId = docSnap.id;
-          myRides.push(ride);
-        }
-        resolve(myRides);
-      }).catch(err => {
-        reject(err);
-      });
+  getMyRides(): Promise<Observable<Ride[]>> {
+    return new Promise<Observable<Ride[]>>((resolve) => {
+      resolve(this.afs.collection<Ride>('ride', ref =>
+        ref.where('driverUserId', '==', this.authService.userId)).valueChanges({idField: 'rideId'}));
     });
   }
 
-  getRidesForCustomer(): Promise<Ride[]> {
-    return new Promise<Ride[]>((resolve, reject) => {
-      const myRides: Ride[] = [];
-      this.afs.collection<Ride>('ride')
-        .ref.where('customerUserId', '==', this.authService.userId)
-        .orderBy('date')
-        .get().then(docSnaps => {
-        for (const docSnap of docSnaps.docs) {
-          const ride = docSnap.data();
-          ride.rideId = docSnap.id;
-          myRides.push(ride);
-        }
-        resolve(myRides);
-      }).catch(err => {
-        reject(err);
-      });
+  getRidesForCustomer(): Promise<Observable<Ride[]>> {
+    return new Promise<Observable<Ride[]>>((resolve) => {
+      resolve(this.afs.collection<Ride>('ride', ref =>
+        ref.where('customerUserId', '==', this.authService.userId)).valueChanges({idField: 'rideId'}));
     });
   }
 
@@ -168,7 +105,7 @@ export class RideService {
     });
   }
 
-  setRideToPaid(rideId: string): Promise<void>{
+  setRideToPaid(rideId: string): Promise<void> {
     console.log(rideId);
     return new Promise<void>((resolve) => {
       this.afs.collection<Ride>('ride').doc(rideId).update({
