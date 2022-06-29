@@ -13,6 +13,16 @@
 </ion-header>
 
 <ion-content *ngIf="authService.user && !differentUser">
+  <div *ngIf="this.authService.user.picturePath!==null">
+    <ion-avatar class="classAvatarCenter">
+      <img alt="userProfile"  [src]="this.authService.user.picturePath">
+    </ion-avatar>
+  </div>
+  <div *ngIf="this.authService.user.picturePath===null" >
+    <ion-avatar class="classAvatarCenter">
+      <img alt="userProfile" src="assets/userProfile.jpg">
+    </ion-avatar>
+  </div>
   <ion-grid>
     <ion-row>
       <ion-col>
@@ -101,7 +111,6 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-
 <ion-content *ngIf="authService.user && differentUser && userOther">
   <ion-grid>
     <ion-row>

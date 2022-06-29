@@ -76,6 +76,28 @@
         </ng-container>
       </div>
     </ion-item>
+
+    <ion-item *ngIf="newUser">
+      <ion-label position="floating">Profilbild hochladen</ion-label>
+      <br>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="3">
+            <div [hidden]="this.picturePath!==null">
+              <img alt="eventAvatar" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+            </div>
+          </ion-col>
+          <ion-col size="9">
+            <ion-button>
+              <input type="file" accept="image/*" (change)="uploadImage($event)" name="inputFile">
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-progress-bar *ngIf="this.picturePath===null" type="indeterminate"></ion-progress-bar>
+      <ion-progress-bar *ngIf="this.picturePath!==null" value="100%"></ion-progress-bar>
+    </ion-item>
+
   </form>
   <div *ngIf="newUser" style="margin-top: 20px">
     <ion-button color="success" expand="block" class="btn-space" (click)="register()">Registrieren</ion-button>

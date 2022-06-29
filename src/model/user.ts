@@ -6,6 +6,7 @@ export class User{
   userName: string;
   cargoCoins: number;
   birthDay: string;
+  picturePath: string;
 
   constructor(firstName: string, lastName: string, userName: string, cargoCoins: number, birthDay: string) {
     this.firstName = firstName;
