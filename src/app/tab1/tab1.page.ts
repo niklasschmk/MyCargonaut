@@ -5,8 +5,6 @@ import {NavController} from '@ionic/angular';
 import {ToastService} from '../../services/toast.service';
 import {UserService} from '../../services/user.service';
 import {OfferService} from '../../services/offer.service';
-import {AngularFirestore} from '@angular/fire/compat/firestore';
-import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-tab1',
@@ -16,8 +14,7 @@ import {first} from 'rxjs/operators';
 export class Tab1Page implements OnInit{
 
   constructor(public authService: AuthService, private router: Router, private nacCtrl: NavController,
-              public offerService: OfferService, private toastService: ToastService, public userService: UserService,
-              private firestore: AngularFirestore) {}
+              public offerService: OfferService, private toastService: ToastService, public userService: UserService) {}
 
   async ngOnInit(){}
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Offer} from '../../model/offer';
 import {User} from '../../model/user';
 import {OfferService} from '../../services/offer.service';
@@ -16,6 +16,7 @@ export class OfferCardComponent implements OnInit {
   @Input() booked: boolean;
   user: User;
   userWhoBooked: User;
+
   constructor(private offerService: OfferService, private authService: AuthService, private router: Router,
               public userService: UserService) {
   }
@@ -24,14 +25,18 @@ export class OfferCardComponent implements OnInit {
     this.userService.getUserById(this.offer.userId).then((user) => {
       this.user = user;
     });
-    this.userService.getUserById(this.offer.bookedBy).then((user) => {
-      this.userWhoBooked = user;
-    });
+    if (this.booked) {
+      this.userService.getUserById(this.offer.bookedBy).then((user) => {
+        this.userWhoBooked = user;
+      });
+    }
   }
+
   openOfferDetail(offerId: string) {
     this.router.navigate(['offer-detail', {offerId: JSON.stringify(offerId)}]);
   }
-  openOtherUser(userId: string){
+
+  openOtherUser(userId: string) {
     this.userService.setOtherUser(userId);
     this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]);
   }
