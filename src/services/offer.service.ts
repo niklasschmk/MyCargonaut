@@ -36,6 +36,7 @@ export class OfferService {
         start,
         vehicleId,
         bookedBy: null,
+        rideId: null
       }).then(
         res => resolve(res),
         err => reject(err)
@@ -73,7 +74,7 @@ export class OfferService {
             }
           }
         } else {
-          reject('not found');
+          reject('offer not found');
         }
       });
     });

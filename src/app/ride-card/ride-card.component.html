@@ -1,0 +1,13 @@
+<ion-card *ngIf="offer && ride && user && vehicle" color="light" (click)="openRideDetail()">
+  <ion-card-header>
+    <ion-card-title>{{this.offer.start}} <ion-icon name="arrow-forward-outline"></ion-icon>
+    {{this.offer.destination}}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <p> Kunde: <a>{{this.user.userName}}</a></p>
+    <p>Fahrzeug: {{this.vehicle.name}}</p>
+    <p *ngIf="!ride.closed"><b>Aktueller Status: {{this.ride.status[this.ride.status.length -1]}}</b></p>
+    <p *ngIf="ride.closed && ride.paid"><b>Aktueller Status: Abgeschlossen, Bezahlt</b></p>
+    <p *ngIf="ride.closed && !ride.paid"><b>Aktueller Status: Abgeschlossen, <span style="color: #982727">Nicht bezahlt</span></b></p>
+  </ion-card-content>
+</ion-card>

@@ -10,7 +10,6 @@ import {ToastService} from './toast.service';
   providedIn: 'root'
 })
 export class VehicleService {
-  vehicles: Observable<Vehicle[]>;
   vehicleCollection: AngularFirestoreCollection<Vehicle>;
 
   constructor(private afs: AngularFirestore, public authService: AuthService,
@@ -22,11 +21,11 @@ export class VehicleService {
   /**
    * Get all vehicles of the logged in user
    */
-  getVehicles() {
-    this.vehicles = this.afs.collection<Vehicle>('vehicle', ref =>
-      ref
-        .where('userId', '==', this.authService.userId)
-    ).valueChanges({idField: 'vehicleId'});
+  getVehicles(): Promise<Observable<Vehicle[]>>{
+    return new Promise<Observable<Vehicle[]>>((resolve) => {
+     resolve(this.afs.collection<Vehicle>('vehicle',ref =>
+     ref.where('userId', '==', this.authService.userId)).valueChanges({idField: 'vehicleId'}));
+    });
   }
 
   /**
@@ -40,7 +39,7 @@ export class VehicleService {
         if (doc.exists){
           resolve(doc.data());
         } else {
-          reject('not found');
+          reject('vehicle not found');
         }
       });
     });
@@ -52,7 +51,6 @@ export class VehicleService {
    * @param name name of the vehicle
    * @param seats number of seats
    * @param cargoSpace cargoSpace in liters
-   * @param userId userId of the user
    */
   addVehicle(name: string, seats: number, cargoSpace: number): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -64,7 +62,7 @@ export class VehicleService {
       }).then(() => {
         this.toastService.presentToast('Fahrzeug wurde gespeichert', 'primary');
         resolve();
-      }).catch(err => {
+      }).catch(() => {
         reject();
       });
     });
@@ -84,11 +82,10 @@ export class VehicleService {
           if(confirm){
             //delete vehicle if user confirmed
             this.vehicleCollection.doc(vehicleId).delete()
-              .then(
-                res => {
+              .then(() => {
                   this.toastService.presentToast('Fahrzeug wurde gelöscht', 'primary');
                   resolve();
-                }).catch(err => {
+                }).catch(() => {
                   reject();
             });
           }

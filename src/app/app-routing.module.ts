@@ -41,8 +41,15 @@ const routes: Routes = [
   {
     path: 'create-evaluation',
     loadChildren: () => import('./Evaluation/create-evaluation/create-evaluation.module').then( m => m.CreateEvaluationPageModule)
+  },
+  {
+    path: 'bookings',
+    loadChildren: () => import('./bookings/bookings.module').then(m => m.BookingsPageModule)
+  },
+  {
+    path: 'ride-detail',
+    loadChildren: () => import('./ride-detail/ride-detail.module').then( m => m.RideDetailPageModule)
   }
-
 
 
 

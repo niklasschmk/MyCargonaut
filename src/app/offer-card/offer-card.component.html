@@ -27,6 +27,14 @@
             </p>
           </ion-col>
         </ion-row>
+        <ion-row>
+          <ion-col>
+            <p *ngIf="booked">Status: <span
+              style="color: #982727">Wartend</span></p>
+            <p *ngIf="!booked && offer.bookedBy !== null && userWhoBooked" style="color: #279854">Gebucht von {{userWhoBooked.userName}}</p>
+            <p *ngIf="!booked && offer.bookedBy === null" style="color: #005B52">Nicht gebucht</p>
+          </ion-col>
+        </ion-row>
       </ion-grid>
     </ion-card-content>
   </ion-card>

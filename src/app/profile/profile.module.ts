@@ -10,15 +10,21 @@ import { ProfilePage } from './profile.page';
 import {VehicleItemComponent} from '../Vehicles/vehicle-item/vehicle-item.component';
 import {EvalCardComponent} from "../Evaluation/eval-card/eval-card.component";
 import {IonicRatingComponentModule} from "ionic-rating-component";
+import {Tab1PageModule} from '../tab1/tab1.module';
+import {RideCardComponent} from '../ride-card/ride-card.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        IonicModule,
-        ProfilePageRoutingModule,
-        IonicRatingComponentModule
-    ],
-    declarations: [ProfilePage, VehicleItemComponent, EvalCardComponent]
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    ProfilePageRoutingModule,
+    Tab1PageModule,
+    IonicRatingComponentModule
+  ],
+  exports: [
+    RideCardComponent
+  ],
+  declarations: [ProfilePage, VehicleItemComponent, RideCardComponent, EvalCardComponent]
 })
 export class ProfilePageModule {}
