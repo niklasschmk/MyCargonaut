@@ -32,10 +32,10 @@ export class EvaluationService {
         );
     });
   }
-  getEvaluationsById(userId: string): Promise<Observable<Evaluation[]>> {
+  getEvaluationsById(): Promise<Observable<Evaluation[]>> {
     return new Promise<Observable<Evaluation[]>>((resolve) => {
       resolve(this.afs.collection<Evaluation>('evaluation', ref =>
-      ref.where('userId', '==', userId)).valueChanges({idField: 'evaluationId'}));
+      ref.where('userId', '==', this.authService.userId)).valueChanges({idField: 'evaluationId'}));
     })
   }
   getEvalById(evalId: string, checkAuth: boolean): Promise<Evaluation> {

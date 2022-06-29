@@ -47,7 +47,7 @@ export class ProfilePage implements OnInit {
       this.differentUser = true;
       this.userService.getUserById(this.otherUser).then(user => {
         this.userOther = user;
-        this.evaluationService.getEvaluationsById(this.otherUser).then(res => {
+        this.evaluationService.getEvaluationsById().then(res => {
           this.evaluationsObserve = res;
           this.evaluationsObserve.subscribe(evaluations => {
             this.evaluations = evaluations;
@@ -62,16 +62,6 @@ export class ProfilePage implements OnInit {
   }
 
   ngOnInit() {
-    if(!this.differentUser){
-      if(this.authService.user) {
-        this.evaluationService.getEvaluationsById(this.authService.user.userId).then(res => {
-          this.evaluationsObserve = res;
-          this.evaluationsObserve.subscribe(evaluations => {
-            this.evaluations = evaluations;
-          });
-        });
-      }
-    }
   }
 
   /**
@@ -117,7 +107,18 @@ export class ProfilePage implements OnInit {
           this.vehicleObserve.subscribe(vehicles => {
             this.vehicles = vehicles;
           });
-        });
+        }).then(() => {
+          if(!this.differentUser){
+            if(this.authService.user) {
+              this.evaluationService.getEvaluationsById().then(res => {
+                this.evaluationsObserve = res;
+                this.evaluationsObserve.subscribe(evaluations => {
+                  this.evaluations = evaluations;
+                });
+              });
+            }
+          }
+        })
       });
     });
   }
