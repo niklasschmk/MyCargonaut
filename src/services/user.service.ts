@@ -86,6 +86,7 @@ export class UserService {
     this.otherUserId = userId;
   }
 
+
   payRide(price: number, customerUserId: string, driverUserId: string): Promise<void> {
     return new Promise((resolve, reject) => {
       let customerCoins: number;
