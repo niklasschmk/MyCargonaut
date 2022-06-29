@@ -27,6 +27,9 @@
         <ion-item>
           <p>Meine E-Mail: <a>{{authService.user.email}}</a></p>
         </ion-item>
+        <ion-item>
+          <p>Auf meinem Cargonaut-Konto befinden sich {{authService.user.cargoCoins}} Cargocoins</p>
+        </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -71,7 +74,7 @@
           <p>Nachname: {{userOther.lastName}}</p>
         </ion-item>
         <ion-item>
-          <p>Kontaktiere mich über meine E-Mail: <a>{{userOther.email}}</a></p>
+          <p>Kontaktiere {{userOther.userName}} per E-Mail: <a>{{userOther.email}}</a></p>
         </ion-item>
       </ion-col>
     </ion-row>

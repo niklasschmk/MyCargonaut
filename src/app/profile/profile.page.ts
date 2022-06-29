@@ -27,10 +27,6 @@ export class ProfilePage implements OnInit {
         this.userOther = user;
         this.evaluationService.getEvaluationsById(this.otherUser);
       });
-    } else {
-      this.evaluationService.getEvaluationsById(authService.userId);
-      console.log(authService.userId);
-      console.log(evaluationService.evals);
     }
   }
 
@@ -39,6 +35,11 @@ export class ProfilePage implements OnInit {
   }
 
   ngOnInit() {
+    if(!this.differentUser){
+      if(this.authService.user) {
+        this.evaluationService.getEvaluationsById(this.authService.user.userId);
+      }
+    }
   }
 
   /**

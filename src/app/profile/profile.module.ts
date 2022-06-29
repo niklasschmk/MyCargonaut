@@ -9,14 +9,16 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ProfilePage } from './profile.page';
 import {VehicleItemComponent} from '../Vehicles/vehicle-item/vehicle-item.component';
 import {EvalCardComponent} from "../Evaluation/eval-card/eval-card.component";
+import {IonicRatingComponentModule} from "ionic-rating-component";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    ProfilePageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        ProfilePageRoutingModule,
+        IonicRatingComponentModule
+    ],
     declarations: [ProfilePage, VehicleItemComponent, EvalCardComponent]
 })
 export class ProfilePageModule {}
