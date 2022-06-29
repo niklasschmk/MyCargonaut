@@ -1,5 +1,5 @@
 
-name: Build Angular App and Deploy on Firebase
+name: Build Ionic App and Deploy on Firebase
 on:
   push:
     branches:
