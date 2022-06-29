@@ -6,7 +6,7 @@
     </ion-buttons>
     <ion-title>Profil</ion-title>
     <ion-buttons slot="end">
-    <ion-icon *ngIf="authService.user && !differentUser" color="danger" name="log-out" (click)="this.authService.logout()"></ion-icon>
+    <ion-icon *ngIf="authService.user && !differentUser" color="danger" class="iconButton" name="log-out" (click)="this.authService.logout()"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
