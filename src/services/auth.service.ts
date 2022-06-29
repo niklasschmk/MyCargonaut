@@ -19,6 +19,7 @@ export class AuthService {
   user: User | null = null;
   userId: string | null = '0';
   userEmail: string | null = '';
+
   authUser: any;
 
   constructor(public auth: AngularFireAuth, public toastService: ToastService, public userService: UserService) {
@@ -103,7 +104,7 @@ export class AuthService {
         this.userService.checkIfUserExists(result.user.uid).then(userExists => {
           console.log(userExists);
           if (!userExists) {
-            this.userService.createUser(result.user.email, result.user.email, result.user.uid, '', '', undefined);
+            this.userService.createUser(result.user.email, result.user.email, result.user.uid, '', '', undefined, undefined);
           }
         });
       }).catch((err)=>{

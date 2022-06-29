@@ -5,14 +5,25 @@
     </ion-buttons>
     <ion-title>profile</ion-title>
     <ion-buttons slot="end">
-    <ion-icon *ngIf="authService.user && !differentUser" color="danger" name="log-out" (click)="this.authService.logout()"></ion-icon>
+      <ion-icon *ngIf="authService.user && !differentUser" color="danger" name="log-out"
+                (click)="this.authService.logout()"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content *ngIf="authService.user && !differentUser">
-  <ion-item>
-    <h3 class="header">Willkommen {{this.authService.userEmail}}</h3>
+  <div *ngIf="this.authService.user.picturePath!==null">
+    <ion-avatar class="classAvatarCenter">
+      <img alt="userProfile"  [src]="this.authService.user.picturePath">
+    </ion-avatar>
+  </div>
+  <div *ngIf="this.authService.user.picturePath===null" >
+    <ion-avatar class="classAvatarCenter">
+      <img alt="userProfile" src="assets/userProfile.jpg">
+    </ion-avatar>
+  </div>
+  <ion-item >
+    <h3 class="setItemsCenter">Willkommen {{this.authService.userEmail}}</h3>
   </ion-item>
   <ion-item>
     <ion-label style="font-size: 20px">Meine Fahrzeuge</ion-label>
@@ -20,11 +31,10 @@
   </ion-item>
   <ion-list>
     <ng-container *ngFor="let vehicle of vehicleService.vehicles | async">
-      <app-vehicle-item [vehicle] = vehicle></app-vehicle-item>
+      <app-vehicle-item [vehicle]=vehicle></app-vehicle-item>
     </ng-container>
   </ion-list>
 </ion-content>
-
 <ion-content *ngIf="authService.user && differentUser && userOther">
   <ion-item>
     <h3 class="header">Profil von {{userOther.userName}}</h3>
@@ -43,6 +53,6 @@
 <ion-content *ngIf="!authService.user">
   <ion-item (click)="openLogin()">
     <p>Um auf deine Daten zuzugreifen musst du dich anmelden!</p>
-      <ion-icon name="chevron-forward-outline" color="primary"></ion-icon>
+    <ion-icon name="chevron-forward-outline" color="primary"></ion-icon>
   </ion-item>
 </ion-content>

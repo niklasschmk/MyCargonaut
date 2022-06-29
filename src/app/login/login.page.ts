@@ -4,6 +4,7 @@ import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
 import {ToastService} from '../../services/toast.service';
 import {Router} from '@angular/router';
+import {AngularFireStorage} from "@angular/fire/compat/storage";
 
 @Component({
   selector: 'app-login',
@@ -17,9 +18,10 @@ export class LoginPage implements OnInit {
   userName: string;
   firstName: string;
   lastName: string;
+  picturePath: string;
   birthDay: string;
   loginForm: FormGroup;
-
+  file: string;
   validationMessages = {
     userName: [
       {type: 'required', message: 'Bitte gib einen Nutzernamen an!'},
@@ -44,7 +46,7 @@ export class LoginPage implements OnInit {
   };
 
   constructor(public formBuilder: FormBuilder, private authService: AuthService, private router: Router,
-              private userService: UserService, public toastService: ToastService) {
+              private userService: UserService, public toastService: ToastService, private imageStorage: AngularFireStorage) {
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -69,7 +71,7 @@ export class LoginPage implements OnInit {
     if (this.loginForm.valid) {
       this.authService.register(this.email, this.password).then((userCredential) => {
         this.userService.createUser(this.email, this.userName,
-          userCredential.user.uid, this.firstName, this.lastName, '').then(() => {
+          userCredential.user.uid, this.firstName, this.lastName, '', this.picturePath).then(() => {
           this.router.navigate(['tabs/tab1']);
         });
       });
@@ -157,6 +159,18 @@ export class LoginPage implements OnInit {
      * Sign in with google
      */
     this.authService.signInWithGoogle();
+  }
+
+  async uploadImage(event) {
+    this.file = event.target.files[0];
+    const pathFile = 'images/profile' + Math.floor(Math.random() * 1000);
+    this.imageStorage.upload(pathFile, this.file).then(() => {
+      const ref = this.imageStorage.ref(pathFile);
+      ref.getDownloadURL().subscribe(url => {
+        this.picturePath = url;
+        this.toastService.presentToast('Bild wurde hochgeladen', 'success');
+      });
+    });
   }
 
 }

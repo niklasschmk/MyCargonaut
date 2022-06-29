@@ -42,7 +42,7 @@ export class UserService {
    * @param lastName
    * @param birthDay
    */
-  createUser(email: string, userName: string, userId: string, firstName: string, lastName: string, birthDay: string): Promise<void> {
+  createUser(email: string, userName: string, userId: string, firstName: string, lastName: string, birthDay: string, picturePath: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.userCollection.doc(userId).set({
         email,
@@ -50,7 +50,8 @@ export class UserService {
         firstName,
         lastName,
         cargoCoins: 0,
-        birthDay
+        birthDay,
+        picturePath
       }).then(() => {
         resolve();
       }).catch(err => {
