@@ -62,7 +62,8 @@
           </ng-container>
           <ng-container *ngIf="i === ride.status.length -1">
             <ion-label>
-              <p style="font-size: 18px; color: #005B52">{{status}}</p>
+              <p style="font-size: 18px; color: #005B52"><ion-icon *ngIf="status === 'Fahrt abgeschlossen' && ride.closed" name="checkmark-done-outline"></ion-icon>
+                {{status}}</p>
               <p style="font-size: 12px; margin-top: 0; margin-bottom: 5px; color: #656565">
                 ({{ride.statusTimes[i]  | date:'mediumDate':'+02:00': 'de-DE'}} {{ride.statusTimes[i]  | date: 'shortTime' : '+02:00': 'de-DE'}}
                 Uhr)
@@ -75,7 +76,7 @@
   </ng-container>
 
   <ng-container *ngIf="ownRide">
-    <ion-item *ngIf="!editStatus">
+    <ion-item *ngIf="!editStatus && !ride.closed">
       <ion-button color="primary" (click)="editStatus = true">Status aktualisieren</ion-button>
     </ion-item>
     <ion-item *ngIf="editStatus">
@@ -91,7 +92,7 @@
       </section>
     </ion-item>
 
-    <ion-item aria-expanded="true">
+    <ion-item aria-expanded="true" *ngIf="!ride.closed">
       <ion-button
         *ngIf="ride.status[ride.status.length-1] !== 'Fahrt abgeschlossen' && ride.status[ride.status.length-1] !== 'Fahrt abgebrochen'"
         style="opacity: 0.5" color="danger" expand="block"
@@ -109,8 +110,18 @@
     </ion-item>
   </ng-container>
 
+  <ng-container *ngIf="ownRide && ride && offer && ride.closed">
+    <ion-item>
+      <ion-text *ngIf="!ride.paid" color="danger">Zahlung ausstehend</ion-text>
+      <ion-text *ngIf="ride.paid" color="primary">
+        <ion-icon name="checkmark-done-outline"></ion-icon>
+        Bezahlt  (+{{offer.price}}CC)
+      </ion-text>
+    </ion-item>
+  </ng-container>
+
   <ng-container *ngIf="!ownRide && ride && offer">
-    <ion-item *ngIf="!ride.paid  && ride.closed">
+    <ion-item *ngIf="!ride.paid && ride.closed">
       <ion-button color="danger"
                   class="btn-space" (click)="payRide()">
         <ion-icon name="card-outline"></ion-icon>

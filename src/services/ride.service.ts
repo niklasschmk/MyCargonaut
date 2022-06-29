@@ -13,14 +13,13 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class RideService {
-  myOffers: Observable<Offer[]>;
+
 
   constructor(private afs: AngularFirestore, public authService: AuthService, private toastService: ToastService) {
   }
 
   getRideById(offerId: string, checkAuth: boolean): Promise<Ride> {
     return new Promise((resolve, reject) => {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       this.afs.collection<Ride>('ride').doc(offerId).ref.get().then((doc) => {
         if (doc.exists) {
           if (!checkAuth) {
@@ -37,6 +36,12 @@ export class RideService {
           reject('ride not found');
         }
       });
+    });
+  }
+
+  getRideObserveById(offerId: string): Promise<Observable<Ride>> {
+    return new Promise((resolve) => {
+      resolve(this.afs.collection<Ride>('ride').doc(offerId).valueChanges({idField: 'rideId'}));
     });
   }
 
