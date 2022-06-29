@@ -2,9 +2,9 @@
   <ion-card-header class="evalHeader">
     <ion-toolbar color="light">
       <ion-buttons slot="end">
-        <ion-icon *ngIf="eval.userId === this.authService.userId" name="pencil" color="primary"
+        <ion-icon *ngIf="eval.rater === this.authService.userId" name="pencil" color="primary"
                   class="crud-icons eventCardIcons" (click)="editEval()"></ion-icon>
-        <ion-icon *ngIf="eval.userId === this.authService.userId" name="trash" color="danger"
+        <ion-icon *ngIf="eval.rater === this.authService.userId" name="trash" color="danger"
                   class="crud-icons eventCardIcons" (click)="deleteEval()"></ion-icon>
       </ion-buttons>
       <ion-card-title>{{eval.title}}</ion-card-title>
