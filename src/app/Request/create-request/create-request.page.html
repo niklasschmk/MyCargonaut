@@ -1,0 +1,104 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="primary"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Rquest erstellen
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="editMode" name="crescent" class="loadingSpinner"></ion-spinner>
+  <div *ngIf="requestStatus === 'not found'">
+    <ion-icon class="errorIcon" name="alert-outline"></ion-icon>
+    <h5 class="errorMessage">Gesuche konnte nicht gefunden werden</h5>
+  </div>
+  <div *ngIf="requestStatus === 'no auth'">
+    <ion-icon class="errorIcon" name="alert-outline"></ion-icon>
+    <h5 class="errorMessage">Gesuche kann nicht bearbeitet werden, da es nicht von Ihnen angelegt wurde</h5>
+  </div>
+  <div *ngIf="requestStatus === 'found' || editMode === false">
+    <h3 class="header">Gib hier diene Requestsdaten ein!</h3>
+    <form [formGroup]="createRequestForm">
+      <ion-item>
+        <ion-label position="floating">Ziel der Fahrt</ion-label>
+        <ion-input [(ngModel)]="destination" formControlName="destination" type="text" #destinationInput></ion-input>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.destination">
+            <div class="error-message" *ngIf="createRequestForm.get('destination').hasError(validation.type)
+             && (createRequestForm.get('destination').touched)">
+              <ion-icon name="alert-outline"></ion-icon>
+              {{validation.message}}
+            </div>
+          </ng-container>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Start der Fahrt</ion-label>
+        <ion-input [(ngModel)]="start" formControlName="start" type="text"></ion-input>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.start">
+            <div class="error-message" *ngIf="createRequestForm.get('start').hasError(validation.type)
+             && (createRequestForm.get('start').touched)">
+              <ion-icon name="alert-outline"></ion-icon>
+              {{validation.message}}
+            </div>
+          </ng-container>
+        </div>
+      </ion-item>
+
+      <ion-item id="zeit">
+        <div style="padding-top: 15px">
+          <p>Datum und Uhrzeit</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-datetime hour-cycle="h23" locale="de-DE" [(ngModel)]="date" formControlName="date"></ion-datetime>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.date">
+            <div class="error-message"
+                 *ngIf="createRequestForm.get('date').hasError(validation.type) && (createRequestForm.get('date').touched ||
+                  createRequestForm.get('date').dirty)">
+              <ion-icon name="alert-outline"></ion-icon>
+              {{ validation.message }}
+            </div>
+
+          </ng-container>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Kofferaumvolumen (Liter)</ion-label>
+        <ion-input [(ngModel)]="cargoSpace" formControlName="cargoSpace" type="number"></ion-input>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.cargoSpace">
+            <div class="error-message" *ngIf="createRequestForm.get('cargoSpace').hasError(validation.type)
+             && (createRequestForm.get('cargoSpace').touched)">
+              <ion-icon name="alert-outline"></ion-icon>
+              {{validation.message}}
+            </div>
+          </ng-container>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Anzahl der Plätze</ion-label>
+        <ion-input [(ngModel)]="seats" formControlName="seats" type="number"></ion-input>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.seats">
+            <div class="error-message" *ngIf="createRequestForm.get('seats').hasError(validation.type)
+             && (createRequestForm.get('seats').touched)">
+              <ion-icon name="alert-outline"></ion-icon>
+              {{validation.message}}
+            </div>
+          </ng-container>
+        </div>
+      </ion-item>
+
+    </form>
+  </div>
+  <ion-button color="success" expand="block" class="btn-space requestCreate" (click)="createRequest()">Gesuch speichern</ion-button>
+</ion-content>

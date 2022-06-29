@@ -9,7 +9,51 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'otherUser',
+    loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule)
+  },
+  {
+    path: 'add-vehicle',
+    loadChildren: () => import('./Vehicles/add-vehicle/add-vehicle.module').then(m => m.AddVehiclePageModule)
+  },
+  {
+    path: 'create-offer',
+    loadChildren: () => import('./create-offer/create-offer.module').then( m => m.CreateOfferPageModule)
+  },
+  {
+    path: 'offer-detail',
+    loadChildren: () => import('./offer-detail/offer-detail.module').then( m => m.OfferDetailPageModule)
+  },
+  {
+    path: 'create-request',
+    loadChildren: () => import('./Request/create-request/create-request.module').then(m => m.CreateRequestPageModule)
+  },
+  {
+    path: 'request-detail',
+    loadChildren: () => import('./Request/request-detail/request-detail.module').then( m => m.RequestDetailPageModule)
+  },
+  {
+    path: 'create-evaluation',
+    loadChildren: () => import('./Evaluation/create-evaluation/create-evaluation.module').then( m => m.CreateEvaluationPageModule)
+  },
+  {
+    path: 'bookings',
+    loadChildren: () => import('./bookings/bookings.module').then(m => m.BookingsPageModule)
+  },
+  {
+    path: 'ride-detail',
+    loadChildren: () => import('./ride-detail/ride-detail.module').then( m => m.RideDetailPageModule)
   }
+
+
+
+
 ];
 @NgModule({
   imports: [

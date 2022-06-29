@@ -25,27 +25,42 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-//profile
-.allIcons{
+
+//header
+.header{
+  text-align: center;
+  padding: 40px;
+}
+.logo{
+  height: 40px;
+  width: 100%;
+  margin-left: 5px;
+}
+
+//loadingSpinner
+.loadingSpinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+ion-spinner {
+  width: 50px;
+  height: 50px;
+  stroke: #444;
+  fill: #222;
+}
+
+//offers
+.offerCreate{
+  margin-top: 15px;
+}
+
+//icons
+.iconButton{
   width: 20px;
   height: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-.profileTitle{
-  margin-left: 11px;
-  color: #005B52;
-}
-.userDataList{
-  margin: 10px;
-  border-radius: 5px;
-}
-.userData{
-  font-size: large;
-}
-.userDataLabel{
-  font-size: smaller;
-}
-.dataListItem{
-  border: none;
+  margin-left: 5px;
+  margin-right: 5px;
 }

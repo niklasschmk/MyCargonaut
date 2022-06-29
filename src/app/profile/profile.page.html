@@ -1,45 +1,160 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button color="primary"></ion-back-button>
+      <img alt="MyCargonautLogo" src="assets/icon/myCargonautLogo.png" class="logo">
     </ion-buttons>
+    <ion-title>Profilansicht</ion-title>
     <ion-buttons slot="end">
-      <ion-icon color="primary" name="pencil" class="allIcons" (click)="openEditOptions()"></ion-icon>
-      <ion-icon class="allIcons" name="log-out" (click)="this.authService.logout()"></ion-icon>
+      <ion-icon *ngIf="authService.user && !differentUser" color="danger" class="iconButton" name="log-out"
+                (click)="this.authService.logout()"></ion-icon>
     </ion-buttons>
-    <ion-title>Mein Profil</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div *ngIf="this.authService.user !== null">
-    <ion-list class="userDataList">
-      <ion-item>
-        <ion-label class="userDataLabel">Nutzername: </ion-label>
-        <ion-input class="userData" [(ngModel)]="this.authService.user.userName" readonly="true"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label class="userDataLabel">E-Mail: </ion-label>
-        <ion-input class="userData" [(ngModel)]="this.authService.user.email" readonly="true"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label class="userDataLabel">Vorname: </ion-label>
-        <ion-input class="userData" [(ngModel)]="this.authService.user.firstName" readonly="true"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label class="userDataLabel">Nachname: </ion-label>
-        <ion-input class="userData" [(ngModel)]="this.authService.user.lastName" readonly="true"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label class="userDataLabel">CargoCoins-Guthaben: </ion-label>
-        <ion-input class="userData" [(ngModel)]="this.authService.user.cargoCoins" readonly="true"></ion-input>
-      </ion-item>
-    </ion-list>
-  </div>
+<ion-content *ngIf="authService.user && !differentUser">
   <div>
-    <h4 class="profileTitle">Meine Fahrzeuge</h4>
+    <ion-avatar [hidden]="this.authService.user.picturePath===null" class="classAvatarCenter">
+      <img alt="UserProfile" [src]="this.authService.user.picturePath">
+    </ion-avatar>
+    <ion-avatar [hidden]="this.authService.user.picturePath!==null" class="classAvatarCenter">
+      <img alt="UserProfile" src="assets/userProfile.jpg">
+    </ion-avatar>
   </div>
-  <div>
-    <h4 class="profileTitle">Meine Angebote</h4>
-  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <h3 class="header">Willkommen {{authService.user.userName}}</h3>
+            </ion-item>
+            <ion-item>
+              <p>Vorname: {{authService.user.firstName}}</p>
+            </ion-item>
+            <ion-item>
+              <p>Nachname: {{authService.user.lastName}}</p>
+            </ion-item>
+            <ion-item>
+              <p>Meine E-Mail: <a>{{authService.user.email}}</a></p>
+            </ion-item>
+            <ion-item>
+              <ion-label>Guthaben: {{authService.user.cargoCoins}} Cargocoins</ion-label>
+              <ion-icon name="add-outline" (click)="addCoins()" style="color: white; margin-right: 10px"></ion-icon>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            <ion-item color="primary" *ngIf="rides">
+              <ion-label>Aktive Fahrten</ion-label>
+              <ion-icon name="chevron-down-outline" *ngIf="!viewRides" (click)="viewRides = true"></ion-icon>
+              <ion-icon name="chevron-up-outline" *ngIf="viewRides" (click)="viewRides = false"></ion-icon>
+            </ion-item>
+            <div *ngIf="viewRides">
+              <app-ride-card *ngFor="let ride of this.actualRides" [ride]="ride"></app-ride-card>
+              <ion-item *ngIf="this.actualRides.length === 0"><p>Du hast derzeit keine aktiven Fahrten!</p></ion-item>
+            </div>
+
+            <ion-item color="primary" *ngIf="rides">
+              <ion-label>Abgeschlossene Fahrten</ion-label>
+              <ion-icon name="chevron-down-outline" *ngIf="!viewFinishedRides"
+                        (click)="viewFinishedRides = true"></ion-icon>
+              <ion-icon name="chevron-up-outline" *ngIf="viewFinishedRides"
+                        (click)="viewFinishedRides = false"></ion-icon>
+            </ion-item>
+            <div *ngIf="viewFinishedRides">
+              <app-ride-card *ngFor="let ride of this.finishedRides" [ride]="ride"></app-ride-card>
+              <ion-item *ngIf="this.finishedRides.length === 0"><p>Du hast derzeit keine abgeschlossenen Fahrten!</p>
+              </ion-item>
+            </div>
+
+            <ion-item color="primary" *ngIf="myOffers">
+              <ion-label>Meine Angebote</ion-label>
+              <ion-icon name="add-outline" (click)="openAddOffer()" style="color: white; margin-right: 10px"></ion-icon>
+              <ion-icon name="chevron-down-outline" *ngIf="!viewMyOffers" (click)="viewMyOffers = true"></ion-icon>
+              <ion-icon name="chevron-up-outline" *ngIf="viewMyOffers" (click)="viewMyOffers = false"></ion-icon>
+            </ion-item>
+            <div *ngIf="viewMyOffers">
+              <ng-container *ngFor="let offer of myOffers">
+                <app-offer-card *ngIf="!offer.rideId" [offer]="offer"></app-offer-card>
+              </ng-container>
+              <ion-item *ngIf="this.myOffers.length === 0"><p>Du hast derzeit keine aktiven Angebote!</p></ion-item>
+            </div>
+
+
+            <ion-item color="primary" *ngIf="vehicles">
+              <ion-label>Meine Fahrzeuge</ion-label>
+              <ion-icon name="add-outline" (click)="openAddVehicle()"
+                        style="color: white; margin-right: 10px"></ion-icon>
+              <ion-icon name="chevron-down-outline" *ngIf="!viewVehicles" (click)="viewVehicles = true"></ion-icon>
+              <ion-icon name="chevron-up-outline" *ngIf="viewVehicles" (click)="viewVehicles = false"></ion-icon>
+            </ion-item>
+            <ion-list *ngIf="viewVehicles">
+              <ng-container *ngFor="let vehicle of this.vehicles">
+                <app-vehicle-item [vehicle]=vehicle></app-vehicle-item>
+              </ng-container>
+              <ion-item *ngIf="this.vehicles.length === 0"><p>Du hast derzeit keine Fahrzeuge gespeichert!</p>
+              </ion-item>
+            </ion-list>
+
+            <ion-item color="primary" *ngIf="evaluations">
+              <ion-label>Bewertungen</ion-label>
+              <ion-icon name="chevron-down-outline" *ngIf="!viewEvaluations"
+                        (click)="viewEvaluations = true"></ion-icon>
+              <ion-icon name="chevron-up-outline" *ngIf="viewEvaluations" (click)="viewEvaluations = false"></ion-icon>
+            </ion-item>
+            <div *ngIf="viewEvaluations">
+              <ng-container *ngFor="let eval of this.evaluations">
+                <app-eval-card [eval]=eval></app-eval-card>
+              </ng-container>
+              <ion-item *ngIf="this.evaluations.length === 0"><p>Du hast derzeit keine Bewertungen!</p></ion-item>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-content *ngIf="authService.user && differentUser && userOther">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <h3 class="header">Profil von {{userOther.userName}}</h3>
+        </ion-item>
+        <ion-item>
+          <p>Vorname: {{userOther.firstName}}</p>
+        </ion-item>
+        <ion-item>
+          <p>Nachname: {{userOther.lastName}}</p>
+        </ion-item>
+        <ion-item>
+          <p>Kontaktiere {{userOther.userName}} per E-Mail: <a>{{userOther.email}}</a></p>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item color="primary" *ngIf="evaluations">
+          <ion-label>Bewertungen</ion-label>
+          <ion-icon name="chevron-down-outline" *ngIf="!viewEvaluations" (click)="viewEvaluations = true"></ion-icon>
+          <ion-icon name="chevron-up-outline" *ngIf="viewEvaluations" (click)="viewEvaluations = false"></ion-icon>
+        </ion-item>
+        <div *ngIf="viewEvaluations">
+          <ng-container *ngFor="let eval of this.evaluations">
+            <app-eval-card [eval]=eval></app-eval-card>
+          </ng-container>
+          <ion-item *ngIf="this.evaluations.length === 0"><p>Du hast derzeit keine Bewertungen!</p></ion-item>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-content *ngIf="!authService.user">
+  <ion-item (click)="openLogin()">
+    <p>Um auf deine Daten zuzugreifen musst du dich anmelden!</p>
+    <ion-icon name="chevron-forward-outline" color="primary"></ion-icon>
+  </ion-item>
 </ion-content>

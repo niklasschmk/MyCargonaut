@@ -1,0 +1,11 @@
+<ion-item>
+  <ion-label>
+    <div style="width: 60px">
+      <h4><b>{{vehicle.name}}</b></h4>
+      <p>Kofferaum: {{vehicle.cargoSpace}} Liter</p>
+      <p>Sitzplätze: {{vehicle.seats}}</p>
+    </div>
+  </ion-label>
+  <ion-icon name="trash-outline" slot="end" color="danger" (click)="vehicleService.deleteVehicle(vehicle.vehicleId)"></ion-icon>
+</ion-item>
+

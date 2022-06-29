@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="primary"></ion-back-button>
+      <img alt="MyCargonautLogo" src="assets/icon/myCargonautLogo.png" class="logo">
+    </ion-buttons>
+    <ion-title *ngIf="!editMode">Bewertung erstellen</ion-title>
+    <ion-title *ngIf="editMode">Bewertung bearbeiten</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="editMode && evalStatus === 'undefined'" name="crescent" class="loadingSpinner"></ion-spinner>
+  <div *ngIf="evalStatus === 'not found'">
+    <ion-icon class="errorIcon" name="alert-outline"></ion-icon>
+    <h5 class="errorMessage">Bewertung konnte nicht gefunden werden</h5>
+  </div>
+  <div *ngIf="evalStatus === 'no auth'">
+    <ion-icon class="errorIcon" name="alert-outline"></ion-icon>
+    <h5 class="errorMessage">Bewertung kann nicht bearbeitet werden, da sie nicht von Ihnen angelegt wurde</h5>
+  </div>
+  <div *ngIf="evalStatus === 'found' || editMode === false">
+    <form [formGroup]="createEvalForm">
+      <ion-item>
+        <ionic-rating-component #ratingStars
+                                activeIcon="star"
+                                defaultIcon="star-outline"
+                                activeColor="primary"
+                                defaultColor="primary"
+                                readonly="false"
+                                rating="{{this.stars}}"
+                                fontSize="32px"
+                                (ratingChanged)="onRatingChange($event)">
+        </ionic-rating-component>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Titel</ion-label>
+        <ion-input [(ngModel)]="title" name="title" formControlName="title" spellcheck="true"></ion-input>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.title">
+            <div class="error-message"
+                 *ngIf="createEvalForm.get('title').hasError(validation.type) && (createEvalForm.get('title').touched)">
+              <ion-icon name="alert-outline"></ion-icon>
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Bewertung</ion-label>
+        <ion-textarea [(ngModel)]="text" name="text" formControlName="text" auto-grow="true" spellcheck="true">
+          <!--formControlName="description"--></ion-textarea>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.text">
+            <div class="error-message"
+                 *ngIf="createEvalForm.get('text').hasError(validation.type) && createEvalForm.get('text').touched">
+              <ion-icon name="alert-outline"></ion-icon>
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </ion-item>
+      <ion-button color="primary" type="submit" (click)="saveEval()" style="margin: 40px" expand="block">Bewertung speichern</ion-button>
+    </form>
+  </div>
+</ion-content>

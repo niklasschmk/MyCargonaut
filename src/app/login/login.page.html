@@ -1,0 +1,132 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="primary"></ion-back-button>
+      <img alt="MyCargonautLogo" src="assets/icon/myCargonautLogo.png" class="logo">
+    </ion-buttons>
+    <ion-title *ngIf="newUser">Registrieren</ion-title>
+    <ion-title *ngIf="!newUser">Anmelden</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <h3 class="header">Willkommen bei MyCargonaut!</h3>
+  <form [formGroup]="loginForm">
+    <ion-item *ngIf="newUser">
+      <ion-label position="floating">Nutzername</ion-label>
+      <ion-input [(ngModel)]="userName" formControlName="userName" type="text" name="userName"></ion-input>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validationMessages.userName">
+          <div class="error-message"
+               *ngIf="loginForm.get('userName').hasError(validation.type) && (loginForm.get('userName').touched)">
+            <ion-icon name="alert-outline"></ion-icon>
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+    </ion-item>
+    <ion-item *ngIf="newUser">
+      <ion-label position="floating">Vorname</ion-label>
+      <ion-input [(ngModel)]="firstName" formControlName="firstName" type="text" name="firstName"></ion-input>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validationMessages.firstName">
+          <div class="error-message"
+               *ngIf="loginForm.get('firstName').hasError(validation.type) && (loginForm.get('firstName').touched)">
+            <ion-icon name="alert-outline"></ion-icon>
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+    </ion-item>
+    <ion-item *ngIf="newUser">
+      <ion-label position="floating">Nachname</ion-label>
+      <ion-input [(ngModel)]="lastName" formControlName="lastName" type="text" name="lastName"></ion-input>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validationMessages.lastName">
+          <div class="error-message"
+               *ngIf="loginForm.get('lastName').hasError(validation.type) && (loginForm.get('lastName').touched)">
+            <ion-icon name="alert-outline"></ion-icon>
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">E-Mail Adresse</ion-label>
+      <ion-input [(ngModel)]="email" formControlName="email" type="text"></ion-input>
+      <div class="validation-errors" *ngIf="newUser">
+        <ng-container *ngFor="let validation of validationMessages.email">
+          <div class="error-message"
+               *ngIf="loginForm.get('email').hasError(validation.type) && (loginForm.get('email').touched)">
+            <ion-icon name="alert-outline"></ion-icon>
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Passwort</ion-label>
+      <ion-input [(ngModel)]="password" formControlName="password" type="password"></ion-input>
+      <div class="validation-errors" *ngIf="newUser">
+        <ng-container *ngFor="let validation of validationMessages.password">
+          <div class="error-message"
+               *ngIf="loginForm.get('password').hasError(validation.type) && (loginForm.get('password').touched)">
+            <ion-icon name="alert-outline"></ion-icon>
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+    </ion-item>
+
+    <ion-item *ngIf="newUser">
+      <ion-label position="floating">Profilbild hochladen</ion-label>
+      <br>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="3">
+            <div [hidden]="this.picturePath==null">
+              <img alt="eventAvatar" [src]="this.picturePath">
+            </div>
+            <div [hidden]="this.picturePath!=null">
+              <img alt="eventAvatar" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+            </div>
+          </ion-col>
+          <ion-col size="9">
+            <ion-button>
+              <input type="file" accept="image/*" (change)="uploadImage($event)" name="inputFile">
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-progress-bar *ngIf="this.picturePath==null" type="indeterminate"></ion-progress-bar>
+      <ion-progress-bar *ngIf="this.picturePath!=null" value="100%"></ion-progress-bar>
+    </ion-item>
+
+  </form>
+  <div *ngIf="newUser" style="margin-top: 20px">
+    <ion-button color="success" expand="block" class="btn-space" (click)="register()">Registrieren</ion-button>
+    <ion-item (click)="switchToLogin()" color="bg">
+      <p>Sie haben bereits ein Konto? Dann können Sie sich hier anmelden
+        <ion-icon name="chevron-forward-outline" color="primary"></ion-icon>
+      </p>
+    </ion-item>
+  </div>
+  <div *ngIf="!newUser" style="margin-top: 20px">
+    <ion-button color="success" expand="block" class="btn-space" (click)="login()">Einloggen</ion-button>
+    <ion-item (click)="switchToRegister()" color="bg">
+      <p>Sie haben noch kein Konto? Dann können Sie sich hier registrieren
+        <ion-icon name="chevron-forward-outline" color="primary"></ion-icon>
+      </p>
+    </ion-item>
+    <ion-item (click)="switchToResetPassword()" color="bg" style="margin-top: 20px">
+      <p>Passwort vergessen? Dann können Sie hier Ihr Passwort zurücksetzen!
+        <ion-icon name="chevron-forward-outline" color="primary"></ion-icon>
+      </p>
+    </ion-item>
+  </div>
+  <div class="google-btn" (click)="signInWithGoogle()">
+    <div class="google-icon-wrapper">
+      <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="google-logo"/>
+    </div>
+    <p class="btn-text"><b>Sign in with google</b></p>
+  </div>
+</ion-content>

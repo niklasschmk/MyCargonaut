@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../services/user.service';
-import {User} from "../../model/user";
-import {AuthService} from "../../services/auth.service";
-import {ToastServiceService} from "../../services/toast-service.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ActionSheetController} from "@ionic/angular";
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
+import {VehicleService} from '../../services/vehicle.service';
+import {User} from '../../model/user';
+import {Offer} from '../../model/offer';
+import {RideService} from '../../services/ride.service';
+import {Ride} from '../../model/ride';
+import {Vehicle} from '../../model/vehicle';
+import {EvaluationService} from '../../services/evaluation.service';
+import {Observable} from 'rxjs';
+import {Evaluation} from '../../model/evaluation';
+
 
 @Component({
   selector: 'app-profile',
@@ -12,73 +19,118 @@ import {ActionSheetController} from "@ionic/angular";
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-  userId: string;
-  user: User;
-  editMode = false;
-  otherUser: string;
+  viewMyOffers = true;
+  viewVehicles = true;
+  viewRides = true;
+  viewFinishedRides = true;
+  viewEvaluations = true;
   differentUser = false;
+  otherUser: string;
   userOther: User;
-  constructor(public userService: UserService, private router: Router, public authService: AuthService,
-              private toastService: ToastServiceService, private route: ActivatedRoute,
-              public actionSheetController: ActionSheetController) {
-    console.log(this.userService.getUserById('feAynM4IHZNBEo3KSmtZ'));
-    /*
-    if(this.authService.user === null){
-      this.router.navigate(['login']);
-    }*/
-    const eventJSON = this.route.snapshot.paramMap.get('userId');
-    this.otherUser = JSON.parse(eventJSON);
+  evaluationsObserve: Observable<Evaluation[]>;
+  evaluations: Evaluation[] = [];
+  myOffers: Offer[] = [];
+  myOffersObserve: Observable<Offer[]>;
+  rides: Ride[] = [];
+  ridesObserve: Observable<Ride[]>;
+  finishedRides: Ride[] = [];
+  actualRides: Ride[] = [];
+  vehicles: Vehicle[] = [];
+  vehicleObserve: Observable<Vehicle[]>;
+
+  constructor(public userService: UserService, private router: Router, private route: ActivatedRoute,
+              public authService: AuthService, public vehicleService: VehicleService, public rideService: RideService,
+              public evaluationService: EvaluationService) {
+    const userJSON = this.route.snapshot.paramMap.get('userId');
+    this.otherUser = JSON.parse(userJSON);
     if(this.otherUser !== null && this.otherUser !== ''){
       this.differentUser = true;
       this.userService.getUserById(this.otherUser).then(user => {
         this.userOther = user;
+        this.evaluationService.getEvaluationsById().then(res => {
+          this.evaluationsObserve = res;
+          this.evaluationsObserve.subscribe(evaluations => {
+            this.evaluations = evaluations;
+          });
+        });
       });
     }
   }
 
+  ionViewWillEnter(){
+   this.getData();
+  }
+
   ngOnInit() {
   }
-  /**
-   * Opens edit options
-   */
-  async openEditOptions() {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Profiloptionen',
-      buttons: [{
-        text: 'Profil bearbeiten',
-        handler: () => {
-          this.edit('profile');
-        }
-      }, {
-        text: 'E-Mail Adresse ändern',
-        handler: () => {
-          this.edit('mail');
 
-        }
-      }, {
-        text: 'Passwort ändern',
-        handler: () => {
-          this.edit('password');
-        }
-      }, {
-        text: 'Zurück',
-        icon: 'close',
-        role: 'cancel',
-      }]
+  /**
+   * Navigate to Add vehicle page
+   */
+  openAddVehicle(){
+    this.router.navigate(['add-vehicle']);
+  }
+
+  /**
+   * Open Login page
+   */
+  openLogin(){
+    this.router.navigate(['login']);
+  }
+
+  /**
+   * Open Add Offer
+   */
+  openAddOffer(){
+    this.router.navigate(['create-offer']);
+  }
+
+  /**
+   * Get Data
+   */
+  getData(){
+    this.rideService.getMyOffers().then(res => {
+      this.myOffersObserve = res;
+      this.myOffersObserve.subscribe(offers => {
+        this.myOffers = offers;
+      });
+    }).then(() => {
+      this.rideService.getMyRides().then(res => {
+        this.ridesObserve = res;
+        this.ridesObserve.subscribe(rides => {
+          this.rides = rides;
+          this.filterRides();
+        });
+      }).then(() => {
+        this.vehicleService.getVehicles().then(res => {
+          this.vehicleObserve = res;
+          this.vehicleObserve.subscribe(vehicles => {
+            this.vehicles = vehicles;
+          });
+        }).then(() => {
+          if(!this.differentUser){
+            if(this.authService.user) {
+              this.evaluationService.getEvaluationsById().then(res => {
+                this.evaluationsObserve = res;
+                this.evaluationsObserve.subscribe(evaluations => {
+                  this.evaluations = evaluations;
+                });
+              });
+            }
+          }
+        })
+      });
     });
-    await actionSheet.present();
   }
-  /**
-   * Navigate to the editProfile-page.
-   */
-  edit(toEdit: string){
-    this.router.navigate(['edit', {toEdit: JSON.stringify(toEdit)}]);
-    this.closeEditOptions();
+
+  filterRides(){
+    if(this.rides){
+      this.finishedRides = this.rides.filter(finishedRide => finishedRide.closed);
+      this.actualRides = this.rides.filter(actualRide => !actualRide.closed);
+    }
   }
-  /**
-   * Closes the edit options
-   */
-  closeEditOptions() {
-    this.editMode = false;
+
+  addCoins(){
+    this.userService.addCoins(this.authService.userId);
   }
 }

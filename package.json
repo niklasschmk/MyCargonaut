@@ -9,7 +9,8 @@
     "build": "ng build",
     "test": "ng test --watch false --browsers ChromeHeadless",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "compodoc": "npx compodoc -p tsconfig.doc.json"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +26,8 @@
     "firebase": "^9.8.2",
     "firebase-tools": "^10.9.2",
     "nodejs": "^0.0.0",
+    "firebase-functions-test": "^2.2.0",
+    "ionic-rating-component": "^1.2.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
