@@ -12,13 +12,16 @@ import {Tab1PageModule} from '../tab1/tab1.module';
 import {RideCardComponent} from '../ride-card/ride-card.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        IonicModule,
-        ProfilePageRoutingModule,
-        Tab1PageModule
-    ],
-    declarations: [ProfilePage, VehicleItemComponent, RideCardComponent]
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    ProfilePageRoutingModule,
+    Tab1PageModule
+  ],
+  exports: [
+    RideCardComponent
+  ],
+  declarations: [ProfilePage, VehicleItemComponent, RideCardComponent]
 })
 export class ProfilePageModule {}

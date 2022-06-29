@@ -8,15 +8,17 @@ import { RidesPageRoutingModule } from './bookings-routing.module';
 
 import { BookingsPage } from './bookings.page';
 import {Tab1PageModule} from '../tab1/tab1.module';
+import {ProfilePageModule} from '../profile/profile.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RidesPageRoutingModule,
-    Tab1PageModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        RidesPageRoutingModule,
+        Tab1PageModule,
+        ProfilePageModule
+    ],
   declarations: [BookingsPage]
 })
 export class BookingsPageModule {}

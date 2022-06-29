@@ -90,6 +90,39 @@
         <ion-button color="light" style="display: inline-block" (click)="editStatus = false">Schließen</ion-button>
       </section>
     </ion-item>
+
+    <ion-item aria-expanded="true">
+      <ion-button
+        *ngIf="ride.status[ride.status.length-1] !== 'Fahrt abgeschlossen' && ride.status[ride.status.length-1] !== 'Fahrt abgebrochen'"
+        style="opacity: 0.5" color="danger" expand="block"
+        class="btn-space" (click)="showEndStatusMessage()">
+        <ion-icon name="checkmark-outline"></ion-icon>
+        Fahrt beenden
+      </ion-button>
+      <ion-button
+        *ngIf="ride.status[ride.status.length-1] === 'Fahrt abgeschlossen' || ride.status[ride.status.length-1] === 'Fahrt abgebrochen'"
+        color="danger" expand="block"
+        class="btn-space" (click)="finishRide()">
+        <ion-icon name="checkmark-outline"></ion-icon>
+        Fahrt beenden
+      </ion-button>
+    </ion-item>
+  </ng-container>
+
+  <ng-container *ngIf="!ownRide && ride && offer">
+    <ion-item *ngIf="!ride.paid  && ride.closed">
+      <ion-button color="danger"
+                  class="btn-space" (click)="payRide()">
+        <ion-icon name="card-outline"></ion-icon>
+        Fahrt bezahlen: <b> {{offer.price}}CC </b>
+      </ion-button>
+    </ion-item>
+    <ion-item *ngIf="ride.paid">
+      <ion-text color="primary">
+        <ion-icon name="checkmark-done-outline"></ion-icon>
+        Fahrt bezahlt
+      </ion-text>
+    </ion-item>
   </ng-container>
 
   <ion-item *ngIf="error" class="redFont">

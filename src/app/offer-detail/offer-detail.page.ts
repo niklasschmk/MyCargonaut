@@ -10,6 +10,7 @@ import {UserService} from '../../services/user.service';
 import {AuthService} from '../../services/auth.service';
 import {RideService} from '../../services/ride.service';
 import {AlertService} from '../../services/alert.service';
+import {NavController} from '@ionic/angular';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class OfferDetailPage implements OnInit {
 
   constructor(public offerService: OfferService, public vehicleService: VehicleService, private userService: UserService,
               public toastService: ToastService, private route: ActivatedRoute, private router: Router, public authService: AuthService,
-              private rideService: RideService, private alertService: AlertService) {
+              private rideService: RideService, private alertService: AlertService, private navCtrl: NavController) {
     const offerJSON = this.route.snapshot.paramMap.get('offerId');
     this.offerId = JSON.parse(offerJSON);
     //get offer
@@ -39,9 +40,14 @@ export class OfferDetailPage implements OnInit {
         this.available = true;
       } else if (this.offer.bookedBy === this.authService.userId) {
         this.booked = true;
+        this.userService.getUserById(this.offer.bookedBy).then((user) => {
+          this.userWhoBooked = user;
+          console.log(this.userWhoBooked);
+        });
       }else if (this.offer.bookedBy !== null){
         this.userService.getUserById(this.offer.bookedBy).then((user) => {
           this.userWhoBooked = user;
+          console.log(this.userWhoBooked);
         });
       }
       //get vehicle data
@@ -109,12 +115,13 @@ export class OfferDetailPage implements OnInit {
 
   startRide(){
     this.alertService.presentAlertConfirm('Fahrt starten?',
-      'Bist du sicher dass du die Fahrt starten möchtest? Dies kann nicht rückgängig gemacht werden!').then(() => {
-        this.rideService.startRide(this.offerId, this.offer.bookedBy).then(rideId => {
-          this.router.navigate(['profile']);
-          this.router.navigate(['ride-detail', {rideId: JSON.stringify(rideId)}]);
-          this.toastService.presentToast('Die Fahrt wurde gestartet!', 'primary');
-        });
+      'Bist du sicher dass du die Fahrt starten möchtest? Dies kann nicht rückgängig gemacht werden!').then((confirm: boolean) => {
+        if(confirm){
+          this.rideService.startRide(this.offerId, this.offer.bookedBy, this.offer.date).then(() => {
+            this.navCtrl.pop();
+            this.toastService.presentToast('Die Fahrt wurde gestartet!', 'primary');
+          });
+        }
     });
   }
 }

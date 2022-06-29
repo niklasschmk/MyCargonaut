@@ -1,6 +1,10 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
 import {User} from '../model/user';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import {ToastService} from './toast.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +13,7 @@ export class UserService {
   private userCollection: AngularFirestoreCollection<User>;
   private otherUserId: string;
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore, private toastService: ToastService) {
     this.userCollection = afs.collection<User>('user');
   }
 
@@ -22,7 +26,7 @@ export class UserService {
     return new Promise((resolve, reject) => {
       this.userCollection.doc(userId).ref.get().then((doc) => {
         if (doc.exists) {
-          const user= doc.data();
+          const user = doc.data();
           user.userId = doc.id;
           resolve(user);
         } else {
@@ -80,5 +84,35 @@ export class UserService {
 
   setOtherUser(userId: string) {
     this.otherUserId = userId;
+  }
+
+  payRide(price: number, customerUserId: string, driverUserId: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      let customerCoins: number;
+      let driverCoins: number;
+      this.userCollection.doc(customerUserId).ref.get().then(user => {
+        customerCoins = user.data().cargoCoins;
+        if (customerCoins < price) {
+          this.toastService.presentToast('Du hast nicht genügend CargoCoins auf dem Konto um diese ' +
+            'Fahrt zu bezahlen!', 'danger');
+          reject();
+          return;
+        }
+      });
+      this.userCollection.doc(driverUserId).ref.get().then(user => {
+        driverCoins = user.data().cargoCoins;
+        const newCustomerCoins: number = customerCoins - price;
+        const newDriverCoins: number = driverCoins + price;
+        this.userCollection.doc(customerUserId).update({
+          cargoCoins: newCustomerCoins
+        }).then(() => {
+          this.userCollection.doc(driverUserId).update({
+            cargoCoins: newDriverCoins
+          }).then(() => {
+            resolve();
+          });
+        });
+      });
+    });
   }
 }

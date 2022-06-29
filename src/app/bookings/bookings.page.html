@@ -10,11 +10,26 @@
     <ion-icon name="chevron-down-outline" *ngIf="!viewRides" (click)="viewRides = true"></ion-icon>
     <ion-icon name="chevron-up-outline" *ngIf="viewRides" (click)="viewRides = false"></ion-icon>
   </ion-item>
+  <ng-container *ngIf="viewRides">
+    <app-ride-card *ngFor="let ride of actualRides" [ride]="ride"></app-ride-card>
+  </ng-container>
+
 
   <ion-item color="primary">
     <ion-label>Gebuchte Angebote</ion-label>
     <ion-icon name="chevron-down-outline" *ngIf="!viewBookedOffers" (click)="viewBookedOffers = true"></ion-icon>
     <ion-icon name="chevron-up-outline" *ngIf="viewBookedOffers" (click)="viewBookedOffers = false"></ion-icon>
   </ion-item>
-  <app-offer-card *ngFor="let offer of bookedOffers" [offer]="offer" [booked]="true"></app-offer-card>
+  <ng-container *ngIf="viewBookedOffers">
+    <app-offer-card *ngFor="let offer of bookedOffers" [offer]="offer" [booked]="true"></app-offer-card>
+  </ng-container>
+
+  <ion-item color="primary">
+    <ion-label>Abgeschlossene Fahrten</ion-label>
+    <ion-icon name="chevron-down-outline" *ngIf="!viewFinishedRides" (click)="viewFinishedRides = true"></ion-icon>
+    <ion-icon name="chevron-up-outline" *ngIf="viewFinishedRides" (click)="viewFinishedRides = false"></ion-icon>
+  </ion-item>
+  <ng-container *ngIf="viewFinishedRides">
+    <app-ride-card *ngFor="let ride of finishedRides" [ride]="ride"></app-ride-card>
+  </ng-container>
 </ion-content>

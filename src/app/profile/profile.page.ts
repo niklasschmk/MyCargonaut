@@ -7,6 +7,7 @@ import {User} from '../../model/user';
 import {Offer} from '../../model/offer';
 import {RideService} from '../../services/ride.service';
 import {Ride} from '../../model/ride';
+import {Vehicle} from '../../model/vehicle';
 
 
 @Component({
@@ -18,11 +19,15 @@ export class ProfilePage implements OnInit {
   viewMyOffers = true;
   viewVehicles = true;
   viewRides = true;
+  viewFinishedRides = true;
   differentUser = false;
   otherUser: string;
   userOther: User;
   myOffers: Offer[] = [];
   rides: Ride[] = [];
+  finishedRides: Ride[] = [];
+  actualRides: Ride[] = [];
+  vehicles: Vehicle[] = [];
 
   constructor(public userService: UserService, private router: Router, private route: ActivatedRoute,
               public authService: AuthService, public vehicleService: VehicleService, public rideService: RideService) {
@@ -64,14 +69,27 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['create-offer']);
   }
 
-
+  /**
+   * Get Data
+   */
   getData(){
     this.vehicleService.getVehicles();
     this.rideService.getMyOffers().then(res => {
       this.myOffers = res;
+    }).then(() => {
+      this.rideService.getMyRides().then(res => {
+        this.rides = res;
+      }).then(() => {
+        this.filterRides();
+        this.vehicleService.getVehicles().then(res => {
+          this.vehicles = res;
+        });
+      });
     });
-    this.rideService.getMyRides().then(res => {
-      this.rides = res;
-    });
+  }
+
+  filterRides(){
+    this.finishedRides = this.rides.filter(finishedRide => finishedRide.closed);
+    this.actualRides = this.rides.filter(actualRide => !actualRide.closed);
   }
 }

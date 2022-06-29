@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
 import {Vehicle} from '../model/vehicle';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
 import {AuthService} from './auth.service';
@@ -10,7 +9,6 @@ import {ToastService} from './toast.service';
   providedIn: 'root'
 })
 export class VehicleService {
-  vehicles: Observable<Vehicle[]>;
   vehicleCollection: AngularFirestoreCollection<Vehicle>;
 
   constructor(private afs: AngularFirestore, public authService: AuthService,
@@ -22,11 +20,21 @@ export class VehicleService {
   /**
    * Get all vehicles of the logged in user
    */
-  getVehicles() {
-    this.vehicles = this.afs.collection<Vehicle>('vehicle', ref =>
-      ref
-        .where('userId', '==', this.authService.userId)
-    ).valueChanges({idField: 'vehicleId'});
+  getVehicles(): Promise<Vehicle[]>{
+    return new Promise<Vehicle[]>((resolve, reject) => {
+      const myVehicles: Vehicle[] = [];
+      this.afs.collection<Vehicle>('vehicle').ref.where('userId', '==',this.authService.userId)
+        .get().then(docSnaps => {
+        for(const docSnap of docSnaps.docs){
+          const vehicle = docSnap.data();
+          vehicle.vehicleId = docSnap.id;
+          myVehicles.push(vehicle);
+        }
+        resolve(myVehicles);
+      }).catch(err => {
+        reject(err);
+      });
+    });
   }
 
   getVehicleById(vehicleId: string): Promise<Vehicle>{

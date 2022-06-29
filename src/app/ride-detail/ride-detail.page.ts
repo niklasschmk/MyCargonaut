@@ -9,6 +9,9 @@ import {User} from '../../model/user';
 import {Vehicle} from '../../model/vehicle';
 import {Ride} from '../../model/ride';
 import {AuthService} from '../../services/auth.service';
+import {ToastService} from '../../services/toast.service';
+import {AlertService} from '../../services/alert.service';
+import {NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-ride-detail',
@@ -32,7 +35,8 @@ export class RideDetailPage implements OnInit {
   constructor(public rideService: RideService, public offerService: OfferService,
               private userService: UserService, private router: Router,
               private vehicleService: VehicleService, private route: ActivatedRoute,
-              private authService: AuthService) { }
+              private authService: AuthService, private toastService: ToastService,
+              private alertService: AlertService, private navCtrl: NavController) { }
 
   ngOnInit() {
    this.getData();
@@ -66,5 +70,27 @@ export class RideDetailPage implements OnInit {
       this.editStatus = false;
       this.getData();
     }).catch(() => {});
+  }
+
+  showEndStatusMessage(){
+    this.toastService.presentToast('Um die Fahrt abzuschließen musst du den Status auf abgeschlossen oder abgebrochen setzen!', 'danger');
+  }
+
+  finishRide(){
+    this.alertService.presentAlertConfirm('Fahrt abschließen?',
+      'Möchtest du die Fahrt wirklich abschließen? Das kann nicht rückgängig gemacht werden.').then(() => {
+        this.rideService.finishRide(this.rideId, this.ride.driverUserId).then(() => {
+          this.navCtrl.pop();
+        });
+    });
+  }
+
+  payRide(){
+    this.userService.payRide(this.offer.price, this.ride.customerUserId, this.ride.driverUserId).then(() => {
+      this.rideService.setRideToPaid(this.rideId).then(() =>{
+        this.toastService.presentToast('Bezahlung erfolgreich!', 'primary');
+        this.getData();
+      });
+    });
   }
 }
