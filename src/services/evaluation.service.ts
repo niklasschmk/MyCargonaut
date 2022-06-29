@@ -38,7 +38,6 @@ export class EvaluationService {
         .where('userId', '==', userId)
         .orderBy('date')
     ).valueChanges({idField: 'evaluationId'});
-    console.log(this.evals);
   }
   getEvalById(evalId: string, checkAuth: boolean): Promise<Evaluation> {
     return new Promise((resolve, reject) => {

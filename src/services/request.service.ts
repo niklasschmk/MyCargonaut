@@ -83,4 +83,22 @@ export class RequestService {
         .where('userId', '==', this.authService.userId)
     ).valueChanges({idField: 'id'});
   }
+  deleteRequest(requestId: string) {
+    return new Promise<any>(async (resolve, reject) => {
+      //TODO: Auth
+      //open delete confirm alert
+      await this.alertService.presentAlertConfirm('Löschen bestätigen',
+        'Sind Sie sicher, dass Sie das Gesuch löschen möchten?').then(confirm => {
+        if (confirm) {
+          //only delete if user confirmed
+          //let currentUser = firebase.auth().currentUser;
+          this.afs.collection('request').doc(requestId).delete()
+            .then(
+              res => resolve(res),
+              err => reject(err)
+            );
+        }
+      });
+    });
+  }
 }
