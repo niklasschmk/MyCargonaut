@@ -92,7 +92,7 @@
             <ion-item>
               <ion-label position="floating">Fahrzeug</ion-label>
               <ion-select interface="popover" [(ngModel)]="vehicleId" formControlName="vehicleId">
-                <ion-select-option class="selectOption-small" *ngFor="let val of vehicleService.vehicles | async"
+                <ion-select-option class="selectOption-small" *ngFor="let val of vehicles"
                                    [value]="val.vehicleId">{{val.name}}
                 </ion-select-option>
               </ion-select>

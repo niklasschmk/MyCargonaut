@@ -14,10 +14,10 @@
 
 <ion-content *ngIf="authService.user && !differentUser">
   <div>
-    <ion-avatar [hidden]="this.authService.user.picturePath==null" class="classAvatarCenter">
+    <ion-avatar [hidden]="this.authService.user.picturePath===null" class="classAvatarCenter">
       <img alt="UserProfile" [src]="this.authService.user.picturePath">
     </ion-avatar>
-    <ion-avatar [hidden]="this.authService.user.picturePath!=null" class="classAvatarCenter">
+    <ion-avatar [hidden]="this.authService.user.picturePath!==null" class="classAvatarCenter">
       <img alt="UserProfile" src="assets/userProfile.jpg">
     </ion-avatar>
   </div>
@@ -39,7 +39,8 @@
               <p>Meine E-Mail: <a>{{authService.user.email}}</a></p>
             </ion-item>
             <ion-item>
-              <p>Auf meinem Cargonaut-Konto befinden sich {{authService.user.cargoCoins}} Cargocoins</p>
+              <ion-label>Guthaben: {{authService.user.cargoCoins}} Cargocoins</ion-label>
+              <ion-icon name="add-outline" (click)="addCoins()" style="color: white; margin-right: 10px"></ion-icon>
             </ion-item>
           </ion-col>
         </ion-row>

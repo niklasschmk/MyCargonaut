@@ -49,7 +49,8 @@ export class UserService {
    * @param birthDay
    * @param picturePath
    */
-  createUser(email: string, userName: string, userId: string, firstName: string, lastName: string, birthDay: string, picturePath: string): Promise<void> {
+  createUser(email: string, userName: string, userId: string, firstName: string, lastName: string,
+             birthDay: string, picturePath: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.userCollection.doc(userId).set({
         email,
@@ -115,6 +116,17 @@ export class UserService {
             resolve();
           });
         });
+      });
+    });
+  }
+
+  addCoins(userId: string) {
+    let coins: number;
+    this.userCollection.doc(userId).ref.get().then(user => {
+      coins = user.data().cargoCoins;
+    }).then(() => {
+      this.userCollection.doc(userId).update({
+        cargoCoins: coins + 200,
       });
     });
   }

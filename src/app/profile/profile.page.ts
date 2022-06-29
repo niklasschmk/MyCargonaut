@@ -128,4 +128,8 @@ export class ProfilePage implements OnInit {
       this.actualRides = this.rides.filter(actualRide => !actualRide.closed);
     }
   }
+
+  addCoins(){
+    this.userService.addCoins(this.authService.userId);
+  }
 }

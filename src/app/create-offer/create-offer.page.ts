@@ -98,13 +98,6 @@ export class CreateOfferPage implements OnInit {
       }).catch(err => {
         this.offerStatus = err;
       });
-      //get vehicles of logged in user
-      this.vehicleService.getVehicles().then(res => {
-        this.vehicleObserve = res;
-        this.vehicleObserve.subscribe(vehicles => {
-          this.vehicles = vehicles;
-        });
-      });
     }
   }
 
@@ -112,6 +105,13 @@ export class CreateOfferPage implements OnInit {
   }
   ionViewDidEnter() {
     this.destinationRef.setFocus().then();
+    //get vehicles of logged in user
+    this.vehicleService.getVehicles().then(res => {
+      this.vehicleObserve = res;
+      this.vehicleObserve.subscribe(vehicles => {
+        this.vehicles = vehicles;
+      });
+    });
   }
 
   createOffer() {
