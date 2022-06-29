@@ -47,6 +47,7 @@ export class UserService {
    * @param lastName
    * @param lastName
    * @param birthDay
+   * @param picturePath
    */
   createUser(email: string, userName: string, userId: string, firstName: string, lastName: string, birthDay: string, picturePath: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
