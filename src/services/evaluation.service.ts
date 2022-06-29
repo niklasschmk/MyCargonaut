@@ -32,12 +32,11 @@ export class EvaluationService {
         );
     });
   }
-  getEvaluationsById(userId: string) {
-    this.evals = this.afs.collection<Evaluation>(`evaluation`, ref =>
-      ref
-        .where('userId', '==', userId)
-        .orderBy('date')
-    ).valueChanges({idField: 'evaluationId'});
+  getEvaluationsById(userId: string): Promise<Observable<Evaluation[]>> {
+    return new Promise<Observable<Evaluation[]>>((resolve) => {
+      resolve(this.afs.collection<Evaluation>('evaluation', ref =>
+      ref.where('userId', '==', userId)).valueChanges({idField: 'evaluationId'}));
+    })
   }
   getEvalById(evalId: string, checkAuth: boolean): Promise<Evaluation> {
     return new Promise((resolve, reject) => {

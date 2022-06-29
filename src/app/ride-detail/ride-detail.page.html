@@ -120,6 +120,14 @@
     </ion-item>
   </ng-container>
 
+  <ng-container *ngIf="ownRide && ride && offer && ride.closed">
+    <ion-item>
+      <ion-button color="primary" class="btn-space" (click)="evaluateUser(ride.customerUserId)">
+        <ion-icon name="chatbox-ellipses-outline"></ion-icon> Mitfahrer bewerten
+      </ion-button>
+    </ion-item>
+  </ng-container>
+
   <ng-container *ngIf="!ownRide && ride && offer">
     <ion-item *ngIf="!ride.paid && ride.closed">
       <ion-button color="danger"

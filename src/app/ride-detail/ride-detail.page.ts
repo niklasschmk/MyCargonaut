@@ -104,7 +104,11 @@ export class RideDetailPage implements OnInit {
       this.rideService.setRideToPaid(this.rideId).then(() => {
         this.toastService.presentToast('Bezahlung erfolgreich!', 'primary');
         this.getData();
+        this.router.navigate(['create-evaluation', {userToBeRated: JSON.stringify(this.ride.driverUserId)}]);
       });
     });
+  }
+  evaluateUser(userTobeRated: string) {
+    this.router.navigate(['create-evaluation', {userToBeRated: JSON.stringify(userTobeRated)}]);
   }
 }

@@ -4,6 +4,7 @@ import {EvaluationService} from "../../../services/evaluation.service";
 import {ActivatedRoute} from "@angular/router";
 import {ToastService} from "../../../services/toast.service";
 import {NavController} from "@ionic/angular";
+import {User} from "../../../model/user";
 
 @Component({
   selector: 'app-create-evaluation',
@@ -14,11 +15,11 @@ export class CreateEvaluationPage implements OnInit {
   editMode = false;
   editEvalId: string;
   evalStatus = 'undefined';
-  userId: string;
   rater: string;
   stars: number = 0;
   title: string;
   text: string;
+  userToBeRated: string;
   createEvalForm: FormGroup;
   validationMessages = {
     title: [
@@ -34,6 +35,8 @@ export class CreateEvaluationPage implements OnInit {
               public navCtrl: NavController) {
     const evalJSON = this.route.snapshot.paramMap.get('evaluationId');
     this.editEvalId = JSON.parse(evalJSON);
+    const userToBeRated = this.route.snapshot.paramMap.get('userToBeRated');
+    this.userToBeRated = JSON.parse(userToBeRated);
     this.createEvalForm = this.formBuilder.group({
       title: new FormControl('', Validators.compose([
         Validators.required,
@@ -68,7 +71,7 @@ export class CreateEvaluationPage implements OnInit {
       this.editEval();
     } else {
       if (this.createEvalForm.valid && this.stars !== undefined) {
-        this.evaluationService.saveEvaluation(this.stars, this.text, this.title, this.userId).then(res => {
+        this.evaluationService.saveEvaluation(this.stars, this.text, this.title, this.userToBeRated).then(res => {
           this.toastService.presentToast('Bewertung wurde gespeichert!', 'primary');
           this.navCtrl.pop();
         }).catch(err => {

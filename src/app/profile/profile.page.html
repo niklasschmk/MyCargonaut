@@ -37,82 +37,69 @@
         </ion-row>
         <ion-row>
           <ion-col size="12">
-            <ion-list>
-              <ion-item>
-                <ion-label style="font-size: 20px">Meine Fahrzeuge</ion-label>
-                <ion-icon name="add-outline" (click)="openAddVehicle()" color="primary"></ion-icon>
-              </ion-item>
-              <ng-container *ngFor="let vehicle of vehicleService.vehicles | async">
-                <app-vehicle-item [vehicle] = vehicle></app-vehicle-item>
+            <ion-item color="primary" *ngIf="rides">
+              <ion-label>Aktive Fahrten</ion-label>
+              <ion-icon name="chevron-down-outline" *ngIf="!viewRides" (click)="viewRides = true"></ion-icon>
+              <ion-icon name="chevron-up-outline" *ngIf="viewRides" (click)="viewRides = false"></ion-icon>
+            </ion-item>
+            <div *ngIf="viewRides">
+              <app-ride-card *ngFor="let ride of this.actualRides" [ride]="ride"></app-ride-card>
+              <ion-item *ngIf="this.actualRides.length === 0"><p>Du hast derzeit keine aktiven Fahrten!</p></ion-item>
+            </div>
+
+            <ion-item color="primary" *ngIf="rides">
+              <ion-label>Abgeschlossene Fahrten</ion-label>
+              <ion-icon name="chevron-down-outline" *ngIf="!viewFinishedRides" (click)="viewFinishedRides = true"></ion-icon>
+              <ion-icon name="chevron-up-outline" *ngIf="viewFinishedRides" (click)="viewFinishedRides = false"></ion-icon>
+            </ion-item>
+            <div *ngIf="viewFinishedRides">
+              <app-ride-card *ngFor="let ride of this.finishedRides" [ride]="ride"></app-ride-card>
+              <ion-item *ngIf="this.finishedRides.length === 0"><p>Du hast derzeit keine abgeschlossenen Fahrten!</p></ion-item>
+            </div>
+
+            <ion-item color="primary" *ngIf="myOffers">
+              <ion-label>Meine Angebote</ion-label>
+              <ion-icon name="add-outline" (click)="openAddOffer()" style="color: white; margin-right: 10px"></ion-icon>
+              <ion-icon name="chevron-down-outline" *ngIf="!viewMyOffers" (click)="viewMyOffers = true"></ion-icon>
+              <ion-icon name="chevron-up-outline" *ngIf="viewMyOffers" (click)="viewMyOffers = false"></ion-icon>
+            </ion-item>
+            <div *ngIf="viewMyOffers">
+              <ng-container *ngFor="let offer of myOffers">
+                <app-offer-card *ngIf="!offer.rideId" [offer]="offer"></app-offer-card>
               </ng-container>
+              <ion-item *ngIf="this.myOffers.length === 0"><p>Du hast derzeit keine aktiven Angebote!</p></ion-item>
+            </div>
+
+
+            <ion-item color="primary" *ngIf="vehicles">
+              <ion-label>Meine Fahrzeuge</ion-label>
+              <ion-icon name="add-outline" (click)="openAddVehicle()" style="color: white; margin-right: 10px"></ion-icon>
+              <ion-icon name="chevron-down-outline" *ngIf="!viewVehicles" (click)="viewVehicles = true"></ion-icon>
+              <ion-icon name="chevron-up-outline" *ngIf="viewVehicles" (click)="viewVehicles = false"></ion-icon>
+            </ion-item>
+            <ion-list *ngIf="viewVehicles">
+              <ng-container *ngFor="let vehicle of this.vehicles">
+                <app-vehicle-item [vehicle]=vehicle></app-vehicle-item>
+              </ng-container>
+              <ion-item *ngIf="this.vehicles.length === 0"><p>Du hast derzeit keine Fahrzeuge gespeichert!</p></ion-item>
             </ion-list>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="12">
-            <ion-list>
-              <ion-item>
-                <ion-label style="font-size: 20px">Meine Bewertungen</ion-label>
-              </ion-item>
-              <ng-container *ngFor="let eval of evaluationService.evals | async">
+
+            <ion-item color="primary" *ngIf="evaluations">
+              <ion-label>Bewertungen</ion-label>
+              <ion-icon name="chevron-down-outline" *ngIf="!viewEvaluations" (click)="viewEvaluations = true"></ion-icon>
+              <ion-icon name="chevron-up-outline" *ngIf="viewEvaluations" (click)="viewEvaluations = false"></ion-icon>
+            </ion-item>
+            <div *ngIf="viewEvaluations">
+              <ng-container *ngFor="let eval of this.evaluations">
                 <app-eval-card [eval] = eval></app-eval-card>
               </ng-container>
-            </ion-list>
+              <ion-item *ngIf="this.evaluations.length === 0"><p>Du hast derzeit keine Bewertungen!</p></ion-item>
+            </div>
           </ion-col>
         </ion-row>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-item>
-    <h3 class="header">Willkommen {{this.authService.userEmail}}</h3>
-  </ion-item>
-
-  <ion-item color="primary" *ngIf="rides">
-    <ion-label>Aktive Fahrten</ion-label>
-    <ion-icon name="chevron-down-outline" *ngIf="!viewRides" (click)="viewRides = true"></ion-icon>
-    <ion-icon name="chevron-up-outline" *ngIf="viewRides" (click)="viewRides = false"></ion-icon>
-  </ion-item>
-  <div *ngIf="viewRides">
-      <app-ride-card *ngFor="let ride of this.actualRides" [ride]="ride"></app-ride-card>
-    <ion-item *ngIf="this.actualRides.length === 0"><p>Du hast derzeit keine aktiven Fahrten!</p></ion-item>
-  </div>
-
-  <ion-item color="primary" *ngIf="rides">
-    <ion-label>Abgeschlossene Fahrten</ion-label>
-    <ion-icon name="chevron-down-outline" *ngIf="!viewFinishedRides" (click)="viewFinishedRides = true"></ion-icon>
-    <ion-icon name="chevron-up-outline" *ngIf="viewFinishedRides" (click)="viewFinishedRides = false"></ion-icon>
-  </ion-item>
-  <div *ngIf="viewFinishedRides">
-      <app-ride-card *ngFor="let ride of this.finishedRides" [ride]="ride"></app-ride-card>
-    <ion-item *ngIf="this.finishedRides.length === 0"><p>Du hast derzeit keine abgeschlossenen Fahrten!</p></ion-item>
-  </div>
-
-  <ion-item color="primary" *ngIf="myOffers">
-    <ion-label>Meine Angebote</ion-label>
-    <ion-icon name="add-outline" (click)="openAddOffer()" style="color: white; margin-right: 10px"></ion-icon>
-    <ion-icon name="chevron-down-outline" *ngIf="!viewMyOffers" (click)="viewMyOffers = true"></ion-icon>
-    <ion-icon name="chevron-up-outline" *ngIf="viewMyOffers" (click)="viewMyOffers = false"></ion-icon>
-  </ion-item>
-  <div *ngIf="viewMyOffers">
-    <ng-container *ngFor="let offer of myOffers">
-      <app-offer-card *ngIf="!offer.rideId" [offer]="offer"></app-offer-card>
-    </ng-container>
-    <ion-item *ngIf="this.myOffers.length === 0"><p>Du hast derzeit keine aktiven Angebote!</p></ion-item>
-  </div>
-
-
-  <ion-item color="primary" *ngIf="vehicles">
-    <ion-label>Meine Fahrzeuge</ion-label>
-    <ion-icon name="add-outline" (click)="openAddVehicle()" style="color: white; margin-right: 10px"></ion-icon>
-    <ion-icon name="chevron-down-outline" *ngIf="!viewVehicles" (click)="viewVehicles = true"></ion-icon>
-    <ion-icon name="chevron-up-outline" *ngIf="viewVehicles" (click)="viewVehicles = false"></ion-icon>
-  </ion-item>
-  <ion-list *ngIf="viewVehicles">
-    <ng-container *ngFor="let vehicle of this.vehicles">
-      <app-vehicle-item [vehicle]=vehicle></app-vehicle-item>
-    </ng-container>
-    <ion-item *ngIf="this.vehicles.length === 0"><p>Du hast derzeit keine Fahrzeuge gespeichert!</p></ion-item>
-  </ion-list>
 </ion-content>
 
 <ion-content *ngIf="authService.user && differentUser && userOther">
@@ -135,14 +122,17 @@
     </ion-row>
     <ion-row>
       <ion-col size="12">
-        <ion-list>
-          <ion-item>
-            <ion-label style="font-size: 20px">Bewertungen des Nutzers</ion-label>
-          </ion-item>
-          <ng-container *ngFor="let eval of evaluationService.evals | async, let i = index">
+        <ion-item color="primary" *ngIf="evaluations">
+          <ion-label>Bewertungen</ion-label>
+          <ion-icon name="chevron-down-outline" *ngIf="!viewEvaluations" (click)="viewEvaluations = true"></ion-icon>
+          <ion-icon name="chevron-up-outline" *ngIf="viewEvaluations" (click)="viewEvaluations = false"></ion-icon>
+        </ion-item>
+        <div *ngIf="viewEvaluations">
+          <ng-container *ngFor="let eval of this.evaluations">
             <app-eval-card [eval] = eval></app-eval-card>
           </ng-container>
-        </ion-list>
+          <ion-item *ngIf="this.evaluations.length === 0"><p>Du hast derzeit keine Bewertungen!</p></ion-item>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

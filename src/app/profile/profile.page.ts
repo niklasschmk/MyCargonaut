@@ -23,10 +23,12 @@ export class ProfilePage implements OnInit {
   viewVehicles = true;
   viewRides = true;
   viewFinishedRides = true;
+  viewEvaluations = true;
   differentUser = false;
   otherUser: string;
   userOther: User;
-  evaluations: Observable<Evaluation[]>;
+  evaluationsObserve: Observable<Evaluation[]>;
+  evaluations: Evaluation[] = [];
   myOffers: Offer[] = [];
   myOffersObserve: Observable<Offer[]>;
   rides: Ride[] = [];
@@ -45,7 +47,12 @@ export class ProfilePage implements OnInit {
       this.differentUser = true;
       this.userService.getUserById(this.otherUser).then(user => {
         this.userOther = user;
-        this.evaluationService.getEvaluationsById(this.otherUser);
+        this.evaluationService.getEvaluationsById(this.otherUser).then(res => {
+          this.evaluationsObserve = res;
+          this.evaluationsObserve.subscribe(evaluations => {
+            this.evaluations = evaluations;
+          });
+        });
       });
     }
   }
@@ -57,7 +64,12 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     if(!this.differentUser){
       if(this.authService.user) {
-        this.evaluationService.getEvaluationsById(this.authService.user.userId);
+        this.evaluationService.getEvaluationsById(this.authService.user.userId).then(res => {
+          this.evaluationsObserve = res;
+          this.evaluationsObserve.subscribe(evaluations => {
+            this.evaluations = evaluations;
+          });
+        });
       }
     }
   }
