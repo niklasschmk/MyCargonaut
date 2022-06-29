@@ -6,11 +6,11 @@ import {ToastService} from "../../../services/toast.service";
 import {NavController} from "@ionic/angular";
 
 @Component({
-  selector: 'app-create-eval',
-  templateUrl: './create-eval.page.html',
-  styleUrls: ['./create-eval.page.scss'],
+  selector: 'app-create-evaluation',
+  templateUrl: './create-evaluation.page.html',
+  styleUrls: ['./create-evaluation.page.scss'],
 })
-export class CreateEvalPage implements OnInit {
+export class CreateEvaluationPage implements OnInit {
   editMode = false;
   editEvalId: string;
   evalStatus = 'undefined';

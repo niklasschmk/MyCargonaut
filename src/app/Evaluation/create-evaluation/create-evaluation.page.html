@@ -1,11 +1,11 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
+      <ion-back-button color="primary"></ion-back-button>
       <img alt="MyCargonautLogo" src="assets/icon/myCargonautLogo.png" class="logo">
     </ion-buttons>
-    <ion-title>
-      Bewertung erstellen
-    </ion-title>
+    <ion-title *ngIf="!editMode">Bewertung erstellen</ion-title>
+    <ion-title *ngIf="editMode">Bewertung bearbeiten</ion-title>
   </ion-toolbar>
 </ion-header>
 

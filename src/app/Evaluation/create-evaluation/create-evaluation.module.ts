@@ -2,19 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { CreateEvalPageRoutingModule } from './create-eval-routing.module';
-import { CreateEvalPage } from './create-eval.page';
-import {IonicRatingComponentModule} from 'ionic-rating-component';
+import { CreateEvaluationPageRoutingModule } from './create-evaluation-routing.module';
+import { CreateEvaluationPage } from './create-evaluation.page';
+import {IonicRatingComponentModule} from "ionic-rating-component";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CreateEvalPageRoutingModule,
+    CreateEvaluationPageRoutingModule,
     IonicRatingComponentModule,
     ReactiveFormsModule
   ],
-  declarations: [CreateEvalPage]
+  declarations: [CreateEvaluationPage]
 })
-export class CreateEvalPageModule {}
+export class CreateEvaluationPageModule {}
