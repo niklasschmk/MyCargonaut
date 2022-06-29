@@ -1,29 +1,27 @@
-name: Build App and Deploy on Firebase_
-on: push
+
+name: Build Angular App and Deploy on Firebase
+on:
+  push:
+    branches:
+      - refactor
 
 jobs:
-  Explore-GitHub-Actions:
+  build:
+    name: Build & Deploy
     runs-on: ubuntu-latest
-    env:
-      DEFAULT_BRANCH: main
     steps:
-      - uses: actions/checkout@v3
-      - name: 'Install Node'
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'npm'
+      - name: Checkout Repo
+        uses: actions/checkout@master
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
       - name: Build
         run: npm run build
       - name: Run Tests
         run: npm run test
       - name: Deploy to Firebase
-        uses: FirebaseExtended/action-hosting-deploy@v0
+        uses: w9jds/firebase-action@master
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-            firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARGONAUT_21A4A }}'
-            channelId: live
-            projectId: cargonaut-21a4a
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
 
