@@ -71,20 +71,36 @@ export class OfferDetailPage implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Opens user of the offer
+   * @param userId ID of the user
+   */
   openOtherUser(userId: string) {
     this.userService.setOtherUser(userId);
     this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]);
   }
 
+  /**
+   * opens edit page
+   * @param offerId ID of the to edit offer
+   */
   async editOffer(offerId: string) {
     await this.router.navigate(['create-offer', {offerId: JSON.stringify(offerId)}]);
   }
+
+  /**
+   * Calls the delete function in offer service
+   */
   deleteOffer() {
     this.offerService.deleteOffer(this.offerId).then(() => {
       this.toastService.presentToast('Angebot erfolgreich gelöscht!', 'primary');
       this.navCtrl.pop();
     });
   }
+
+  /**
+   * Check if the user is logged in
+   */
   loginCheck(): Promise<boolean> {
     return new Promise((resolve) => {
       if (this.authService.userId === '0') {
@@ -96,6 +112,9 @@ export class OfferDetailPage implements OnInit {
     });
   }
 
+  /**
+   * booking a offer
+   */
   book() {
     this.loginCheck().then(loggedIn => {
       if (loggedIn) {
@@ -110,6 +129,9 @@ export class OfferDetailPage implements OnInit {
     });
   }
 
+  /**
+   * Reset the booking
+   */
   resetBook() {
     this.loginCheck().then(loggedIn => {
       if (loggedIn) {
@@ -122,6 +144,9 @@ export class OfferDetailPage implements OnInit {
     });
   }
 
+  /**
+   * Starting a ride
+   */
   startRide() {
     this.alertService.presentAlertConfirm('Fahrt starten?',
       'Bist du sicher dass du die Fahrt starten möchtest? Dies kann nicht rückgängig gemacht werden!').then((confirm: boolean) => {

@@ -21,6 +21,9 @@ export class OfferCardComponent implements OnInit {
               public userService: UserService) {
   }
 
+  /**
+   * Getting the user of the offer and the user who booked the offer
+   */
   ngOnInit() {
     this.userService.getUserById(this.offer.userId).then((user) => {
       this.user = user;
@@ -32,10 +35,18 @@ export class OfferCardComponent implements OnInit {
     }
   }
 
+  /**
+   * Opens detailpage of an offer
+   * @param offerId ID of the offer
+   */
   openOfferDetail(offerId: string) {
     this.router.navigate(['offer-detail', {offerId: JSON.stringify(offerId)}]);
   }
 
+  /**
+   * opens the user who is the owner of the offer
+   * @param userId ID of the user
+   */
   openOtherUser(userId: string) {
     this.userService.setOtherUser(userId);
     this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]);

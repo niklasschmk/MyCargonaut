@@ -17,6 +17,10 @@ export class Tab2Page {
   constructor(public authService: AuthService, private router: Router, private nacCtrl: NavController,
               public requestService: RequestService, private toastService: ToastService, public userService: UserService,
               private firestore: AngularFirestore) {}
+
+  /**
+   * Navigating to creating page or to login page if the user is not logged in
+   */
   createRequest() {
     if(this.authService.user === null){
       this.router.navigate(['login']);

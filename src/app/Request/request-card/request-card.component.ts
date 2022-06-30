@@ -21,14 +21,27 @@ export class RequestCardComponent implements OnInit {
               private nacCtrl: NavController, private toastService: ToastService, public userService: UserService) {
   }
 
+  /**
+   * Getting the user of the request
+   */
   ngOnInit() {
     this.userService.getUserById(this.request.userId).then((user) => {
       this.user = user;
     });
   }
+
+  /**
+   * Opening the request detail page
+   * @param requestId ID of the request
+   */
   openRequestDetail(requestId: string) {
     this.router.navigate(['request-detail', {requestId: JSON.stringify(requestId)}]);
   }
+
+  /**
+   * Opening the user of the request
+   * @param userId ID of the request owner
+   */
   openOtherUser(userId: string){
     this.userService.setOtherUser(userId);
     this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]);

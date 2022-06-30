@@ -161,6 +161,10 @@ export class LoginPage implements OnInit {
     this.authService.signInWithGoogle();
   }
 
+  /**
+   * Uploading the image
+   * @param event profile picture
+   */
   async uploadImage(event) {
     this.file = event.target.files[0];
     const pathFile = 'images/profile' + Math.floor(Math.random() * 1000);

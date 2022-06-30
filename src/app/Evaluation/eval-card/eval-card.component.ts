@@ -54,6 +54,11 @@ export class EvalCardComponent implements OnInit {
     }).catch(err => {
     });
   }
+
+  /**
+   * Opens a other user
+   * @param userId ID of the other user
+   */
   openOtherUser(userId: string){
     this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]);
   }

@@ -60,11 +60,18 @@ export class RequestDetailPage implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Opening the request owner by his ID
+   * @param userId ID of the request owner
+   */
   openOtherUser(userId: string) {
     this.userService.setOtherUser(userId);
     this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]);
   }
 
+  /**
+   * Checking if the user is logged in
+   */
   loginCheck(): Promise<boolean> {
     return new Promise((resolve) => {
       if (this.authService.userId === '0') {
@@ -75,15 +82,25 @@ export class RequestDetailPage implements OnInit {
       }
     });
   }
+
+  /**
+   * Editing a request
+   * @param requestId ID of the request
+   */
   async editRequest(requestId: string) {
     await this.router.navigate(['create-request', {requestId: JSON.stringify(requestId)}]);
   }
+
+  /**
+   * Deleting a request by calling delete function in request service
+   */
   deleteRequest() {
     this.requestService.deleteRequest(this.requestId).then(() => {
       this.toastService.presentToast('Angebot erfolgreich gelöscht!', 'primary');
       this.navCtrl.pop();
     });
   }
+
 
   saveBid() {
     this.requestService.bid(this.request, this.bidPrice).then(() => {

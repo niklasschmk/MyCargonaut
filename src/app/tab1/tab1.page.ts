@@ -18,6 +18,9 @@ export class Tab1Page implements OnInit{
 
   async ngOnInit(){}
 
+  /**
+   * Navigating to login page if the user is not logged in or to the creating page
+   */
   createOffer() {
     if(this.authService.user === null){
       this.router.navigate(['login']);

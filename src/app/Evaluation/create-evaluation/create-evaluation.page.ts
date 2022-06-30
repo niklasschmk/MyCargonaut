@@ -62,9 +62,18 @@ export class CreateEvaluationPage implements OnInit {
 
   ngOnInit() {
   }
+
+  /**
+   * Check if rating-stars were changed
+   * @param stars
+   */
   onRatingChange(stars) {
     this.stars = stars;
   }
+
+  /**
+   * Saves the data and calls the saveEvaluation function in evaluation service
+   */
   saveEval() {
     if (this.editMode) {
       //check if edit mode activated, if yes, go on with editEval function
@@ -84,6 +93,10 @@ export class CreateEvaluationPage implements OnInit {
       }
     }
   }
+
+  /**
+   * Saves data changes and calls editEval function in evaluation service
+   */
   editEval() {
     if (this.createEvalForm.valid) {
       this.evaluationService.editEval(this.editEvalId, this.stars, this.text, this.title).then(() => {

@@ -25,6 +25,9 @@ export class RideCardComponent implements OnInit {
               private vehicleService: VehicleService) {
   }
 
+  /**
+   * Getting offer and vehicle by their IDs
+   */
   ngOnInit() {
     this.offerService.getOfferById(this.ride.offerId, false).then(res => {
       this.offer = res;
@@ -39,12 +42,19 @@ export class RideCardComponent implements OnInit {
     });
   }
 
+  /**
+   * Opening another user by his id
+   * @param userId ID of this user
+   */
   openOtherUser(userId: string) {
     console.log(userId);
     this.userService.setOtherUser(userId);
     this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]);
   }
 
+  /**
+   * Opening ride detail
+   */
   openRideDetail() {
     this.router.navigate(['ride-detail', {rideId: JSON.stringify(this.ride.rideId)}]);
   }

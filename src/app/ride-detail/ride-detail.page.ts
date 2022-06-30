@@ -41,10 +41,16 @@ export class RideDetailPage implements OnInit {
               private alertService: AlertService, private navCtrl: NavController) {
   }
 
+  /**
+   * Calling getData function
+   */
   ngOnInit() {
     this.getData();
   }
 
+  /**
+   * Getting all data
+   */
   getData() {
     const rideJSON = this.route.snapshot.paramMap.get('rideId');
     this.rideId = JSON.parse(rideJSON);
@@ -73,11 +79,18 @@ export class RideDetailPage implements OnInit {
     });
   }
 
+  /**
+   * Opening other user by his ID
+   * @param userId ID of this user
+   */
   openOtherUser(userId: string) {
     this.userService.setOtherUser(userId);
     this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]);
   }
 
+  /**
+   * Saves the status of the ride
+   */
   saveStatus() {
     this.rideService.saveStatus(this.newStatus, this.rideId).then(() => {
       this.editStatus = false;
@@ -86,10 +99,16 @@ export class RideDetailPage implements OnInit {
     });
   }
 
+  /**
+   * Showing the message that a ride has to be closed
+   */
   showEndStatusMessage() {
     this.toastService.presentToast('Um die Fahrt abzuschließen musst du den Status auf abgeschlossen oder abgebrochen setzen!', 'danger');
   }
 
+  /**
+   * Finishing a ride
+   */
   finishRide() {
     this.alertService.presentAlertConfirm('Fahrt abschließen?',
       'Möchtest du die Fahrt wirklich abschließen? Das kann nicht rückgängig gemacht werden.').then(() => {
@@ -99,6 +118,9 @@ export class RideDetailPage implements OnInit {
     });
   }
 
+  /**
+   * Paying a ride
+   */
   payRide() {
     this.userService.payRide(this.offer.price, this.ride.customerUserId, this.ride.driverUserId).then(() => {
       this.rideService.setRideToPaid(this.rideId).then(() => {
@@ -108,6 +130,11 @@ export class RideDetailPage implements OnInit {
       });
     });
   }
+
+  /**
+   * Get to the evaluate page
+   * @param userTobeRated ID of the user which will be rated
+   */
   evaluateUser(userTobeRated: string) {
     this.router.navigate(['create-evaluation', {userToBeRated: JSON.stringify(userTobeRated)}]);
   }

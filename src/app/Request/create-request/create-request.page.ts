@@ -92,9 +92,17 @@ export class CreateRequestPage implements OnInit {
   }
   ngOnInit() {
   }
+
+  /**
+   * Setting the focus on first inputfield
+   */
   ionViewDidEnter() {
     this.destinationRef.setFocus().then();
   }
+
+  /**
+   * creating a request by calling create function in request service
+   */
   createRequest() {
     if(this.editMode){
       this.editRequest();
@@ -111,9 +119,17 @@ export class CreateRequestPage implements OnInit {
       }
     }
   }
+
+  /**
+   * Generating a id for the request
+   */
   generateRequestId(){
     return '_' + Math.random().toString(36).substr(2, 9);
   }
+
+  /**
+   * Editing a request by calling edit function in request service
+   */
   editRequest() {
     if (this.createRequestForm.valid) {
       this.requestService.editRequest(this.editRequestId, this.cargoSpace, this.date, this.destination, this.seats,
@@ -125,6 +141,10 @@ export class CreateRequestPage implements OnInit {
       this.toastService.presentToast('Bitte fülle alle Felder aus!', 'danger');
     }
   }
+
+  /**
+   * Get the own requests of the user
+   */
   getRequests() {
     this.requestService.getOwnEventsOfUser();
   }
