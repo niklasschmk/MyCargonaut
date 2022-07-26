@@ -92,9 +92,11 @@
             <ion-item>
               <ion-label position="floating">Fahrzeug</ion-label>
               <ion-select interface="popover" [(ngModel)]="vehicleId" formControlName="vehicleId">
-                <ion-select-option class="selectOption-small" *ngFor="let val of vehicles"
+                <ng-container *ngFor="let val of vehicles">
+                <ion-select-option class="selectOption-small" *ngIf="!val.deleted"
                                    [value]="val.vehicleId">{{val.name}}
                 </ion-select-option>
+                </ng-container>
               </ion-select>
               <div class="validation-errors">
                 <ng-container *ngFor="let validation of validationMessages.vehicleId">

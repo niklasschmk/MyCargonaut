@@ -15,11 +15,11 @@ export class VehicleService {
   constructor(private afs: AngularFirestore, public authService: AuthService,
               public alertService: AlertService, public toastService: ToastService) {
     this.vehicleCollection = this.afs.collection<Vehicle>('vehicle');
-    this.getVehicles();
+    this.getVehicles().then();
   }
 
   /**
-   * Get all vehicles of the logged in user
+   * Get all vehicles of the logged-in user
    */
   getVehicles(): Promise<Observable<Vehicle[]>>{
     return new Promise<Observable<Vehicle[]>>((resolve) => {
@@ -39,14 +39,14 @@ export class VehicleService {
         if (doc.exists){
           resolve(doc.data());
         } else {
-          reject('vehicle not found');
+          reject('vehicle not found, vehicleId: ' + vehicleId);
         }
       });
     });
   }
 
   /**
-   * Add a vehicle for the logged in user with defined values
+   * Add a vehicle for the logged-in user with defined values
    *
    * @param name name of the vehicle
    * @param seats number of seats
@@ -58,9 +58,10 @@ export class VehicleService {
         name,
         seats,
         cargoSpace,
-        userId: this.authService.userId
+        userId: this.authService.userId,
+        deleted: false,
       }).then(() => {
-        this.toastService.presentToast('Fahrzeug wurde gespeichert', 'primary');
+        this.toastService.presentToast('Fahrzeug wurde gespeichert', 'primary').then();
         resolve();
       }).catch(() => {
         reject();
@@ -81,7 +82,9 @@ export class VehicleService {
         'Sind Sie sicher, dass Sie das Fahrzeug löschen möchten?').then(confirm => {
           if(confirm){
             //delete vehicle if user confirmed
-            this.vehicleCollection.doc(vehicleId).delete()
+            this.vehicleCollection.doc(vehicleId).update({
+              deleted: true,
+            })
               .then(() => {
                   this.toastService.presentToast('Fahrzeug wurde gelöscht', 'primary');
                   resolve();

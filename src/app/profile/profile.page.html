@@ -92,7 +92,7 @@
             </ion-item>
             <ion-list *ngIf="viewVehicles">
               <ng-container *ngFor="let vehicle of this.vehicles">
-                <app-vehicle-item [vehicle]=vehicle></app-vehicle-item>
+                <app-vehicle-item *ngIf="!vehicle.deleted" [vehicle]=vehicle></app-vehicle-item>
               </ng-container>
               <ion-item *ngIf="this.vehicles.length === 0"><p>Du hast derzeit keine Fahrzeuge gespeichert!</p>
               </ion-item>

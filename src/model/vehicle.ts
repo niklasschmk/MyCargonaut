@@ -4,6 +4,7 @@ export class Vehicle {
   cargoSpace: number;
   seats: number;
   userId: string;
+  deleted: boolean;
 
   constructor(name: string, cargoSpace: number, seats: number, userId: string) {
     this.name = name;
