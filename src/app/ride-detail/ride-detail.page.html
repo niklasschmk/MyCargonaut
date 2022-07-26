@@ -27,10 +27,13 @@
         <ion-label style="font-size: 15px">Preis: {{offer.price}}</ion-label>
       </ion-item>
       <ion-item *ngIf="vehicle">
-        <ion-label style="font-size: 15px">Plätze: {{vehicle.seats}}</ion-label>
+        <ion-label style="font-size: 15px">Fahrzeug: {{vehicle.name}}</ion-label>
       </ion-item>
-      <ion-item *ngIf="vehicle">
-        <ion-label style="font-size: 15px">Stauraum: {{vehicle.cargoSpace}} Liter</ion-label>
+      <ion-item>
+        <ion-label style="font-size: 15px">Plätze: {{offer.seats}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label style="font-size: 15px">Stauraum: {{offer.cargoSpace}} Liter</ion-label>
       </ion-item>
       <ion-item>
         <ion-label (click)="openOtherUser(this.offer.bookedBy)">Gebucht

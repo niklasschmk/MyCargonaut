@@ -27,6 +27,7 @@ export class OfferDetailPage implements OnInit {
   booked = false;
   error: boolean;
   userWhoBooked: User | null;
+  ownOffer: boolean;
 
   constructor(public offerService: OfferService, public vehicleService: VehicleService, private userService: UserService,
               public toastService: ToastService, private route: ActivatedRoute, private router: Router, public authService: AuthService,
@@ -36,7 +37,8 @@ export class OfferDetailPage implements OnInit {
     //get offer
     this.offerService.getOfferById(this.offerId, false).then(offer => {
       this.offer = offer;
-      if (this.offer.bookedBy === null) {
+      this.ownOffer = (this.offer.userId === this.authService.userId);
+      if (this.offer.bookedBy === null && this.offer.userId) {
         this.available = true;
       } else if (this.offer.bookedBy === this.authService.userId) {
         this.booked = true;
@@ -73,15 +75,17 @@ export class OfferDetailPage implements OnInit {
 
   /**
    * Opens user of the offer
+   *
    * @param userId ID of the user
    */
   openOtherUser(userId: string) {
     this.userService.setOtherUser(userId);
-    this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]);
+    this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]).then();
   }
 
   /**
    * opens edit page
+   *
    * @param offerId ID of the to edit offer
    */
   async editOffer(offerId: string) {
@@ -93,8 +97,8 @@ export class OfferDetailPage implements OnInit {
    */
   deleteOffer() {
     this.offerService.deleteOffer(this.offerId).then(() => {
-      this.toastService.presentToast('Angebot erfolgreich gelöscht!', 'primary');
-      this.navCtrl.pop();
+      this.toastService.presentToast('Angebot erfolgreich gelöscht!', 'primary').then();
+      this.navCtrl.pop().then();
     });
   }
 
@@ -105,7 +109,7 @@ export class OfferDetailPage implements OnInit {
     return new Promise((resolve) => {
       if (this.authService.userId === '0') {
         resolve(false);
-        this.toastService.presentToast('Hierzu musst du dich anmelden!', 'primary');
+        this.toastService.presentToast('Hierzu musst du dich anmelden!', 'primary').then();
       } else {
         resolve(true);
       }
@@ -113,7 +117,7 @@ export class OfferDetailPage implements OnInit {
   }
 
   /**
-   * booking a offer
+   * booking an offer
    */
   book() {
     this.loginCheck().then(loggedIn => {
@@ -121,7 +125,7 @@ export class OfferDetailPage implements OnInit {
         this.offerService.book(this.authService.userId, this.offerId).then(() => {
           this.available = false;
           this.booked = true;
-          this.toastService.presentToast('Die Buchung war erfolgreich!', 'primary');
+          this.toastService.presentToast('Die Buchung war erfolgreich!', 'primary').then();
         }).catch(e => {
           console.log(e);
         });
@@ -138,7 +142,7 @@ export class OfferDetailPage implements OnInit {
         this.offerService.resetBook(this.offerId).then(() => {
           this.available = true;
           this.booked = false;
-          this.toastService.presentToast('Die Buchung wurde storniert!', 'primary');
+          this.toastService.presentToast('Die Buchung wurde storniert!', 'primary').then();
         });
       }
     });
@@ -152,8 +156,8 @@ export class OfferDetailPage implements OnInit {
       'Bist du sicher dass du die Fahrt starten möchtest? Dies kann nicht rückgängig gemacht werden!').then((confirm: boolean) => {
       if (confirm) {
         this.rideService.startRide(this.offerId, this.offer.bookedBy, this.offer.date).then(() => {
-          this.navCtrl.pop();
-          this.toastService.presentToast('Die Fahrt wurde gestartet!', 'primary');
+          this.navCtrl.pop().then();
+          this.toastService.presentToast('Die Fahrt wurde gestartet!', 'primary').then();
         });
       }
     });

@@ -32,6 +32,9 @@ export class CreateOfferPage implements OnInit {
   createOfferForm: FormGroup;
   vehicles: Vehicle[];
   vehicleObserve: Observable<Vehicle[]>;
+  cargoSpace: number;
+  seats: number;
+  showVehicleData = false;
 
   validationMessages = {
     destination: [
@@ -52,9 +55,10 @@ export class CreateOfferPage implements OnInit {
       //check if date is in future missing
     ],
     vehicleId: [
-      {type: 'required', message: 'Bitte wähle ein Fahrzeug aus!'},
-    ]
+      {type: 'required', message: 'Bitte gib ein Fahrzeug an!'},
+    ],
   };
+
   constructor(private offerService: OfferService, private router: Router, private navCtrl: NavController,
               public formBuilder: FormBuilder, private toastService: ToastService, private route: ActivatedRoute,
               public vehicleService: VehicleService) {
@@ -76,13 +80,17 @@ export class CreateOfferPage implements OnInit {
         Validators.required
       ])),
       vehicleId: new FormControl('', Validators.compose([
-        Validators.required,
+        Validators.required
+      ])),
+      seats: new FormControl('', Validators.compose([
+      ])),
+      cargoSpace: new FormControl('', Validators.compose([
       ])),
     });
     this.getOffers();
     const eventJSON = this.route.snapshot.paramMap.get('offerId');
     this.editOfferId = JSON.parse(eventJSON);
-    if(this.editOfferId !== null){
+    if (this.editOfferId !== null) {
       this.editMode = true;
       this.offerService.getOfferById(this.editOfferId, true).then(offer => {
         this.destination = offer.destination;
@@ -103,6 +111,7 @@ export class CreateOfferPage implements OnInit {
 
   ngOnInit() {
   }
+
   ionViewDidEnter() {
     this.destinationRef.setFocus().then();
     //get vehicles of logged in user
@@ -115,38 +124,64 @@ export class CreateOfferPage implements OnInit {
   }
 
   createOffer() {
-    if(this.editMode){
+    if (this.editMode) {
       this.editOffer();
     } else {
-      if(this.createOfferForm.valid) {
-        const offerId = this.generateOfferId();
-        this.offerService.createOffer(this.date,this.destination, this.price, this.start, this.vehicleId, offerId).then(() => {
-          this.toastService.presentToast('Angebot erfolgreich angelegt!', 'success');
-          this.navCtrl.pop();
+      if (this.createOfferForm.valid) {
+        this.vehicleService.getVehicleById(this.vehicleId).then(vehicle => {
+          if(!this.showVehicleData){
+            //get vehicle data
+            this.currentVehicle = vehicle;
+            this.cargoSpace = vehicle.cargoSpace;
+            this.seats = vehicle.seats;
+          }
+          const offerId = this.generateOfferId();
+          this.offerService.createOffer(this.date, this.destination, this.price, this.start, this.cargoSpace,
+            this.seats, this.vehicleId, offerId).then(() => {
+            this.toastService.presentToast('Angebot erfolgreich angelegt!', 'success').then();
+            this.navCtrl.pop().then();
+          });
         });
       } else {
-        this.toastService.presentToast('Bitte füllel alle Felder aus!', 'danger');
+        this.toastService.presentToast('Bitte fülle alle Felder aus!', 'danger').then();
       }
     }
   }
 
-  generateOfferId(){
+  generateOfferId() {
     return '_' + Math.random().toString(36).substr(2, 9);
   }
 
   editOffer() {
     if (this.createOfferForm.valid) {
-      this.offerService.editOffer(this.editOfferId, this.destination, this.price, this.start,
-        this.vehicleId).then(() => {
-        this.toastService.presentToast('Angebot erfolgreich geändert!', 'success');
-        this.navCtrl.pop();
+      this.vehicleService.getVehicleById(this.vehicleId).then(vehicle => {
+        if(!this.showVehicleData){
+          //get vehicle data
+          this.currentVehicle = vehicle;
+          this.cargoSpace = vehicle.cargoSpace;
+          this.seats = vehicle.seats;
+        }
+        this.offerService.editOffer(this.editOfferId, this.destination, this.price, this.start,
+          this.vehicleId, this.seats, this.cargoSpace).then(() => {
+          this.toastService.presentToast('Angebot erfolgreich geändert!', 'success').then();
+          this.navCtrl.pop().then();
+        });
       });
     } else {
-      this.toastService.presentToast('Bitte fülle alle Felder aus!', 'danger');
+      this.toastService.presentToast('Bitte fülle alle Felder aus!', 'danger').then();
     }
   }
 
   getOffers() {
-    this.offerService.getOwnEventsOfUser();
+    this.offerService.getOwnOffersOfUser();
+  }
+
+  openVehicleData(){
+    this.vehicleService.getVehicleById(this.vehicleId).then(vehicle => {
+      this.currentVehicle = vehicle;
+      this.cargoSpace = vehicle.cargoSpace;
+      this.seats = vehicle.seats;
+      this.showVehicleData = true;
+    });
   }
 }

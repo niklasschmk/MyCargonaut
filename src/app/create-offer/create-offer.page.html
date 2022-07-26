@@ -29,7 +29,8 @@
           <form [formGroup]="createOfferForm">
             <ion-item>
               <ion-label position="floating">Ziel der Fahrt</ion-label>
-              <ion-input [(ngModel)]="destination" formControlName="destination" type="text" #destinationInput></ion-input>
+              <ion-input [(ngModel)]="destination" formControlName="destination" type="text"
+                         #destinationInput></ion-input>
               <div class="validation-errors">
                 <ng-container *ngFor="let validation of validationMessages.destination">
                   <div class="error-message" *ngIf="createOfferForm.get('destination').hasError(validation.type)
@@ -88,14 +89,13 @@
                 </ng-container>
               </div>
             </ion-item>
-
             <ion-item>
               <ion-label position="floating">Fahrzeug</ion-label>
               <ion-select interface="popover" [(ngModel)]="vehicleId" formControlName="vehicleId">
                 <ng-container *ngFor="let val of vehicles">
-                <ion-select-option class="selectOption-small" *ngIf="!val.deleted"
-                                   [value]="val.vehicleId">{{val.name}}
-                </ion-select-option>
+                  <ion-select-option class="selectOption-small" *ngIf="!val.deleted"
+                                     [value]="val.vehicleId">{{val.name}}
+                  </ion-select-option>
                 </ng-container>
               </ion-select>
               <div class="validation-errors">
@@ -108,8 +108,19 @@
                 </ng-container>
               </div>
             </ion-item>
+            <ion-button *ngIf="this.vehicleId && !this.showVehicleData" (click)="this.openVehicleData()">Fahrzeugdaten ändern</ion-button>
+            <ion-item *ngIf="showVehicleData">
+              <ion-label position="floating">Sitzplätze</ion-label>
+              <ion-input [(ngModel)]="seats" formControlName="seats" type="number"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="showVehicleData">
+              <ion-label position="floating">Kofferaumvolumen in Litern</ion-label>
+              <ion-input [(ngModel)]="cargoSpace" formControlName="cargoSpace" type="number"></ion-input>
+            </ion-item>
           </form>
-          <ion-button color="success" expand="block" class="btn-space offerCreate" (click)="createOffer()">Angebot speichern</ion-button>
+          <ion-button color="success" expand="block" class="btn-space offerCreate" (click)="createOffer()">Angebot
+            speichern
+          </ion-button>
         </ion-col>
         <ion-col></ion-col>
       </ion-row>

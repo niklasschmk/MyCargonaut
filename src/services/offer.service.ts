@@ -27,7 +27,8 @@ export class OfferService {
     this.offers = this.offerCollection.valueChanges({idField: 'offerId'});
   }
 
-  createOffer(date: string, destination: string, price: number, start: string, vehicleId: string, offerId: string) {
+  createOffer(date: string, destination: string, price: number, start: string, cargoSpace: number,
+              seats: number, vehicleId: string, offerId: string) {
     return new Promise<any>((resolve, reject) => {
       this.afs.collection('offer').doc(offerId).set({
         userId: this.authService.user.userId,
@@ -35,6 +36,8 @@ export class OfferService {
         destination,
         price,
         start,
+        cargoSpace,
+        seats,
         vehicleId,
         bookedBy: null,
         rideId: null
@@ -45,13 +48,15 @@ export class OfferService {
     });
   }
 
-  editOffer(offerId, destination, price, start, vehicleId) {
+  editOffer(offerId, destination, price, start, vehicleId, seats, cargoSpace) {
     return new Promise<any>((resolve, reject) => {
       this.afs.collection('offer').doc(offerId).update({
         destination,
         price,
         start,
-        vehicleId
+        vehicleId,
+        seats,
+        cargoSpace
       }).then(
         res => resolve(res),
         err => reject(err)
@@ -84,7 +89,7 @@ export class OfferService {
   /**
    * Gets own offer of user and saves them in Service
    */
-  getOwnEventsOfUser() {
+  getOwnOffersOfUser() {
     this.ownOffersOfUser = this.afs.collection<Offer>('offer', ref =>
       ref
         .where('userId', '==', this.authService.userId)
@@ -113,6 +118,7 @@ export class OfferService {
       }).then(resolve);
     });
   }
+
   deleteOffer(offerId: string) {
     return new Promise<any>(async (resolve, reject) => {
       //TODO: Auth
@@ -142,6 +148,8 @@ export class OfferService {
         start: req.start,
         userId: req.lowestBidUserId,
         vehicleId : null,
+        seats: null,
+        cargoSpace: null,
         rideId : null,
       }).then(doc => {
         this.afs.collection('request').doc(req.requestId).update({

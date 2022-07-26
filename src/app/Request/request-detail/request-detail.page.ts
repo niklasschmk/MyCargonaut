@@ -62,11 +62,12 @@ export class RequestDetailPage implements OnInit {
 
   /**
    * Opening the request owner by his ID
+   *
    * @param userId ID of the request owner
    */
   openOtherUser(userId: string) {
     this.userService.setOtherUser(userId);
-    this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]);
+    this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]).then();
   }
 
   /**
@@ -76,7 +77,7 @@ export class RequestDetailPage implements OnInit {
     return new Promise((resolve) => {
       if (this.authService.userId === '0') {
         resolve(false);
-        this.toastService.presentToast('Hierzu musst du dich anmelden!', 'primary');
+        this.toastService.presentToast('Hierzu musst du dich anmelden!', 'primary').then();
       } else {
         resolve(true);
       }
@@ -85,6 +86,7 @@ export class RequestDetailPage implements OnInit {
 
   /**
    * Editing a request
+   *
    * @param requestId ID of the request
    */
   async editRequest(requestId: string) {
@@ -96,8 +98,8 @@ export class RequestDetailPage implements OnInit {
    */
   deleteRequest() {
     this.requestService.deleteRequest(this.requestId).then(() => {
-      this.toastService.presentToast('Angebot erfolgreich gelöscht!', 'primary');
-      this.navCtrl.pop();
+      this.toastService.presentToast('Angebot erfolgreich gelöscht!', 'primary').then();
+      this.navCtrl.pop().then();
     });
   }
 
@@ -105,7 +107,7 @@ export class RequestDetailPage implements OnInit {
   saveBid() {
     this.requestService.bid(this.request, this.bidPrice).then(() => {
       this.bidRequest = false;
-      this.toastService.presentToast('Dein Gebot wurde gespeichert!', 'primary');
+      this.toastService.presentToast('Dein Gebot wurde gespeichert!', 'primary').then();
     }).catch(err => console.log(err));
   }
 
@@ -113,8 +115,8 @@ export class RequestDetailPage implements OnInit {
     this.alertService.presentAlertConfirm('Gebot annehmen?', 'Sind Sie sicher dass Sie dieses Gebot annehmen möchten?').then(res => {
       if (res) {
         this.offerService.createOfferFromRequest(this.request).then((offerId) => {
-          this.router.navigate(['offer-detail', {offerId: JSON.stringify(offerId)}]).then(() => {
-            this.toastService.presentToast('Das Angebot wurde erfolgreich angenommen!', 'primary');
+          this.router.navigate(['bookings', {offerId: JSON.stringify(offerId)}]).then(() => {
+            this.toastService.presentToast('Das Angebot wurde erfolgreich angenommen!', 'primary').then();
           });
         });
       }

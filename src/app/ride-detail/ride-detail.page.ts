@@ -81,11 +81,12 @@ export class RideDetailPage implements OnInit {
 
   /**
    * Opening other user by his ID
+   *
    * @param userId ID of this user
    */
   openOtherUser(userId: string) {
     this.userService.setOtherUser(userId);
-    this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]);
+    this.router.navigate(['otherUser', {userId: JSON.stringify(userId)}]).then();
   }
 
   /**
@@ -103,7 +104,8 @@ export class RideDetailPage implements OnInit {
    * Showing the message that a ride has to be closed
    */
   showEndStatusMessage() {
-    this.toastService.presentToast('Um die Fahrt abzuschließen musst du den Status auf abgeschlossen oder abgebrochen setzen!', 'danger');
+    this.toastService.presentToast('Um die Fahrt abzuschließen musst du den Status auf abgeschlossen oder abgebrochen setzen!',
+      'danger').then();
   }
 
   /**
@@ -113,7 +115,7 @@ export class RideDetailPage implements OnInit {
     this.alertService.presentAlertConfirm('Fahrt abschließen?',
       'Möchtest du die Fahrt wirklich abschließen? Das kann nicht rückgängig gemacht werden.').then(() => {
       this.rideService.finishRide(this.rideId, this.ride.driverUserId).then(() => {
-        this.navCtrl.pop();
+        this.navCtrl.pop().then();
       });
     });
   }
@@ -124,18 +126,19 @@ export class RideDetailPage implements OnInit {
   payRide() {
     this.userService.payRide(this.offer.price, this.ride.customerUserId, this.ride.driverUserId).then(() => {
       this.rideService.setRideToPaid(this.rideId).then(() => {
-        this.toastService.presentToast('Bezahlung erfolgreich!', 'primary');
+        this.toastService.presentToast('Bezahlung erfolgreich!', 'primary').then();
         this.getData();
-        this.router.navigate(['create-evaluation', {userToBeRated: JSON.stringify(this.ride.driverUserId)}]);
+        this.router.navigate(['create-evaluation', {userToBeRated: JSON.stringify(this.ride.driverUserId)}]).then();
       });
     });
   }
 
   /**
    * Get to the evaluate page
+   *
    * @param userTobeRated ID of the user which will be rated
    */
   evaluateUser(userTobeRated: string) {
-    this.router.navigate(['create-evaluation', {userToBeRated: JSON.stringify(userTobeRated)}]);
+    this.router.navigate(['create-evaluation', {userToBeRated: JSON.stringify(userTobeRated)}]).then();
   }
 }

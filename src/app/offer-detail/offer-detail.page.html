@@ -17,6 +17,9 @@
 <ion-content>
   <ion-spinner *ngIf="(!offer || !user) && !error" name="crescent" class="loadingSpinner"></ion-spinner>
   <ng-container *ngIf="offer && user">
+    <ion-item *ngIf="ownOffer">
+      <h4>Eigenes Angebot</h4>
+    </ion-item>
     <ion-list>
       <ion-item>
         <ion-label style="font-size: 15px">Start: {{offer.start}}</ion-label>
@@ -28,10 +31,13 @@
         <ion-label style="font-size: 15px">Preis: {{offer.price}}</ion-label>
       </ion-item>
       <ion-item *ngIf="vehicle">
-        <ion-label style="font-size: 15px">Plätze: {{vehicle.seats}}</ion-label>
+        <ion-label style="font-size: 15px">Fahrzeug: {{vehicle.name}}</ion-label>
       </ion-item>
-      <ion-item *ngIf="vehicle">
-        <ion-label style="font-size: 15px">Stauraum: {{vehicle.cargoSpace}} Liter</ion-label>
+      <ion-item *ngIf="offer.seats">
+        <ion-label style="font-size: 15px">Verfügbare Plätze: {{offer.seats}}</ion-label>
+      </ion-item>
+      <ion-item *ngIf="offer.seats">
+        <ion-label style="font-size: 15px">Verfügbarer Stauraum: {{offer.cargoSpace}} Liter</ion-label>
       </ion-item>
       <ion-item>
         <ion-label style="font-size: 15px" color="primary" (click)="openOtherUser(this.offer.userId)">Angeboten
@@ -52,7 +58,7 @@
         </ion-label>
       </ion-item>
     </ion-list>
-    <ion-button *ngIf="available" color="primary" expand="block" class="btn-space" (click)="book()">Buchen</ion-button>
+    <ion-button *ngIf="available && !ownOffer" color="primary" expand="block" class="btn-space" (click)="book()">Buchen</ion-button>
     <ion-button *ngIf="booked" color="primary" expand="block" class="btn-space" (click)="resetBook()">Buchung absagen
     </ion-button>
     <ion-button *ngIf="offer.userId === authService.userId && !available" color="danger" expand="block"
