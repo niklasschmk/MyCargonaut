@@ -88,7 +88,13 @@ export class UserService {
     this.otherUserId = userId;
   }
 
-
+  /**
+   * pay a ride
+   *
+   * @param price
+   * @param customerUserId
+   * @param driverUserId
+   */
   payRide(price: number, customerUserId: string, driverUserId: string): Promise<void> {
     return new Promise((resolve, reject) => {
       let customerCoins: number;
@@ -97,7 +103,7 @@ export class UserService {
         customerCoins = user.data().cargoCoins;
         if (customerCoins < price) {
           this.toastService.presentToast('Du hast nicht genügend CargoCoins auf dem Konto um diese ' +
-            'Fahrt zu bezahlen!', 'danger');
+            'Fahrt zu bezahlen!', 'danger').then();
           reject();
           return;
         }
@@ -119,6 +125,11 @@ export class UserService {
     });
   }
 
+  /**
+   * add new coins for a user (demo function)
+   *
+   * @param userId
+   */
   addCoins(userId: string) {
     let coins: number;
     this.userCollection.doc(userId).ref.get().then(user => {
@@ -126,7 +137,7 @@ export class UserService {
     }).then(() => {
       this.userCollection.doc(userId).update({
         cargoCoins: coins + 200,
-      });
+      }).then();
     });
   }
 }

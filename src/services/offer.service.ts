@@ -27,6 +27,18 @@ export class OfferService {
     this.offers = this.offerCollection.valueChanges({idField: 'offerId'});
   }
 
+  /**
+   * Create an offer with given data
+   *
+   * @param date
+   * @param destination
+   * @param price
+   * @param start
+   * @param cargoSpace
+   * @param seats
+   * @param vehicleId
+   * @param offerId
+   */
   createOffer(date: string, destination: string, price: number, start: string, cargoSpace: number,
               seats: number, vehicleId: string, offerId: string) {
     return new Promise<any>((resolve, reject) => {
@@ -48,6 +60,17 @@ export class OfferService {
     });
   }
 
+  /**
+   * Update an offer with given data
+   *
+   * @param offerId
+   * @param destination
+   * @param price
+   * @param start
+   * @param vehicleId
+   * @param seats
+   * @param cargoSpace
+   */
   editOffer(offerId, destination, price, start, vehicleId, seats, cargoSpace) {
     return new Promise<any>((resolve, reject) => {
       this.afs.collection('offer').doc(offerId).update({
@@ -64,6 +87,12 @@ export class OfferService {
     });
   }
 
+  /**
+   * Get and resolve an offer by offerId
+   *
+   * @param offerId
+   * @param checkAuth if true, only resolce offer if logged-in user is creator of offer
+   */
   getOfferById(offerId: string, checkAuth: boolean): Promise<Offer> {
     return new Promise((resolve, reject) => {
       // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -111,6 +140,11 @@ export class OfferService {
     });
   }
 
+  /**
+   * Delete booking for offer by offerId for logged-in user
+   *
+   * @param offerId
+   */
   resetBook(offerId: string): Promise<void>{
     return new Promise((resolve) => {
       this.offerCollection.doc(offerId).update({
@@ -119,6 +153,11 @@ export class OfferService {
     });
   }
 
+  /**
+   * Delete an offer by offerId
+   *
+   * @param offerId
+   */
   deleteOffer(offerId: string) {
     return new Promise<any>(async (resolve, reject) => {
       //TODO: Auth
@@ -138,6 +177,11 @@ export class OfferService {
     });
   }
 
+  /**
+   * Create an booked offer with data from request
+   *
+   * @param req
+   */
   createOfferFromRequest(req: Request): Promise<string>{
     return new Promise((resolve) => {
       this.offerCollection.add({

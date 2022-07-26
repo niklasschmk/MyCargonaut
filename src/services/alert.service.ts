@@ -15,7 +15,7 @@ export class AlertService {
    * @param text Text of confirm message
    */
   async presentAlertConfirm(head: string, text: string): Promise<boolean> {
-    return new Promise((async (resolve, reject) => {
+    return new Promise((async (resolve) => {
       const alert = await this.alertController.create({
         cssClass: 'my-custom-class',
         header: head,
@@ -26,7 +26,7 @@ export class AlertService {
             role: 'cancel',
             cssClass: 'secondary',
             id: 'cancel-button',
-            handler: (blah) => {
+            handler: () => {
               resolve(false);
             }
           }, {

@@ -15,6 +15,15 @@ export class EvaluationService {
   evals: Observable<Evaluation[]>;
   constructor(private afs: AngularFirestore, private toastService: ToastService,
               private alertService: AlertService, private authService: AuthService) {}
+
+  /**
+   * Save an evaluation with the given data
+   *
+   * @param stars
+   * @param text
+   * @param title
+   * @param userId
+   */
   saveEvaluation(stars: number, text: string, title: string, userId: string): Promise<Event> {
     return new Promise<any>((resolve, reject) => {
       this.afs.collection('evaluation').add({
@@ -32,6 +41,12 @@ export class EvaluationService {
         );
     });
   }
+
+  /**
+   * get all evaluations for a user by userId
+   *
+   * @param userId
+   */
   getEvaluationsById(userId: string | void): Promise<Observable<Evaluation[]>> {
     return new Promise<Observable<Evaluation[]>>((resolve) => {
       if(userId){
@@ -43,6 +58,13 @@ export class EvaluationService {
       }
     });
   }
+
+  /**
+   * get evaluation by evalId
+   *
+   * @param evalId
+   * @param checkAuth if true, only resolve evaluation if logged-in user has written it
+   */
   getEvalById(evalId: string, checkAuth: boolean): Promise<Evaluation> {
     return new Promise((resolve, reject) => {
       this.afs.collection<Evaluation>('evaluation').doc(evalId).ref.get().then((doc) => {
@@ -65,6 +87,12 @@ export class EvaluationService {
       });
     });
   }
+
+  /**
+   * Delete an evaluation by evalId
+   *
+   * @param evalID
+   */
   deleteEval(evalID: string) {
     //TODO: Check if logged in user has written eval
     return new Promise<any>(async (resolve, reject) => {
@@ -84,6 +112,15 @@ export class EvaluationService {
       );
     });
   }
+
+  /**
+   * Update an evaluation with given data
+   *
+   * @param evaluationId
+   * @param stars
+   * @param text
+   * @param title
+   */
   editEval(evaluationId: string, stars: number, text: string, title: string) {
     return new Promise<any>((resolve, reject) => {
       this.afs.collection('evaluations').doc(evaluationId).update({

@@ -2,10 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {User} from '../model/user';
 import {UserService} from './user.service';
-import {
-  updateEmail, updatePassword, sendPasswordResetEmail,
-  sendEmailVerification, reauthenticateWithCredential, getAuth,
-  onAuthStateChanged, GoogleAuthProvider} from 'firebase/auth';
+import {getAuth, onAuthStateChanged, GoogleAuthProvider} from 'firebase/auth';
 import 'firebase/compat/auth';
 import {ToastService} from './toast.service';
 
@@ -51,10 +48,10 @@ export class AuthService {
   register(email: string, password: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       this.auth.createUserWithEmailAndPassword(email, password).then((userCredential) => {
-        this.toastService.presentToast('Der Nutzer wurde registriert', 'success');
+        this.toastService.presentToast('Der Nutzer wurde registriert', 'success').then();
         resolve(userCredential);
       }).catch(err => {
-        this.toastService.presentToast(err.message, 'danger');
+        this.toastService.presentToast(err.message, 'danger').then();
         reject(err);
       });
     });
@@ -68,11 +65,11 @@ export class AuthService {
    */
   login(email, password): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      this.auth.signInWithEmailAndPassword(email, password).then((userCredential) => {
-        this.toastService.presentToast('Der Nutzer wurde angemeldet', 'success');
+      this.auth.signInWithEmailAndPassword(email, password).then(() => {
+        this.toastService.presentToast('Der Nutzer wurde angemeldet', 'success').then();
         resolve();
       }).catch(err => {
-        this.toastService.presentToast(err.message, 'danger');
+        this.toastService.presentToast(err.message, 'danger').then();
         reject();
       });
     });
@@ -86,29 +83,29 @@ export class AuthService {
       this.auth.signOut().then(() => {
         this.userId = '0';
         this.user = null;
-        this.toastService.presentToast('Nutzer erfolgreich ausgeloggt!', 'primary');
+        this.toastService.presentToast('Nutzer erfolgreich ausgeloggt!', 'primary').then();
         resolve();
-      }).catch(err => {
+      }).catch(() => {
         reject();
       });
     });
   }
 
   /**
-   * Open Popup with google sign in method
+   * Open Popup with Google sign in method
    */
   signInWithGoogle(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>(() => {
       const provider = new GoogleAuthProvider();
       this.auth.signInWithPopup(provider).then((result) => {
         this.userService.checkIfUserExists(result.user.uid).then(userExists => {
           console.log(userExists);
           if (!userExists) {
-            this.userService.createUser(result.user.email, result.user.email, result.user.uid, '', '', undefined, undefined);
+            this.userService.createUser(result.user.email, result.user.email, result.user.uid, '', '', undefined, undefined).then();
           }
         });
-      }).catch((err)=>{
-        this.toastService.presentToast('Ein Fehler ist aufgetreten', 'danger');
+      }).catch(()=>{
+        this.toastService.presentToast('Ein Fehler ist aufgetreten', 'danger').then();
       });
     });
   }

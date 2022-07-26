@@ -24,6 +24,18 @@ export class RequestService {
       ref.orderBy('destination', 'asc'));
     this.request = this.requestCollection.valueChanges({idField: 'requestId'});
   }
+
+  /**
+   * create a request with the given data
+   *
+   * @param cargoSpace
+   * @param date
+   * @param destination
+   * @param seats
+   * @param start
+   * @param userId
+   * @param requestId
+   */
   createRequest(cargoSpace: number, date: string, destination: string, seats: number, start: string, userId: string, requestId: string) {
     return new Promise<any>((resolve, reject) => {
       this.afs.collection('request').doc(requestId).set({
@@ -39,6 +51,17 @@ export class RequestService {
       );
     });
   }
+
+  /**
+   * update a request with the given data
+   *
+   * @param requestId
+   * @param cargoSpace
+   * @param date
+   * @param destination
+   * @param seats
+   * @param start
+   */
   editRequest(requestId, cargoSpace, date, destination, seats, start) {
     return new Promise<any>((resolve, reject) => {
       this.afs.collection('request').doc(requestId).update({
@@ -53,6 +76,13 @@ export class RequestService {
       );
     });
   }
+
+  /**
+   * get and resolve a request by requestId
+   *
+   * @param requestId
+   * @param checkAuth if true, only resolve request if logged-in user is creator of request
+   */
   getRequestById(requestId: string, checkAuth: boolean): Promise<Request> {
     return new Promise((resolve, reject) => {
       // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -75,8 +105,13 @@ export class RequestService {
     });
   }
 
+  /**
+   * Get request observable by requestId
+   *
+   * @param requestId
+   */
   getRequestObserveById(requestId: string): Promise<Observable<Request>> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(this.afs.collection<Request>('request').doc(requestId).valueChanges({idField: 'requestId'}));
     });
   }
@@ -109,14 +144,20 @@ export class RequestService {
     });
   }
 
+  /**
+   * Create a bid for a request. Only works if bid is lower than the lowest bid
+   *
+   * @param request
+   * @param price
+   */
   bid(request: Request, price: number): Promise<void>{
     return new Promise<void>((resolve, reject) => {
       if(price === undefined){
-        this.toastService.presentToast('Bitte gib einen Preis ein!', 'danger');
+        this.toastService.presentToast('Bitte gib einen Preis ein!', 'danger').then();
         reject();
         return;
       }if(price >= request.lowestBid){
-        this.toastService.presentToast('Bitte gib einen niedrigeren Preis ein!', 'danger');
+        this.toastService.presentToast('Bitte gib einen niedrigeren Preis ein!', 'danger').then();
         reject();
         return;
       }this.requestCollection.doc(request.requestId).update({

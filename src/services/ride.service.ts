@@ -18,14 +18,20 @@ export class RideService {
   constructor(private afs: AngularFirestore, public authService: AuthService, private toastService: ToastService) {
   }
 
-
+  /**
+   * get ride observable by offerId
+   *
+   * @param offerId
+   */
   getRideObserveById(offerId: string): Promise<Observable<Ride>> {
     return new Promise((resolve) => {
       resolve(this.afs.collection<Ride>('ride').doc(offerId).valueChanges({idField: 'rideId'}));
     });
   }
 
-
+  /**
+   * get booked offers for logged-in user
+   */
   getBookedOffers(): Promise<Observable<Offer[]>> {
     return new Promise<Observable<Offer[]>>((resolve) => {
       resolve(this.afs.collection<Offer>('offer', ref =>
@@ -34,6 +40,9 @@ export class RideService {
     });
   }
 
+  /**
+   * get all offers of logged-in user
+   */
   getMyOffers(): Promise<Observable<Offer[]>> {
     return new Promise<Observable<Offer[]>>((resolve) => {
       resolve(this.afs.collection<Offer>('offer', ref =>
@@ -41,6 +50,13 @@ export class RideService {
     });
   }
 
+  /**
+   * create ride with data from offer
+   *
+   * @param offerId
+   * @param bookedBy
+   * @param date
+   */
   startRide(offerId: string, bookedBy: string, date: string): Promise<string> {
     return new Promise<string>((resolve) => {
       this.afs.collection('ride').add({
@@ -63,6 +79,9 @@ export class RideService {
     });
   }
 
+  /**
+   * get all rides for logged-in user (driver)
+   */
   getMyRides(): Promise<Observable<Ride[]>> {
     return new Promise<Observable<Ride[]>>((resolve) => {
       resolve(this.afs.collection<Ride>('ride', ref =>
@@ -70,6 +89,9 @@ export class RideService {
     });
   }
 
+  /**
+   * get all rides for logged-in user (customer)
+   */
   getRidesForCustomer(): Promise<Observable<Ride[]>> {
     return new Promise<Observable<Ride[]>>((resolve) => {
       resolve(this.afs.collection<Ride>('ride', ref =>
@@ -77,10 +99,16 @@ export class RideService {
     });
   }
 
+  /**
+   * add a new status for a ride
+   *
+   * @param newStatus
+   * @param rideId
+   */
   saveStatus(newStatus: string, rideId: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       if (newStatus === undefined) {
-        this.toastService.presentToast('Bitte wähle einen Status aus!', 'danger');
+        this.toastService.presentToast('Bitte wähle einen Status aus!', 'danger').then();
         reject();
       }
       this.afs.collection('ride').doc(rideId).update({
@@ -92,6 +120,12 @@ export class RideService {
     });
   }
 
+  /**
+   * set ride to finished
+   *
+   * @param rideId
+   * @param driverId
+   */
   finishRide(rideId: string, driverId: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       if (driverId === this.authService.userId) {
@@ -105,6 +139,11 @@ export class RideService {
     });
   }
 
+  /**
+   * set ride to paid (payment has to be done separately)
+   *
+   * @param rideId
+   */
   setRideToPaid(rideId: string): Promise<void> {
     console.log(rideId);
     return new Promise<void>((resolve) => {
