@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {User} from "../model/user";
-import {Observable} from "rxjs";
-import {Evaluation} from "../model/evaluation";
-import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {ToastService} from "./toast.service";
-import {AuthService} from "./auth.service";
-import {AlertService} from "./alert.service";
+import {User} from '../model/user';
+import {Observable} from 'rxjs';
+import {Evaluation} from '../model/evaluation';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
+import {ToastService} from './toast.service';
+import {AuthService} from './auth.service';
+import {AlertService} from './alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,11 +32,16 @@ export class EvaluationService {
         );
     });
   }
-  getEvaluationsById(): Promise<Observable<Evaluation[]>> {
+  getEvaluationsById(userId: string | void): Promise<Observable<Evaluation[]>> {
     return new Promise<Observable<Evaluation[]>>((resolve) => {
-      resolve(this.afs.collection<Evaluation>('evaluation', ref =>
-      ref.where('userId', '==', this.authService.userId)).valueChanges({idField: 'evaluationId'}));
-    })
+      if(userId){
+        resolve(this.afs.collection<Evaluation>('evaluation', ref =>
+          ref.where('userId', '==', userId)).valueChanges({idField: 'evaluationId'}));
+      } else {
+        resolve(this.afs.collection<Evaluation>('evaluation', ref =>
+          ref.where('userId', '==', this.authService.userId)).valueChanges({idField: 'evaluationId'}));
+      }
+    });
   }
   getEvalById(evalId: string, checkAuth: boolean): Promise<Evaluation> {
     return new Promise((resolve, reject) => {
@@ -46,7 +51,7 @@ export class EvaluationService {
             //auth check not necessary
             resolve(doc.data());
           } else {
-            //auth check necessary, check if user id and logged in user are the same
+            //auth check necessary, check if user id and logged-in user are the same
             const document = doc.data();
             if (document.rater === this.authService.user.userId) {
               resolve(document);

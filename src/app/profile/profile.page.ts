@@ -47,7 +47,7 @@ export class ProfilePage implements OnInit {
       this.differentUser = true;
       this.userService.getUserById(this.otherUser).then(user => {
         this.userOther = user;
-        this.evaluationService.getEvaluationsById().then(res => {
+        this.evaluationService.getEvaluationsById(this.otherUser).then(res => {
           this.evaluationsObserve = res;
           this.evaluationsObserve.subscribe(evaluations => {
             this.evaluations = evaluations;
@@ -68,21 +68,21 @@ export class ProfilePage implements OnInit {
    * Navigate to Add vehicle page
    */
   openAddVehicle(){
-    this.router.navigate(['add-vehicle']);
+    this.router.navigate(['add-vehicle']).then();
   }
 
   /**
    * Open Login page
    */
   openLogin(){
-    this.router.navigate(['login']);
+    this.router.navigate(['login']).then();
   }
 
   /**
    * Open Add Offer
    */
   openAddOffer(){
-    this.router.navigate(['create-offer']);
+    this.router.navigate(['create-offer']).then();
   }
 
   /**
@@ -118,7 +118,7 @@ export class ProfilePage implements OnInit {
               });
             }
           }
-        })
+        });
       });
     });
   }
