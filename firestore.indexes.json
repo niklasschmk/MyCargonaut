@@ -1,0 +1,33 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "evaluation",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "date",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "ride",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "customerUserId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "date",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
