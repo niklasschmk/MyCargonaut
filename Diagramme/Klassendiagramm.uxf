@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>847</x>
+      <y>350</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+User
+--
++userId: string;
++email: string;
++firstName: string;
++lastName: string;
++userName: string;
++cargoCoins: number;
++birthDay: Date;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>651</x>
+      <y>567</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+Offer
+--
++offerId
++requestId: string
++destination: string
++price: number
++start: string
++dateTime: Date
++userId: string
++vehicleId: string
++bookedBy: string</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>847</x>
+      <y>567</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+Request
+--
++requestId
++cargoSpace: number
++destination: string
++dateTime: Date
++seats: number
++start: string
++userId: string</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1057</x>
+      <y>567</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+Ride
+--
++rideId: string
++offerId: string
++status: string
++driverUserId: string
++customerUserId: string
++closed: boolean
++date: string
++paid: boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>693</x>
+      <y>140</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+Vehicle
+--
++vehicleId: string
++name: string
++cargoSpace: number
++seats: number
++userId: string</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>364</x>
+      <y>350</y>
+      <w>154</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Service&gt;&gt;
+userService
+--
++userCollection: AngularFirestoreCollection&lt;User&gt;
+--
+#getUserById(userId: string): Promise&lt;any&gt;
+#createUser(email: string, userName: string, userId: string, birthDay: Date): Promise&lt;void&gt;
+#checkIfUserExists(userId: string): Promise&lt;boolean&gt;
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1309</x>
+      <y>462</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Service&gt;&gt;
+toastService
+--
+#presentToast(text: string, role: string)
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>609</x>
+      <y>350</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Service&gt;&gt;
+authService
+--
++user: User | null
++userId: string | null
++userEmail: string | null
++authUser: any
+--
+#register(email: string, password: string): Promise&lt;any&gt;
+#login(email, password): Promise&lt;void&gt;
+#logout(): Promise&lt;void&gt;
+#signInWithGoogle: Promise&lt;void&gt;
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1309</x>
+      <y>343</y>
+      <w>147</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Service&gt;&gt;
+alertService
+--
+#presentAlertConfirm(head: string, text: string): Promise&lt;boolean&gt;
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>651</x>
+      <y>749</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Service&gt;&gt;
+offerService
+--
++offers: Observable&lt;Offer[]&gt;
++offerCollection: AngularFirestoreCollection&lt;Offer&gt;
+--
+createOffer(destination: string, price: number, start: string, userId: string, vehicleId: string)
+getOffers()
+getOfferById(offerId: string)
+acceptOffer(offerId: string)
+book(userId: string, offerId: string)
+resetBook(offerId: string)
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>847</x>
+      <y>749</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Service&gt;&gt;
+requestService
+--
++requests: Observable&lt;Request[]&gt;
++requestCollection: AngularFirestoreCollection&lt;Request&gt;
+--
+getRequests()
+getRequestById(offerId: string)
+responseRequest(price: number)
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1057</x>
+      <y>749</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Service&gt;&gt;
+rideService
+--
++rides: Observable&lt;Ride[]&gt;
++ridesCollection: AngularFirestoreCollection&lt;User&gt;
+--
+#getRideById(userId: string): Promise&lt;any&gt;
+#createRide(status: string, time: number, userId: string, price: number)
+#checkRideStatus(rideId: string)
+#editRideStatus(rideId: string, newStatus: string)
+#getBookedOffers()
+#getMyOffers()
+#getRides()
+#finishRide()
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>469</x>
+      <y>140</y>
+      <w>147</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Service&gt;&gt;
+vehicleService
+--
++vehicles: Observable&lt;Vehicle[]
++vehicleCollection: AngularFirestoreCollection&lt;Vehicle&gt;
+--
+#getVehicles
+#addVehicle(name: string, seats: number, cargoSpace: number): Promise&lt;void&gt;
+#deleteVehicle(vehicleId: string): Promise&lt;void&gt;
+#getVehicleById(vehicleId: string)
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>511</x>
+      <y>350</y>
+      <w>112</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>140.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>749</x>
+      <y>350</y>
+      <w>112</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>140.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>749</x>
+      <y>266</y>
+      <w>175</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=1
+&lt; has</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0;220.0;60.0;220.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>714</x>
+      <y>476</y>
+      <w>196</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=0...n
+&lt; creates</panel_attributes>
+    <additional_attributes>250.0;10.0;250.0;70.0;10.0;70.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>910</x>
+      <y>476</y>
+      <w>63</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0...n
+m2=1
+&lt; creates</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>973</x>
+      <y>476</y>
+      <w>196</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=0...n
+executes &gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0;230.0;70.0;230.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>714</x>
+      <y>693</y>
+      <w>49</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>910</x>
+      <y>693</y>
+      <w>49</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1120</x>
+      <y>693</y>
+      <w>49</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>959</x>
+      <y>140</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+Evaluation
+--
++header
++text
++starRating
++creatorUserId
++relatedUserId</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1162</x>
+      <y>140</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Service&gt;&gt;
+evalService
+--
++evals: Observable&lt;Evaluation[]&gt;
++offerCollection: AngularFirestoreCollection&lt;Evaluation&gt;
+--
+createEval(header: string, text: string, stars: number)
+getEvalsForUser(userId: string): 
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1099</x>
+      <y>140</y>
+      <w>77</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;90.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>609</x>
+      <y>140</y>
+      <w>98</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>120.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>917</x>
+      <y>266</y>
+      <w>140</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=1
+creates &gt;</panel_attributes>
+    <additional_attributes>160.0;10.0;160.0;60.0;10.0;60.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>938</x>
+      <y>266</y>
+      <w>147</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=1
+&lt; references to</panel_attributes>
+    <additional_attributes>170.0;10.0;170.0;80.0;10.0;80.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>959</x>
+      <y>476</y>
+      <w>182</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=0...n
+&lt; serves</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0;210.0;90.0;210.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>525</x>
+      <y>259</y>
+      <w>168</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>220.0;130.0;220.0;50.0;10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>434</x>
+      <y>0</y>
+      <w>819</w>
+      <h>364</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>320.0;500.0;320.0;460.0;10.0;460.0;10.0;20.0;1150.0;20.0;1150.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>574</x>
+      <y>413</y>
+      <w>91</w>
+      <h>364</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0;10.0;500.0;110.0;500.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>546</x>
+      <y>399</y>
+      <w>385</w>
+      <h>532</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0;10.0;740.0;530.0;740.0;530.0;690.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>518</x>
+      <y>385</y>
+      <w>630</w>
+      <h>581</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;10.0;10.0;810.0;880.0;810.0;880.0;710.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1491</x>
+      <y>427</y>
+      <w>133</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>
+These Services are used
+by all other Services</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1449</x>
+      <y>350</y>
+      <w>119</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..</panel_attributes>
+    <additional_attributes>10.0;10.0;150.0;10.0;150.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1449</x>
+      <y>476</y>
+      <w>119</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..</panel_attributes>
+    <additional_attributes>10.0;70.0;150.0;70.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>189</x>
+      <y>154</y>
+      <w>406</w>
+      <h>623</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>400.0;10.0;20.0;10.0;10.0;870.0;560.0;870.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>196</x>
+      <y>350</y>
+      <w>182</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>240.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>140</x>
+      <y>98</y>
+      <w>427</w>
+      <h>833</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>520.0;60.0;520.0;10.0;30.0;10.0;10.0;1170.0;590.0;1170.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>147</x>
+      <y>371</y>
+      <w>231</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>310.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>112</x>
+      <y>56</y>
+      <w>434</w>
+      <h>910</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>600.0;120.0;600.0;10.0;20.0;10.0;10.0;1280.0;590.0;1280.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>119</x>
+      <y>392</y>
+      <w>259</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>350.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+</diagram>
