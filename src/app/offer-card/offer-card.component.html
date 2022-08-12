@@ -1,6 +1,6 @@
 <ng-container *ngIf="offer && user">
-  <ion-card color="light">
-    <ion-card-header (click)="openOfferDetail(this.offer.offerId)">
+  <ion-card color="light" (click)="openOfferDetail(this.offer.offerId)">
+    <ion-card-header>
       <ion-card-title>Fahrt nach: {{this.offer.destination}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
